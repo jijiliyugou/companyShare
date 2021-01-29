@@ -22,7 +22,7 @@
               class="el-input__icon el-icon-camera"
             ></i>
           </el-input>
-          <el-button>{{ homeLang.search }}</el-button>
+          <el-button class="searchBtn">{{ homeLang.search }}</el-button>
         </div>
         <div class="langBox">
           <el-dropdown @command="handleCommand" trigger="click">
@@ -144,6 +144,7 @@ export default {
 </script>
 
 <style scoped lang="less">
+@deep: ~">>>";
 .wrap {
   width: 100%;
   background-color: #fff;
@@ -193,6 +194,7 @@ export default {
           background-color: #3368a9;
           color: #fff;
           border-color: #3368a9;
+          min-width: 90px;
           border-radius: 0px;
         }
       }

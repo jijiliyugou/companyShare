@@ -42,7 +42,23 @@ export default {
     },
     product: {
       newProductArea: "New product area",
-      product: "Product"
+      product: "Product",
+      data: "Date",
+      price: "Price",
+      thumbnail: "Thumbnail",
+      list: "List",
+      numberOfProducts: "Number of products",
+      exFactoryArticleNo: "Ex factory Article No.",
+      package: "Package",
+      productSpecification: "Product Specification",
+      outerBoxSize: "Outer box size",
+      packageSpecification: "Package specification",
+      packingQuantity: "Packing quantity",
+      volumeVolume: "Volume / volume",
+      grossNetWeight: "Gross / net weight",
+      addToCart: "Add to cart",
+      relatedProducts: "Related Products",
+      more: "more"
     }
   }
 };

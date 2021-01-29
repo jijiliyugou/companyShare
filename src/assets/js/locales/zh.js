@@ -42,7 +42,23 @@ export default {
     },
     product: {
       newProductArea: "新品推荐",
-      product: "产品"
+      product: "产品",
+      data: "时间",
+      price: "价格",
+      thumbnail: "缩略图",
+      list: "列表",
+      numberOfProducts: "产品数量",
+      exFactoryArticleNo: "出厂货号",
+      package: "包装",
+      productSpecification: "产品规格",
+      outerBoxSize: "外箱规格",
+      packageSpecification: "包装规格",
+      packingQuantity: "包装数量",
+      volumeVolume: "体积/材积",
+      grossNetWeight: "毛重/净重",
+      addToCart: "添加到购物车",
+      relatedProducts: "相关产品",
+      more: "更多"
     }
   }
 };

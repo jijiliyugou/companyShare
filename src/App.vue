@@ -86,7 +86,7 @@ export default {
         display: block;
         width: 20px;
         height: 20px;
-        background: url("~@/assets/images/activeCartIcon.png") no-repeat center;
+        background: url("~@/assets/images/cartIcon.png") no-repeat center;
         background-size: 100% 100%;
       }
       @{deep} .el-badge__content {

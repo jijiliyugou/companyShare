@@ -2,7 +2,7 @@
   <div class="newProductListBox">
     <div class="content">
       <div class="title">
-        <span class="titleText">{{ productLang.newProductArea }}</span>
+        <span class="titleText">{{ productLang.relatedProducts }}</span>
         <span class="more"
           >{{ productLang.more }}
           <i class="icon el-icon-d-arrow-right"></i>
