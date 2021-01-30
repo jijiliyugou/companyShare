@@ -59,6 +59,24 @@ export default {
       addToCart: "Add to cart",
       relatedProducts: "Related Products",
       more: "more"
+    },
+    myShoppingCart: {
+      myShoppingCart: "My shopping cart",
+      commodity: "commodity",
+      unitPrice: "Unit Price",
+      volume: "volume",
+      number: "number",
+      total: "total",
+      operation: "operation",
+      totalQuantity: "Total quantity",
+      totalVolume: "Total volume",
+      totalPrice: "Total price",
+      contactInformation: "Contact information",
+      companyName: "Company Name",
+      contact: "Contact",
+      email: "Email",
+      remark: "Remark",
+      submit: "Submit"
     }
   }
 };

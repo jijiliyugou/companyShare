@@ -62,14 +62,36 @@
           </el-menu>
         </div>
         <div class="right">
-          <div class="itemBox myCart">
+          <!-- <div class="itemBox myCart">
             <text class="icon cartIcon"></text>
             {{ homeLang.ShoppingCart }}
           </div>
           <div class="itemBox myOrder">
             <text class="icon orderIcon"></text>
             {{ homeLang.MyOrder }}
-          </div>
+          </div> -->
+          <el-menu
+            :default-active="$route.path"
+            background-color="#3368A9"
+            text-color="#fff"
+            router
+            active-text-color="#ffd04b"
+            class="el-menu-demo"
+            mode="horizontal"
+          >
+            <el-menu-item index="/index/shoppingCart">
+              <template slot="title">
+                <i class="iconfont icon-gouwuche"></i>
+                <span>{{ homeLang.ShoppingCart }}</span>
+              </template>
+            </el-menu-item>
+            <el-menu-item index="/index/myOrder">
+              <template slot="title">
+                <i class="iconfont icon-dingdan1"></i>
+                <span>{{ homeLang.MyOrder }}</span>
+              </template>
+            </el-menu-item>
+          </el-menu>
         </div>
       </div>
     </div>
@@ -227,6 +249,14 @@ export default {
       }
       .right {
         justify-content: flex-end;
+        .el-menu-item i {
+          color: #fff;
+          margin-right: 10px;
+        }
+        .el-menu-item.is-active i {
+          color: #ffd04b;
+          margin-right: 10px;
+        }
         .itemBox {
           width: 160px;
           display: flex;

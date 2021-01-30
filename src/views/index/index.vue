@@ -1,7 +1,9 @@
 <template>
   <div class="contentBox">
     <home-top-component />
-    <advanced-search />
+    <advanced-search
+      v-if="$route.path === '/index/product' || $route.path === '/index/home'"
+    />
     <router-view class="myRouterView"></router-view>
     <myFoot class="myFoot" />
   </div>
@@ -31,6 +33,7 @@ export default {
 };
 </script>
 <style scoped lang="less">
+@deep: ~">>>";
 .contentBox {
   height: 100%;
   .myRouterView {

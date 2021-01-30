@@ -59,6 +59,24 @@ export default {
       addToCart: "添加到购物车",
       relatedProducts: "相关产品",
       more: "更多"
+    },
+    myShoppingCart: {
+      myShoppingCart: "我的购物车",
+      commodity: "商品",
+      unitPrice: "单价",
+      volume: "体积/材积",
+      number: "数量",
+      total: "总价",
+      operation: "操作",
+      totalQuantity: "总量",
+      totalVolume: "总体积",
+      totalPrice: "总价",
+      contactInformation: "联系方式",
+      companyName: "公司名称",
+      contact: "联系人",
+      email: "邮箱",
+      remark: "备注",
+      submit: "提交"
     }
   }
 };
