@@ -185,7 +185,6 @@ export default {
 <style scoped lang="less">
 @deep: ~">>>";
 .myCartWrap {
-  min-height: calc(100% - 343px) !important;
   width: 100%;
   margin-top: 20px;
   .myCartBoX {

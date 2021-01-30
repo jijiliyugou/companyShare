@@ -21,4 +21,8 @@ export default {
   mounted() {}
 };
 </script>
-<style scoped lang="less"></style>
+<style scoped lang="less">
+.homeWrap {
+  min-height: calc(100% - 482px) !important;
+}
+</style>

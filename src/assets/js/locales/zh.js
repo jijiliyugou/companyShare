@@ -76,7 +76,26 @@ export default {
       contact: "联系人",
       email: "邮箱",
       remark: "备注",
-      submit: "提交"
+      submit: "提交",
+      totalCapacity: "总容量",
+      productName: "产品名称"
+    },
+    myOrder: {
+      myOrder: "我的订单",
+      oddNumbers: "单号",
+      exportOrder: "导出订单",
+      orderTime: "订单时间",
+      totalQuantity: "总量",
+      totalPrice: "总价",
+      companyName: "公司名称",
+      email: "邮箱",
+      contact: "联系人",
+      viewDetails: "查看详情",
+      remark: "备注",
+      orderDetails: "订单详情",
+      orderInformation: "订单信息",
+      productInformation: "产品信息",
+      totalVolume: "总体积"
     }
   }
 };

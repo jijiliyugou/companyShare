@@ -9,6 +9,7 @@ const ShoppingCart = () =>
   import("@/views/index/shoppingCart/shoppingCart.vue");
 const ProductDetails = () =>
   import("@/views/productDetails/productDetails.vue");
+const OrderDetail = () => import("@/views/orderDetail/orderDetail.vue");
 
 Vue.use(VueRouter);
 
@@ -22,6 +23,11 @@ const routes = [
     path: "/productDetails",
     name: "productDetails",
     component: ProductDetails
+  },
+  {
+    path: "/orderDetail",
+    name: "orderDetail",
+    component: OrderDetail
   },
   {
     path: "/index",

@@ -1,90 +1,88 @@
 <template>
-  <div class="productWrap">
-    <div class="productList">
-      <div class="filterBar">
-        <div class="left">
-          <div class="dateBox" @click="isShowDate = !isShowDate">
-            <span>{{ productLang.data }}</span>
-            <span style="margin-left:10px;">
-              <i class="el-icon-arrow-down" v-show="isShowDate"></i>
-              <i class="el-icon-arrow-up" v-show="!isShowDate"></i>
-            </span>
-          </div>
-          <div class="priceBox" @click="isShowPrice = !isShowPrice">
-            <span>{{ productLang.price }}</span>
-            <span style="margin-left:10px;">
-              <i class="el-icon-arrow-down" v-show="isShowPrice"></i>
-              <i class="el-icon-arrow-up" v-show="!isShowPrice"></i>
-            </span>
-          </div>
-        </div>
-        <div class="right">
-          <div class="checkView">
-            <div
-              :class="{
-                thumbnail: true,
-                active: isThumbnail === 'thumbnailProducts'
-              }"
-              @click="isThumbnail = 'thumbnailProducts'"
-            >
-              <i class="iconfont icon-split-screen-compare"></i>
-              <span class="text">{{ productLang.thumbnail }}</span>
+  <div class="myOrderWrap">
+    <div class="orderBox">
+      <div class="title">
+        {{ myOrderLang.myOrder }} <span class="value">（onon@163.com）</span>
+      </div>
+      <ul class="orderListWrap">
+        <li class="itemBox" v-for="(item, i) in 10" :key="i">
+          <div class="orderTitle">
+            <div class="left">
+              {{ myOrderLang.oddNumbers }}：<span class="value"
+                >S168988444446</span
+              >
             </div>
-            <div
-              :class="{ list: true, active: isThumbnail === 'listProducts' }"
-              @click="isThumbnail = 'listProducts'"
-            >
-              <i class="iconfont icon-liebiao"></i>
-              <span class="text">{{ productLang.list }}</span>
+            <div class="right">
+              <i class="iconfont icon-daochujinruchukou"></i>
+              {{ myOrderLang.exportOrder }}
             </div>
           </div>
-        </div>
-      </div>
-      <!-- 产品列表 -->
-      <div class="productListWrap">
-        <div class="number">
-          {{ productLang.numberOfProducts }}
-          <span style="margin-left:10px;color:#FF760E;">912864</span>
-        </div>
-        <!-- 产品列表 -->
-        <component :is="isThumbnail"></component>
-      </div>
+          <div class="orderContent">
+            <div class="one">
+              <div class="left">
+                <div class="keys">{{ myOrderLang.orderTime }}：</div>
+                <div class="keys">{{ myOrderLang.companyName }}：</div>
+              </div>
+              <div class="right">
+                <div class="values">2021-01-23</div>
+                <div class="values">Lok fun toy company</div>
+              </div>
+            </div>
+            <div class="two">
+              <div class="left">
+                <div class="keys">{{ myOrderLang.totalQuantity }}：</div>
+                <div class="keys">{{ myOrderLang.email }}：</div>
+              </div>
+              <div class="right">
+                <div class="values">2</div>
+                <div class="values">onoh@163.com</div>
+              </div>
+            </div>
+            <div class="three">
+              <div class="left">
+                <div class="keys">{{ myOrderLang.totalPrice }}：</div>
+                <div class="keys">{{ myOrderLang.contact }}：</div>
+              </div>
+              <div class="right">
+                <div class="values">USD 196.00</div>
+                <div class="values">15986860326</div>
+              </div>
+            </div>
+            <div class="four">
+              <el-button type="warning" @click="toOrderDetail" plain>{{
+                myOrderLang.viewDetails
+              }}</el-button>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <!-- 分页 -->
+      <center class="paginationWrap">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page.sync="currentPage"
+          :page-sizes="[10, 20, 30, 50]"
+          :page-size="pageSize"
+          layout="sizes, prev, pager, next"
+          :total="totalCount"
+        >
+        </el-pagination>
+      </center>
     </div>
-    <!-- 分页 -->
-    <center class="paginationWrap">
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page.sync="currentPage"
-        :page-sizes="[10, 20, 30, 50]"
-        :page-size="pageSize"
-        layout="sizes, prev, pager, next"
-        :total="totalCount"
-      >
-      </el-pagination>
-    </center>
   </div>
 </template>
 
 <script>
-import thumbnailProducts from "@/components/thumbnailProducts/thumbnailProducts.vue";
-import listProducts from "@/components/listProducts/listProducts.vue";
 export default {
-  components: {
-    thumbnailProducts,
-    listProducts
-  },
   data() {
-    return {
-      isShowDate: false,
-      isShowPrice: false,
-      isThumbnail: "thumbnailProducts",
-      pageSize: 10,
-      currentPage: 1,
-      totalCount: 0
-    };
+    return {};
   },
   methods: {
+    // 去详情页
+    toOrderDetail() {
+      this.$router.push("/orderDetail");
+    },
     // 切換頁容量
     handleSizeChange(pageSize) {
       this.pageSize = pageSize;
@@ -99,73 +97,114 @@ export default {
   created() {},
   mounted() {},
   computed: {
-    productLang() {
-      return this.$t("lang.product");
+    myOrderLang() {
+      return this.$t("lang.myOrder");
     }
   }
 };
 </script>
 <style scoped lang="less">
-.productWrap {
+@deep: ~">>>";
+.myOrderWrap {
   width: 100%;
-  .productList {
+  .orderBox {
     margin: 0 auto;
     width: 1240px;
-    margin-top: 20px;
+    box-sizing: border-box;
+    padding: 0 23px;
     background-color: #fff;
-    .filterBar {
-      width: 100%;
-      height: 47px;
-      background: #f5f5f5;
-      border: 1px solid #e9e9e9;
+    .title {
+      height: 65px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 0 20px;
-      box-sizing: border-box;
-      .left,
-      .right {
-        flex: 1;
-        display: flex;
-        .priceBox {
-          cursor: pointer;
-          margin-left: 40px;
-        }
-        .dateBox {
-          cursor: pointer;
-        }
-      }
-      .right {
-        justify-content: flex-end;
-        .checkView {
-          color: #666666;
-          display: flex;
-          .thumbnail,
-          .list {
-            cursor: pointer;
-            .text {
-              margin-left: 10px;
-            }
-            &.active {
-              color: #ff760e;
-            }
-          }
-          .list {
-            margin-left: 30px;
-          }
-        }
+      color: #333333;
+      font-size: 20px;
+      font-weight: bold;
+      .value {
+        font-size: 16px;
+        color: #999;
+        font-weight: 400;
       }
     }
-    .productListWrap {
-      padding: 20px 20px 0 20px;
-      .number {
-        height: 40px;
+    .orderListWrap {
+      .itemBox {
+        border: 1px solid #e9e9e9;
+        margin-bottom: 20px;
         color: #333;
+        font-size: 14px;
+        .orderTitle {
+          height: 40px;
+          background: #f5f5f5;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 20px;
+          box-sizing: border-box;
+          .left {
+            .value {
+              color: #666666;
+            }
+          }
+          .right {
+            width: 112px;
+            color: #666;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            .iconfont {
+              margin-right: 10px;
+            }
+          }
+        }
+        .orderContent {
+          height: 100px;
+          display: flex;
+          padding: 0 20px;
+          box-sizing: border-box;
+          align-items: center;
+          justify-content: space-between;
+          .one,
+          .two,
+          .three {
+            flex: 1;
+            height: 100%;
+            display: flex;
+            .left,
+            .right {
+              flex: 1;
+              display: flex;
+              flex-direction: column;
+              justify-content: space-evenly;
+              color: #333;
+            }
+            .left {
+              color: #999;
+              .keys {
+                text-align: right;
+              }
+            }
+          }
+          .four {
+            width: 112px;
+            background-color: #ccc;
+            .el-button {
+              width: 112px;
+              height: 34px;
+              opacity: 1;
+              overflow: hidden;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border-radius: 0px;
+              overflow: hidden;
+            }
+          }
+        }
       }
     }
-  }
-  .paginationWrap {
-    padding: 30px 0;
+    .paginationWrap {
+      padding: 50px 0 36px 0;
+    }
   }
 }
 </style>

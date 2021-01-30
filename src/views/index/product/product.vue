@@ -108,6 +108,7 @@ export default {
 <style scoped lang="less">
 .productWrap {
   width: 100%;
+  min-height: calc(100% - 482px) !important;
   .productList {
     margin: 0 auto;
     width: 1240px;

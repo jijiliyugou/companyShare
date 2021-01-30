@@ -5,7 +5,6 @@
       <div class="loginBox">
         <div class="title">
           <el-image
-            style="width:'51px';height:'55px';"
             :src="require('@/assets/images/hallLogoImg.png')"
           ></el-image>
           <span class="titleText">{{ loginLang.PreferredToys }}</span>
@@ -19,20 +18,22 @@
         </div>
         <div class="formBox">
           <el-form
+            ref="myFormRef"
             label-position="top"
+            :rules="loginFormRules"
             label-width="80px"
             :model="formLabelAlign"
           >
-            <el-form-item>
-              <div class="mycode">
-                {{ loginLang.InvitationCode }}
-              </div>
-              <el-input v-model="formLabelAlign.code" clearable></el-input>
+            <el-form-item prop="verifyCode" :label="loginLang.InvitationCode">
+              <el-input
+                v-model="formLabelAlign.verifyCode"
+                clearable
+              ></el-input>
             </el-form-item>
             <el-form-item>
               <div class="myEmail">
                 {{ loginLang.email }}
-                <text class="remak">{{ loginLang.emailExplain }}</text>
+                <span class="remak">{{ loginLang.emailExplain }}</span>
               </div>
               <el-input v-model="formLabelAlign.email" clearable></el-input>
             </el-form-item>
@@ -53,8 +54,14 @@ export default {
   data() {
     return {
       formLabelAlign: {
-        code: "",
-        email: ""
+        verifyCode: "",
+        email: "",
+        url: location.href
+      },
+      loginFormRules: {
+        verifyCode: [
+          { required: true, message: "请输入邀请码", trigger: "blur" }
+        ]
       },
       options: [
         {
@@ -70,15 +77,22 @@ export default {
   },
   methods: {
     toHome() {
-      this.$router.push({ path: "/index" });
+      this.$refs.myFormRef.validate(async valid => {
+        if (valid) {
+          // this.$router.push({ path: "/index" });
+          const res = await this.$http.post(
+            "/api/Account/CompanyShareLogin",
+            this.formLabelAlign
+          );
+          console.log(res);
+        }
+      });
     }
-    // changeLanguage() {
-    //   this.$i18n.locale = this.lang;
-    //   this.$u.vuex("globalLang", this.lang);
-    // }
   },
   created() {},
-  mounted() {},
+  mounted() {
+    console.log(this.$route, location.href);
+  },
   watch: {
     "$store.state.screenWidth"(val) {
       console.log(val);
@@ -133,6 +147,14 @@ export default {
         justify-content: center;
         font-size: 32px;
         font-weight: bold;
+        .el-image {
+          width: 51px;
+          height: 55px;
+          img {
+            width: 51px;
+            height: 55px;
+          }
+        }
         .titleText {
           margin-left: 20px;
         }
@@ -154,10 +176,12 @@ export default {
         left: 50%;
         top: 50px;
         transform: translate(-50%, 0);
-        padding-top: 20px;
         box-sizing: border-box;
         ::v-deep .el-form {
           .el-form-item {
+            .el-form-item__label {
+              padding: 0;
+            }
             .el-form-item__content {
               .el-input {
                 border: none;

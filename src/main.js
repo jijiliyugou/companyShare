@@ -1,6 +1,7 @@
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
+import myAxios from "@/request/http";
 import store from "./store";
 import "@/globalStyle/base.less";
 import "@/assets/css/theme/index.css";
@@ -27,6 +28,7 @@ import ElementUI from "element-ui";
 import i18n from "@/assets/js/locales/index.js";
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
+Vue.use(myAxios);
 new Vue({
   i18n,
   router,

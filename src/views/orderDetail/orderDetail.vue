@@ -1,22 +1,19 @@
 <template>
   <div class="contentBox">
     <home-top-component />
-    <advanced-search
-      v-if="$route.path === '/index/product' || $route.path === '/index/home'"
-    />
-    <router-view class="myRouterView"></router-view>
+    <orderDetailComponent class="orderDetailBox" />
     <myFoot class="myFoot" />
   </div>
 </template>
 
 <script>
 import homeTopComponent from "@/components/homeTopComponent/homeTopComponent.vue";
-import advancedSearch from "@/components/advancedSearch/advancedSearch.vue";
 import myFoot from "@/components/myFoot/myFoot.vue";
+import orderDetailComponent from "@/components/orderDetailComponent/orderDetailComponent.vue";
 export default {
   components: {
     homeTopComponent,
-    advancedSearch,
+    orderDetailComponent,
     myFoot
   },
   data() {
@@ -24,20 +21,14 @@ export default {
   },
   methods: {},
   created() {},
-  mounted() {},
-  computed: {
-    homeLang() {
-      return this.$t("lang.home");
-    }
-  }
+  mounted() {}
 };
 </script>
 <style scoped lang="less">
-@deep: ~">>>";
 .contentBox {
   height: 100%;
-  .myRouterView {
-    min-height: calc(100% - 343px);
+  .orderDetailBox {
+    min-height: calc(100% - 343px) !important;
   }
   .myFoot {
     margin-top: 20px;

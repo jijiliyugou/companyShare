@@ -76,7 +76,26 @@ export default {
       contact: "Contact",
       email: "Email",
       remark: "Remark",
-      submit: "Submit"
+      submit: "Submit",
+      totalCapacity: "Total capacity",
+      productName: "Product Name"
+    },
+    myOrder: {
+      myOrder: "My order",
+      oddNumbers: "Odd Numbers",
+      exportOrder: "Export order",
+      orderTime: "Order time",
+      totalQuantity: "Total quantity",
+      totalPrice: "Total price",
+      companyName: "Company Name",
+      email: "Email",
+      contact: "Contact",
+      viewDetails: "View details",
+      remark: "Remark",
+      orderDetails: "Order details",
+      orderInformation: "Order information",
+      productInformation: "Product information",
+      totalVolume: "Total volume"
     }
   }
 };
