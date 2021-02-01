@@ -8,68 +8,112 @@
           :thumbnailHeight="55"
           :thumbnailWidth="78"
           :thumbnailCount="5"
+          :imageUrls="item.imageUrls"
+          :videoAddress="item.videoAddress"
         />
       </div>
       <div class="right">
         <div class="context">
           <div class="productName">
-            Camouflage vibrating flint drumgun field cap flint drumgun field cap
+            {{ item.name }}
           </div>
           <div class="itemText">
             {{ productLang.price }}：
-            <span class="priceBox">USD<span class="price">17.0</span></span>
-          </div>
-          <div class="itemText">
-            {{ productLang.exFactoryArticleNo }}：<span>1111-284 Camou</span>
-          </div>
-          <div class="itemText">
-            {{ productLang.package }}：<span>color box Product</span>
-          </div>
-          <div class="itemText">
-            {{ productLang.productSpecification }}：<span>0 x 0 x 0 (CM)</span>
-          </div>
-          <div class="itemText">
-            {{ productLang.outerBoxSize }}：<span>63 x 45 x 108 (CM)</span>
-          </div>
-          <div class="itemText">
-            {{ productLang.packageSpecification }}：<span>0 x 0 x 0 (CM)</span>
-          </div>
-          <div class="itemText">
-            {{ productLang.packingQuantity }}：<span>2 / 72 (PCS)</span>
-          </div>
-          <div class="itemText">
-            {{ productLang.volumeVolume }}：<span
-              >0.306 (CBM) / 10.8 (cuft)</span
+            <span class="priceBox"
+              >USD<span class="price">{{ item.price }}</span></span
             >
           </div>
           <div class="itemText">
-            {{ productLang.grossNetWeight }}：<span>23 / 25 (kg)</span>
+            {{ productLang.exFactoryArticleNo }}：<span>{{
+              item.outFactoryNumber
+            }}</span>
+          </div>
+          <div class="itemText">
+            {{ productLang.package }}：<span>{{ item.packMethod }}</span>
+          </div>
+          <div class="itemText">
+            {{ productLang.productSpecification }}：
+            <span
+              >{{ item.sampleLenth }} x {{ item.sampleWidth }} x
+              {{ item.sampleHight }} (CM)</span
+            >
+          </div>
+          <div class="itemText">
+            {{ productLang.outerBoxSize }}：
+            <span
+              >{{ item.outerBoxLenth }} x {{ item.outerBoxWidth }} x
+              {{ item.outerBoxHight }} (CM)</span
+            >
+          </div>
+          <div class="itemText">
+            {{ productLang.packageSpecification }}：
+            <span
+              >{{ item.innerLenth }} x {{ item.innerWidth }} x
+              {{ item.innerHigth }} (CM)</span
+            >
+          </div>
+          <div class="itemText">
+            {{ productLang.packingQuantity }}：
+            <span>{{ item.innerEn }} / {{ item.outerBoxLo }} (PCS)</span>
+          </div>
+          <div class="itemText">
+            {{ productLang.volumeVolume }}：
+            <span
+              >{{ item.outerBoxStere }} (CBM) /
+              {{ item.outerBoxFee }} (cuft)</span
+            >
+          </div>
+          <div class="itemText">
+            {{ productLang.grossNetWeight }}：
+            <span
+              >{{ item.outerBoxWeight }} /
+              {{ item.outerBoxNetWeight }} (kg)</span
+            >
           </div>
         </div>
         <div class="myCartBox">
-          <div class="myCart">
+          <div class="myCart" @click="handlerShopping(item)">
             <i class="myCartIcon"></i>
             {{ productLang.addToCart }}
           </div>
         </div>
       </div>
     </div>
-    <relatedProducts />
+    <!-- 相关产品 -->
+    <!-- <relatedProducts /> -->
   </div>
 </template>
 
 <script>
 import magnifierComponent from "@/components/magnifierComponent/magnifierComponent.vue";
-import relatedProducts from "@/components/relatedProducts/relatedProducts.vue";
+// import relatedProducts from "@/components/relatedProducts/relatedProducts.vue";
 export default {
+  props: {
+    item: {
+      type: Object
+    }
+  },
   components: {
-    magnifierComponent,
-    relatedProducts
+    magnifierComponent
+    // relatedProducts
   },
   data() {
     return {};
   },
-  methods: {},
+  methods: {
+    // 加购
+    handlerShopping(item) {
+      item.isShopping = !item.isShopping;
+      console.log(item);
+      if (item.isShopping) {
+        this.$store.commit("pushShopping", item);
+        this.$message.success("加购成功");
+      } else {
+        this.$store.commit("popShopping", item);
+        this.$message.success("取消成功");
+      }
+    }
+  },
   created() {},
   mounted() {},
   computed: {
@@ -122,6 +166,7 @@ export default {
           .priceBox {
             color: #ff760e;
             .price {
+              margin-left: 5px;
               font-size: 36px;
               font-weight: bold;
             }

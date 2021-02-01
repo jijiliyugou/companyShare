@@ -3,13 +3,18 @@
     <div class="content">
       <div class="title">
         <span class="titleText">{{ productLang.newProductArea }}</span>
-        <span class="more"
+        <span class="more" @click="toProducts"
           >{{ productLang.more }}
           <i class="icon el-icon-d-arrow-right"></i>
         </span>
       </div>
       <div class="productsBox">
-        <gonggeProductItem v-for="item in 8" :key="item" :item="item" />
+        <gonggeProductItem
+          v-for="(item, i) in products"
+          :key="i"
+          :item="item"
+          @hanldlerShopping="hanldlerShopping(item)"
+        />
         <div class="kong"></div>
         <div class="kong"></div>
         <div class="kong"></div>
@@ -25,9 +30,28 @@ export default {
   components: {
     gonggeProductItem
   },
+  props: {
+    products: {
+      type: Array
+    }
+  },
   data() {
     return {};
   },
+  methods: {
+    // 加购事件
+    hanldlerShopping(item) {
+      item.isShopping = !item.isShopping;
+      if (item.isShopping) this.$store.commit("pushShopping", item);
+      else this.$store.commit("popShopping", item);
+      this.$root.eventHub.$emit("resetCompanyShareIndex");
+    },
+    // 查看更多
+    toProducts() {
+      this.$router.push({ path: "/index/product", query: { productType: 2 } });
+    }
+  },
+  mounted() {},
   computed: {
     productLang() {
       return this.$t("lang.product");

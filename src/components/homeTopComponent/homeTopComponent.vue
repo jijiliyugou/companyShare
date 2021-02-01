@@ -14,6 +14,7 @@
           <el-input
             prefix-icon="el-icon-search"
             :placeholder="homeLang.SearchPlaceholder"
+            @keyup.enter.native="search"
             v-model="searchValue"
           >
             <i
@@ -22,7 +23,7 @@
               class="el-input__icon el-icon-camera"
             ></i>
           </el-input>
-          <el-button class="searchBtn">{{ homeLang.search }}</el-button>
+          <el-button @click="search" class="searchBtn">{{ homeLang.search }}</el-button>
         </div>
         <div class="langBox">
           <el-dropdown @command="handleCommand" trigger="click">
@@ -56,7 +57,7 @@
             mode="horizontal"
           >
             <el-menu-item index="/index/home">{{ homeLang.home }}</el-menu-item>
-            <el-menu-item index="/index/product">{{
+            <el-menu-item index="/index/product?productType=1">{{
               homeLang.product
             }}</el-menu-item>
           </el-menu>
@@ -129,6 +130,10 @@ export default {
     this.initLang();
   },
   methods: {
+    // 搜索产品
+    search() {
+      console.log(this.searchValue);
+    },
     // 初始化语言
     initLang() {
       switch (this.$store.state.globalLang) {

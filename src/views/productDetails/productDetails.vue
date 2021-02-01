@@ -1,7 +1,9 @@
 <template>
   <div class="contentBox">
     <home-top-component />
-    <productDetailComponent class="productDetailBox" />
+    <keep-alive>
+      <productDetailComponent :item="product" class="productDetailBox" />
+    </keep-alive>
     <myFoot class="myFoot" />
   </div>
 </template>
@@ -17,10 +19,14 @@ export default {
     myFoot
   },
   data() {
-    return {};
+    return {
+      product: {}
+    };
   },
   methods: {},
-  created() {},
+  created() {
+    this.product = JSON.parse(this.$route.query.item);
+  },
   mounted() {}
 };
 </script>

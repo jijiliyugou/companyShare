@@ -19,7 +19,7 @@
           controls
           poster=""
         >
-          <source :src="videoUrl" type="video/mp4" />
+          <source :src="videoAddress" type="video/mp4" />
         </video>
         <!-- 阴影盒子 -->
         <div
@@ -31,7 +31,7 @@
         ></div>
       </div>
       <!-- 缩略图容器 -->
-      <div class="carousel">
+      <div class="carousel" v-if="imageUrls.length || videoAddress">
         <!-- 左箭头 -->
         <div class="left_arrow arrow" @click="leftArrowClick">
           <i class="el-icon-arrow-left"></i>
@@ -41,7 +41,7 @@
           <ul class="picture_container" ref="middlePicture">
             <li
               class="picture_item"
-              v-if="videoUrl"
+              v-if="videoAddress"
               @mouseover="tabPicture({ type: 'video' })"
             >
               <div class="imgBox">
@@ -62,12 +62,12 @@
             </li>
             <li
               class="picture_item"
-              @mouseover="tabPicture({ type: 'img', ...item })"
+              @mouseover="tabPicture({ type: 'img', url: item })"
               v-for="(item, index) in pictureList"
               :key="index"
             >
               <div class="imgBox">
-                <img :src="item.url" class="small_img" alt="" />
+                <img :src="item" class="small_img" alt="" />
               </div>
             </li>
           </ul>
@@ -90,13 +90,15 @@ import $ from "jquery";
 export default {
   props: {
     middleImgWidth: {
+      // 产品图片宽
       default: 350,
       type: Number
-    }, // 产品图片宽
+    },
     middleImgHeight: {
+      // 产品图片高
       default: 400,
       type: Number
-    }, // 产品图片高
+    },
     thumbnailHeight: {
       // 缩略图容器高度
       default: 100,
@@ -112,7 +114,9 @@ export default {
       default: 5,
       type: Number
     },
-    imgList: Array, // 图片数据
+    imageUrls: Array, // 图片数据
+    default: [],
+    videoAddress: String, // 视频地址
     zoom: {
       default: 2, // 缩略比例,放大比例
       type: Number
@@ -120,50 +124,7 @@ export default {
   },
   data() {
     return {
-      videoUrl:
-        "http://img.toysbear.com/Ad/Video//2020-12-31/16094169983727201208.MP4",
-      pictureList: [
-        {
-          url:
-            "http://mp.ofweek.com/Upload/News/Img/member645/201711/17170046839337.jpg"
-        },
-        {
-          url:
-            "http://image.buy.ccb.com/merchant/201703/904919627/1522929521661_4.jpg"
-        },
-        {
-          url:
-            "http://image5.suning.cn/uimg/b2c/newcatentries/0070130691-000000000826244625_5_800x800.jpg"
-        },
-        {
-          url:
-            "http://img12.360buyimg.com/n5/s450x450_jfs/t9952/98/2269407420/279171/6137fe2f/59f28b2bN6959e086.jpg"
-        },
-        {
-          url:
-            "http://d.ifengimg.com/w600/p0.ifengimg.com/pmop/2017/1213/A4037864F6728F006B67AAEC51EC8A485F320FD2_size93_w1024_h734.jpeg"
-        },
-        {
-          url:
-            "http://mp.ofweek.com/Upload/News/Img/member645/201711/17170046839337.jpg"
-        },
-        {
-          url:
-            "http://image.buy.ccb.com/merchant/201703/904919627/1522929521661_4.jpg"
-        },
-        {
-          url:
-            "http://image5.suning.cn/uimg/b2c/newcatentries/0070130691-000000000826244625_5_800x800.jpg"
-        },
-        {
-          url:
-            "http://img12.360buyimg.com/n5/s450x450_jfs/t9952/98/2269407420/279171/6137fe2f/59f28b2bN6959e086.jpg"
-        },
-        {
-          url:
-            "http://d.ifengimg.com/w600/p0.ifengimg.com/pmop/2017/1213/A4037864F6728F006B67AAEC51EC8A485F320FD2_size93_w1024_h734.jpeg"
-        }
-      ],
+      pictureList: [], // 缩略图
       middleImg: "", // 中图图片地址
       bigImg: "", // 大图图片地址
       isShade: false, // 控制阴影显示与否
@@ -176,25 +137,25 @@ export default {
       itemWidth: 98.19 // 缩略图每张的宽度
     };
   },
-  created() {
-    if (this.imgList && this.imgList.length) {
-      this.pictureList = this.imgList;
+  created() {},
+  mounted() {
+    if (this.imageUrls && this.imageUrls.length) {
+      this.pictureList = this.imageUrls;
     }
-    if (this.videoUrl) {
+    if (this.videoAddress) {
       this.middleImg = {
         type: "video",
-        url: this.videoUrl
+        url: this.videoAddress
       };
     } else {
       this.middleImg = {
         type: "img",
-        url: this.pictureList[0].url
+        url: this.pictureList[0]
       };
     }
     // 计算缩略图的宽度,默认是显示4张图片,两边箭头的宽度和为50
     this.itemWidth = (this.middleImgWidth - 50) / this.thumbnailCount;
-  },
-  mounted() {
+
     this.$nextTick(() => {
       // 容器的高
       const imgWidth = this.middleImgHeight + this.thumbnailHeight + 20;
@@ -214,7 +175,7 @@ export default {
         height: this.middleImgHeight / this.zoom
       });
       // 设置缩略图容器宽度
-      if (this.videoUrl) {
+      if (this.videoAddress) {
         $(".picture_container").css({
           width: this.itemWidth * (this.pictureList.length + 1)
         });
@@ -329,7 +290,7 @@ export default {
       this.isShade = false;
       this.isBig = false;
     },
-    // 切换图片
+    // 鼠标移入缩略图切换图片
     tabPicture(item) {
       this.middleImg = item;
     },
@@ -381,7 +342,7 @@ export default {
       if (
         this.middleLeft >
         -this.itemWidth *
-          (this.videoUrl
+          (this.videoAddress
             ? this.pictureList.length + 1 - this.thumbnailCount
             : this.pictureList.length - this.thumbnailCount)
       ) {

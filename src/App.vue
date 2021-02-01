@@ -1,5 +1,11 @@
 <template>
-  <div id="app" class="rootApp">
+  <div
+    id="app"
+    class="rootApp"
+    v-loading="$store.state.AppLoading"
+    element-loading-spinner
+    element-loading-background="rgba(200, 200, 200, 0.5)"
+  >
     <router-view />
     <!-- 漂浮物 -->
     <div class="cartBox" v-if="$route.path !== '/login'">

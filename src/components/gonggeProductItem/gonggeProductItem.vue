@@ -1,24 +1,32 @@
 <template>
-  <div class="item" @click.stop="toDetails">
+  <div class="item" @click.stop="toDetails(item)">
     <div class="itemImg">
       <el-image
         style="width:281px;height:199px;"
-        :src="require('@/assets/images/cheche.png')"
+        :src="item.imageUrls && item.imageUrls[0]"
       ></el-image>
-      <div class="newIconBox"></div>
+      <div class="newIconBox" v-if="item.isNew"></div>
     </div>
     <div class="context">
       <div class="productName">
-        4 function R/C excavatorl
+        {{ item.name }}
       </div>
       <div class="priceBox">
         <div class="left">
           <span>USD</span>
-          <span class="price">98.00</span>
+          <span class="price">{{ item.price }}</span>
         </div>
         <div class="right">
-          <div class="cartIconBox kongCartIcon" v-if="item % 2"></div>
-          <div class="cartIconBox activeCartIcon" v-else></div>
+          <div
+            class="cartIconBox kongCartIcon"
+            @click.stop="handlerShopping(item)"
+            v-if="!item.isShopping"
+          ></div>
+          <div
+            class="cartIconBox activeCartIcon"
+            @click.stop="handlerShopping(item)"
+            v-else
+          ></div>
         </div>
       </div>
     </div>
@@ -27,13 +35,24 @@
 
 <script>
 export default {
-  props: ["item"],
+  props: {
+    item: {
+      type: Object
+    }
+  },
   data() {
     return {};
   },
   methods: {
-    toDetails() {
-      this.$router.push("/productDetails");
+    // 加购
+    handlerShopping(item) {
+      this.$emit("hanldlerShopping", item);
+    },
+    toDetails(item) {
+      this.$router.push({
+        path: "/productDetails",
+        query: { item: JSON.stringify(item) }
+      });
     }
   },
   created() {},
@@ -69,6 +88,9 @@ export default {
       font-size: 16px;
       color: #000;
       margin-top: 18px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .priceBox {
       margin-top: 5px;

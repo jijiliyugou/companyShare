@@ -47,16 +47,21 @@
           <span style="margin-left:10px;color:#FF760E;">912864</span>
         </div>
         <!-- 产品列表 -->
-        <component :is="isThumbnail"></component>
+        <component
+          :is="isThumbnail"
+          @hanldlerShopping="hanldlerShopping"
+          :productList="productList"
+        ></component>
       </div>
     </div>
     <!-- 分页 -->
     <center class="paginationWrap">
       <el-pagination
+        background
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page.sync="currentPage"
-        :page-sizes="[10, 20, 30, 50]"
+        :page-sizes="[8, 16, 24, 32]"
         :page-size="pageSize"
         layout="sizes, prev, pager, next"
         :total="totalCount"
@@ -69,6 +74,7 @@
 <script>
 import thumbnailProducts from "@/components/thumbnailProducts/thumbnailProducts.vue";
 import listProducts from "@/components/listProducts/listProducts.vue";
+import { mapState } from "vuex";
 export default {
   components: {
     thumbnailProducts,
@@ -79,29 +85,70 @@ export default {
       isShowDate: false,
       isShowPrice: false,
       isThumbnail: "thumbnailProducts",
-      pageSize: 10,
+      pageSize: 8,
       currentPage: 1,
-      totalCount: 0
+      totalCount: 0,
+      productList: []
     };
   },
   methods: {
+    // 获取产品列表
+    async getSearchCompanyShareProductPage() {
+      const res = await this.$http.get(
+        "/api/WebsiteShare/SearchCompanyShareProductPage",
+        {
+          params: {
+            productType: this.$route.query.productType,
+            pageIndex: this.currentPage,
+            pageSize: this.pageSize
+          }
+        }
+      );
+      const { data, code, message } = res.data.result;
+      if (code === 200) {
+        for (let i = 0; i < data.items.length; i++) {
+          for (let j = 0; j < this.shoppingList.length; j++) {
+            if (data.items[i].id === this.shoppingList[j].id)
+              data.items[i].isShopping = true;
+          }
+        }
+        this.productList = data.items;
+        this.totalCount = data.totalCount;
+      } else this.$message.error(message);
+    },
+    // 加购事件
+    hanldlerShopping(item) {
+      item.isShopping = !item.isShopping;
+      if (item.isShopping) {
+        this.$store.commit("pushShopping", item);
+        this.$message.success("加购成功");
+      } else {
+        this.$store.commit("popShopping", item);
+        this.$message.success("取消成功");
+      }
+      this.getSearchCompanyShareProductPage();
+    },
     // 切換頁容量
     handleSizeChange(pageSize) {
       this.pageSize = pageSize;
       if (this.currentPage * pageSize > this.totalCount) return false;
-      // this.getProductList()
+      this.getSearchCompanyShareProductPage();
     },
     // 修改当前页
     handleCurrentChange(page) {
       this.currentPage = page;
+      this.getSearchCompanyShareProductPage();
     }
   },
-  created() {},
+  created() {
+    this.getSearchCompanyShareProductPage();
+  },
   mounted() {},
   computed: {
     productLang() {
       return this.$t("lang.product");
-    }
+    },
+    ...mapState(["shoppingList"])
   }
 };
 </script>

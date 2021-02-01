@@ -7,7 +7,9 @@ export default new Vuex.Store({
   state: {
     screenWidth: 0,
     globalLang: "en",
-    userInfo: null
+    userInfo: null,
+    AppLoading: false,
+    shoppingList: []
   },
   mutations: {
     setLang(state, payLoad) {
@@ -15,6 +17,18 @@ export default new Vuex.Store({
     },
     handlerUserInfo(state, payLoad) {
       state.userInfo = payLoad;
+    },
+    pushShopping(state, payLoad) {
+      state.shoppingList.push(payLoad);
+    },
+    popShopping(state, payLoad) {
+      for (let i = 0; i < state.shoppingList.length; i++) {
+        if (state.shoppingList[i].id === payLoad.id)
+          state.shoppingList.splice(i, 1);
+      }
+    },
+    handlerAppLoading(state, payLoad) {
+      state.AppLoading = payLoad;
     }
   },
   actions: {},

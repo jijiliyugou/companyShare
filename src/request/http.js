@@ -3,41 +3,6 @@ import axios from "axios";
 import $Store from "@/store";
 import router from "@/router/index.js";
 import { Message } from "element-ui";
-// const proEnv = require('@/assets/js/config/pro.env') // 生产环境
-// const testEnv = require('@/assets/js/config/test.env') // 测试环境
-// const devEnv = require('@/assets/js/config/dev.env') // 本地环境
-// const env = process.env.NODE_ENV
-// let target = ''
-// // 默认是本地环境
-// switch (env) {
-//   case 'production': // 生产环境
-//     target = proEnv.hosturl
-//     break
-//   case 'test': // 测试环境
-//     target = testEnv.hosturl
-//     break
-//   default:
-//     // 本地环境
-//     target = devEnv.hosturl
-//     break
-// }
-// const createLogRecord = async function(obj) {
-//   if (obj.Url.includes("CreateLogRecord")) {
-//     Message.closeAll();
-//     Message.error(obj.Message);
-//     return false;
-//   }
-//   const res = await axios.post("api/CreateLogRecord", obj);
-//   if (res.data.result.code !== 200) {
-//     Message.closeAll();
-//     Message.error(
-//       "api/CreateLogRecord报错code=" +
-//         res.data.result.code +
-//         "," +
-//         res.data.result.message
-//     );
-//   }
-// };
 const myAxios = {};
 myAxios.install = function(Vue) {
   axios.defaults.timeout = 20000; // 超时时间
@@ -45,31 +10,19 @@ myAxios.install = function(Vue) {
   axios.defaults.retryDelay = 1000; // 请求间隙
   axios.prototype.startDate = 0; // 请求开始时间
   axios.prototype.endDate = 0; // 请求结束时间
-  // 统一设置初始API
-  // axios.defaults.baseURL = target;
   // 使用axios请求拦截器统一设置请求头
   axios.interceptors.request.use(
     config => {
-      // if (
-      //   config.url.includes("SearchBearProductPage") ||
-      //   config.url.includes("SearchPicture") ||
-      //   config.url.includes("HotRecommendPage")
-      // )
-      //   axios.startDate = Date.now();
-      // // 配置不需要loading的请求
-      // if (
-      //   !config.url.includes("CreateLogRecord") &&
-      //   !config.url.includes("MessageUploadFile")
-      // ) {
-      //   $Store.commit("updateAppLoading", true);
-      // }
+      Message.closeAll();
+      $Store.commit("handlerAppLoading", true);
       config.headers.Authorization = $Store.state.userInfo
-        ? "bearer" + $Store.state.userInfo.token
+        ? "bearer " + $Store.state.userInfo.token
         : "";
       config.headers["content-type"] = "application/json";
       return config;
     },
     error => {
+      $Store.commit("handlerAppLoading", false);
       // console.log('请求错误拦截', error)
       var config = error.config;
       // If config does not exist or the retry option is not set, reject
@@ -79,8 +32,6 @@ myAxios.install = function(Vue) {
       config.__retryCount = config.__retryCount || 0;
       // Check if we've maxed out the total number of retries
       if (config.__retryCount >= axios.defaults.retry) {
-        $Store.commit("updateAppLoading", false);
-        Message.closeAll();
         Message.error("请求超时，请检查网络");
         // Reject with the error
         return Promise.reject(error);
@@ -105,6 +56,8 @@ myAxios.install = function(Vue) {
   // 响应拦截
   axios.interceptors.response.use(
     res => {
+      Message.closeAll();
+      $Store.commit("handlerAppLoading", false);
       /** 全局设置请求时长和请求内容 */
       // const myUrl = res.config.url;
       // let httpDate;
@@ -142,8 +95,6 @@ myAxios.install = function(Vue) {
       // }
       // 屏蔽不需要验证code的请求，如下载导出等
       if (res.data.result.code === 401 || res.data.result.code === 403) {
-        Message.closeAll();
-        $Store.commit("updateAppLoading", false);
         Message.error("登录过期，请重新登录");
         router.push({
           path: "/"
@@ -168,7 +119,7 @@ myAxios.install = function(Vue) {
         config.__retryCount = config.__retryCount || 0;
         // Check if we've maxed out the total number of retries
         if (config.__retryCount >= axios.defaults.retry) {
-          $Store.commit("updateAppLoading", false);
+          $Store.commit("handlerAppLoading", false);
           Message.closeAll();
           Message.error(
             "接口：" +

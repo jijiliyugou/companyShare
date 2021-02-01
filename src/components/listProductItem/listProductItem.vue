@@ -2,44 +2,70 @@
   <div class="item">
     <div class="left">
       <div class="imgBox">
-        <el-image :src="require('@/assets/images/cheche.png')"> </el-image>
+        <el-image :src="item.imageUrls && item.imageUrls[0]"> </el-image>
         <div class="newIcon"></div>
       </div>
       <div class="priceBox">
         <div class="leftPrice">
           <span class="currency">USD</span>
-          <span class="price">17.0</span>
+          <span class="price">{{ item.price }}</span>
         </div>
-        <div class="myCart"></div>
+        <div
+          class="myCart"
+          @click.stop="handlerShopping(item)"
+          v-if="!item.isShopping"
+        ></div>
+        <div
+          class="activeCartIcon"
+          @click.stop="handlerShopping(item)"
+          v-else
+        ></div>
       </div>
     </div>
     <div class="right">
       <div class="productName">
-        Camouflage vibrating flint drumgun field cap flint drumgun field cap
+        {{ item.name }}
       </div>
       <div class="itemText">
-        {{ productLang.exFactoryArticleNo }}：<span>1111-284</span>
+        {{ productLang.exFactoryArticleNo }}：<span>{{
+          item.outFactoryNumber
+        }}</span>
       </div>
       <div class="itemText">
-        {{ productLang.package }}：<span>color box Product</span>
+        {{ productLang.package }}：<span>{{ item.packMethod }}</span>
       </div>
       <div class="itemText">
-        {{ productLang.productSpecification }}：<span>0 x 0 x 0 (CM)</span>
+        {{ productLang.productSpecification }}：<span
+          >{{ item.sampleLenth }} x {{ item.sampleWidth }} x
+          {{ item.sampleHight }} (CM)</span
+        >
       </div>
       <div class="itemText">
-        {{ productLang.outerBoxSize }}：<span>63 x 45 x 108 (CM)</span>
+        {{ productLang.outerBoxSize }}：<span
+          >{{ item.outerBoxLenth }} x {{ item.outerBoxWidth }} x
+          {{ item.outerBoxHight }} (CM)</span
+        >
       </div>
       <div class="itemText">
-        {{ productLang.packageSpecification }}：<span>0 x 0 x 0 (CM)</span>
+        {{ productLang.packageSpecification }}：<span
+          >{{ item.innerLenth }} x {{ item.innerWidth }} x
+          {{ item.innerHigth }} (CM)</span
+        >
       </div>
       <div class="itemText">
-        {{ productLang.packingQuantity }}：<span>2 / 72 (PCS)</span>
+        {{ productLang.packingQuantity }}：<span
+          >{{ item.innerEn }} / {{ item.outerBoxLo }} (PCS)</span
+        >
       </div>
       <div class="itemText">
-        {{ productLang.volumeVolume }}：<span>0.306 (CBM) / 10.8 (cuft)</span>
+        {{ productLang.volumeVolume }}：<span
+          >{{ item.outerBoxStere }} (CBM) / {{ item.outerBoxFee }} (cuft)</span
+        >
       </div>
       <div class="itemText">
-        {{ productLang.grossNetWeight }}：<span>23 / 25 (kg)</span>
+        {{ productLang.grossNetWeight }}：<span
+          >{{ item.outerBoxWeight }} / {{ item.outerBoxNetWeight }} (kg)</span
+        >
       </div>
     </div>
   </div>
@@ -57,7 +83,12 @@ export default {
   data() {
     return {};
   },
-  methods: {},
+  methods: {
+    // 加购
+    handlerShopping(item) {
+      this.$emit("hanldlerShopping", item);
+    }
+  },
   created() {},
   mounted() {},
   computed: {

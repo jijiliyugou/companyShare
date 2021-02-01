@@ -1,6 +1,11 @@
 <template>
   <div class="thumbnailProducts">
-    <gonggeProductItem v-for="item in 8" :key="item" :item="item" />
+    <gonggeProductItem
+      @hanldlerShopping="hanldlerShopping"
+      v-for="(item, i) in productList"
+      :key="i"
+      :item="item"
+    />
     <div class="kong"></div>
     <div class="kong"></div>
     <div class="kong"></div>
@@ -13,10 +18,19 @@ export default {
   components: {
     gonggeProductItem
   },
+  props: {
+    productList: {
+      type: Array
+    }
+  },
   data() {
     return {};
   },
-  methods: {},
+  methods: {
+    hanldlerShopping(item) {
+      this.$emit("hanldlerShopping", item);
+    }
+  },
   created() {},
   mounted() {}
 };

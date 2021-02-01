@@ -1,6 +1,11 @@
 <template>
   <div class="listProducts">
-    <listProductItem v-for="(item, i) in 20" :key="i" :item="item" />
+    <listProductItem
+      v-for="(item, i) in productList"
+      :key="i"
+      @hanldlerShopping="hanldlerShopping"
+      :item="item"
+    />
     <div class="kong"></div>
   </div>
 </template>
@@ -11,10 +16,19 @@ export default {
   components: {
     listProductItem
   },
+  props: {
+    productList: {
+      type: Array
+    }
+  },
   data() {
     return {};
   },
-  methods: {},
+  methods: {
+    hanldlerShopping(item) {
+      this.$emit("hanldlerShopping", item);
+    }
+  },
   created() {},
   mounted() {}
 };
