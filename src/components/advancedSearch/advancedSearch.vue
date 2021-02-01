@@ -21,6 +21,7 @@
               <el-input
                 :placeholder="advancedSearchLang.pleaseInputTheContent"
                 v-model="searchForm.name"
+                @keyup.enter.native="search"
                 clearable
               >
               </el-input>
@@ -34,7 +35,7 @@
             <div class="myInput">
               <el-input
                 :placeholder="advancedSearchLang.pleaseInputTheContent"
-                v-model="searchForm.packingMethod"
+                v-model="searchForm.ch_pa"
                 clearable
               >
               </el-input>
@@ -43,7 +44,7 @@
           </div>
           <div class="inputItem">
             <div class="searchBtn" v-show="isShowAdvancedSearch">
-              <el-button type="warning" icon="el-icon-search"></el-button>
+              <el-button type="warning" @click="search" icon="el-icon-search"></el-button>
             </div>
           </div>
         </div>
@@ -212,7 +213,7 @@
             </div>
             <div class="btns">
               <el-button>{{ advancedSearchLang.reset }}</el-button>
-              <el-button icon="el-icon-search"></el-button>
+              <el-button icon="el-icon-search" @click="search"></el-button>
             </div>
           </div>
         </el-collapse-transition>
@@ -239,6 +240,10 @@ export default {
     ...mapState(["searchForm"])
   },
   methods: {
+    // 高级搜索
+    search() {
+      console.log(this.searchForm);
+    },
     toLogin() {
       // this.$router.push({ path: '/login', query: { id: 'suo' }})
     },
