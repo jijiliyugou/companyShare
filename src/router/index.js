@@ -1,74 +1,27 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-const Login = () => import("@/views/login.vue");
-const Index = () => import("@/views/index/index.vue");
-const Home = () => import("@/views/index/home/home.vue");
-const Product = () => import("@/views/index/product/product.vue");
-const MyOrder = () => import("@/views/index/myOrder/myOrder.vue");
-const ShoppingCart = () =>
-  import("@/views/index/shoppingCart/shoppingCart.vue");
-const ProductDetails = () =>
-  import("@/views/productDetails/productDetails.vue");
-const OrderDetail = () => import("@/views/orderDetail/orderDetail.vue");
-
+import routes from "./routers.js";
+import $Store from "@/store";
 Vue.use(VueRouter);
 
-const routes = [
-  {
-    path: "/login",
-    name: "login",
-    component: Login
-  },
-  {
-    path: "/productDetails",
-    name: "productDetails",
-    component: ProductDetails
-  },
-  {
-    path: "/orderDetail",
-    name: "orderDetail",
-    component: OrderDetail
-  },
-  {
-    path: "/index",
-    name: "index",
-    component: Index,
-    children: [
-      {
-        path: "/index/home",
-        name: "home",
-        component: Home
-      },
-      {
-        path: "/index/product",
-        name: "product",
-        component: Product
-      },
-      {
-        path: "/index/shoppingCart",
-        name: "shoppingCart",
-        component: ShoppingCart
-      },
-      {
-        path: "/index/myOrder",
-        name: "myOrder",
-        component: MyOrder
-      },
-      {
-        path: "/index",
-        redirect: "/index/home"
-      }
-    ]
-  },
-  {
-    path: "/",
-    redirect: "/login"
-  }
-];
 const router = new VueRouter({
   mode: "hash",
   base: process.env.BASE_URL,
   routes
+});
+// 拦截
+router.beforeEach(async (to, from, next) => {
+  // 如果没有登录token
+  if (to.path !== "/login" && to.path !== "/404" && !$Store.state.userInfo) {
+    return next({ path: "/login" });
+  }
+  next();
+});
+// 路由报错
+router.onError(error => {
+  console.log(error);
+  // 已有路由未配置页面文件的情况下就乖乖去404吧
+  router.push("/404");
 });
 
 export default router;

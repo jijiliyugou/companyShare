@@ -7,7 +7,7 @@ export default new Vuex.Store({
   state: {
     screenWidth: 0,
     globalLang: "en",
-    userInfo: {}
+    userInfo: null
   },
   mutations: {
     setLang(state, payLoad) {
