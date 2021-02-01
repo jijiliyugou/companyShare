@@ -63,7 +63,9 @@ myAxios.install = function(Vue) {
       // ) {
       //   $Store.commit("updateAppLoading", true);
       // }
-      config.headers.token = $Store.state.token || {};
+      config.headers.Authorization = $Store.state.userInfo
+        ? "bearer" + $Store.state.userInfo.token
+        : "";
       config.headers["content-type"] = "application/json";
       return config;
     },
