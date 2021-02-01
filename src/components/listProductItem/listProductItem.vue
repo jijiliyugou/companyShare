@@ -1,5 +1,5 @@
 <template>
-  <div class="item">
+  <div class="item"  @click.stop="toDetails(item)">
     <div class="left">
       <div class="imgBox">
         <el-image :src="item.imageUrls && item.imageUrls[0]"> </el-image>
@@ -87,6 +87,13 @@ export default {
     // 加购
     handlerShopping(item) {
       this.$emit("hanldlerShopping", item);
+    },
+    // 查看详情
+    toDetails(item) {
+      this.$router.push({
+        path: "/productDetails",
+        query: { item: JSON.stringify(item) }
+      });
     }
   },
   created() {},

@@ -20,7 +20,7 @@
             <div class="myInput">
               <el-input
                 :placeholder="advancedSearchLang.pleaseInputTheContent"
-                v-model="advancedSearch.productName"
+                v-model="searchForm.name"
                 clearable
               >
               </el-input>
@@ -34,7 +34,7 @@
             <div class="myInput">
               <el-input
                 :placeholder="advancedSearchLang.pleaseInputTheContent"
-                v-model="advancedSearch.packingMethod"
+                v-model="searchForm.packingMethod"
                 clearable
               >
               </el-input>
@@ -58,13 +58,13 @@
                   <div class="myInput">
                     <el-input
                       :placeholder="advancedSearchLang.miniPrice"
-                      v-model="advancedSearch.productName"
+                      v-model="searchForm.productName"
                     >
                     </el-input>
                     <span class="middleLine">-</span>
                     <el-input
                       :placeholder="advancedSearchLang.maxPrice"
-                      v-model="advancedSearch.productName"
+                      v-model="searchForm.productName"
                     >
                     </el-input>
                   </div>
@@ -77,19 +77,19 @@
                   <div class="myInput">
                     <el-input
                       :placeholder="advancedSearchLang.long"
-                      v-model="advancedSearch.productName"
+                      v-model="searchForm.productName"
                     >
                     </el-input>
                     <span class="middleLine">-</span>
                     <el-input
                       :placeholder="advancedSearchLang.width"
-                      v-model="advancedSearch.productName"
+                      v-model="searchForm.productName"
                     >
                     </el-input>
                     <span class="middleLine">-</span>
                     <el-input
                       :placeholder="advancedSearchLang.height"
-                      v-model="advancedSearch.productName"
+                      v-model="searchForm.productName"
                     >
                     </el-input>
                   </div>
@@ -106,19 +106,19 @@
                   <div class="myInput">
                     <el-input
                       :placeholder="advancedSearchLang.long"
-                      v-model="advancedSearch.productName"
+                      v-model="searchForm.productName"
                     >
                     </el-input>
                     <span class="middleLine">-</span>
                     <el-input
                       :placeholder="advancedSearchLang.width"
-                      v-model="advancedSearch.productName"
+                      v-model="searchForm.productName"
                     >
                     </el-input>
                     <span class="middleLine">-</span>
                     <el-input
                       :placeholder="advancedSearchLang.height"
-                      v-model="advancedSearch.productName"
+                      v-model="searchForm.productName"
                     >
                     </el-input>
                   </div>
@@ -155,19 +155,19 @@
                   <div class="myInput">
                     <el-input
                       :placeholder="advancedSearchLang.long"
-                      v-model="advancedSearch.productName"
+                      v-model="searchForm.productName"
                     >
                     </el-input>
                     <span class="middleLine">-</span>
                     <el-input
                       :placeholder="advancedSearchLang.width"
-                      v-model="advancedSearch.productName"
+                      v-model="searchForm.productName"
                     >
                     </el-input>
                     <span class="middleLine">-</span>
                     <el-input
                       :placeholder="advancedSearchLang.height"
-                      v-model="advancedSearch.productName"
+                      v-model="searchForm.productName"
                     >
                     </el-input>
                   </div>
@@ -222,23 +222,21 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {
       radio: "",
       value: "",
       isShowAdvancedSearch: true,
-      advancedSearch: {
-        productName: "",
-        packingMethod: ""
-      },
       activeNames: "activeNames"
     };
   },
   computed: {
     advancedSearchLang() {
       return this.$t("lang.advancedSearch");
-    }
+    },
+    ...mapState(["searchForm"])
   },
   methods: {
     toLogin() {

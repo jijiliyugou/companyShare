@@ -48,6 +48,7 @@ export default {
     handlerShopping(item) {
       this.$emit("hanldlerShopping", item);
     },
+    // 查看详情
     toDetails(item) {
       this.$router.push({
         path: "/productDetails",
