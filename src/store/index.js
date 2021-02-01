@@ -6,11 +6,15 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     screenWidth: 0,
-    globalLang: "en"
+    globalLang: "en",
+    userInfo: {}
   },
   mutations: {
     setLang(state, payLoad) {
       state.globalLang = payLoad;
+    },
+    handlerUserInfo(state, payLoad) {
+      state.userInfo = payLoad;
     }
   },
   actions: {},

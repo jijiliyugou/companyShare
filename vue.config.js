@@ -3,6 +3,7 @@ const proEnv = require("./config/pro.env"); // 生产环境
 const testEnv = require("./config/test.env"); // 测试环境
 const devEnv = require("./config/dev.env"); // 本地环境
 const env = process.env.NODE_ENV;
+console.log(123456748);
 let target = "";
 // 默认是本地环境
 switch (env) {
@@ -17,6 +18,7 @@ switch (env) {
     target = devEnv.hosturl;
     break;
 }
+console.log(target);
 module.exports = {
   publicPath: "/",
   // lintOnSave: true, // 是否在开发环境下每次保存代码时都启用 eslint验证

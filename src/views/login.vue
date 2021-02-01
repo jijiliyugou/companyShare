@@ -35,7 +35,11 @@
                 {{ loginLang.email }}
                 <span class="remak">{{ loginLang.emailExplain }}</span>
               </div>
-              <el-input v-model="formLabelAlign.email" clearable></el-input>
+              <el-input
+                v-model="formLabelAlign.email"
+                clearable
+                @keyup.native.enter="toHome"
+              ></el-input>
             </el-form-item>
             <el-form-item>
               <el-button class="loginBtn" @click="toHome" type="primary">{{
@@ -79,20 +83,21 @@ export default {
     toHome() {
       this.$refs.myFormRef.validate(async valid => {
         if (valid) {
-          // this.$router.push({ path: "/index" });
           const res = await this.$http.post(
             "/api/Account/CompanyShareLogin",
             this.formLabelAlign
           );
-          console.log(res);
+          const { code, message, data } = res.data.result;
+          if (code === 200) {
+            this.$store.commit("handlerUserInfo", data);
+            this.$router.push({ path: "/index" });
+          } else this.$message.error(message);
         }
       });
     }
   },
   created() {},
-  mounted() {
-    console.log(this.$route, location.href);
-  },
+  mounted() {},
   watch: {
     "$store.state.screenWidth"(val) {
       console.log(val);
