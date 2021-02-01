@@ -94,14 +94,22 @@ export default {
   methods: {
     // 获取产品列表
     async getSearchCompanyShareProductPage() {
+      const fd = {
+        ...this.searchForm,
+        productType: this.$route.query.productType,
+        pageIndex: this.currentPage,
+        pageSize: this.pageSize
+      };
+      console.log(fd);
+      for (const key in fd) {
+        if (fd[key] === null || fd[key] === undefined || fd[key] === "") {
+          delete fd[key];
+        }
+      }
       const res = await this.$http.get(
         "/api/WebsiteShare/SearchCompanyShareProductPage",
         {
-          params: {
-            productType: this.$route.query.productType,
-            pageIndex: this.currentPage,
-            pageSize: this.pageSize
-          }
+          params: fd
         }
       );
       const { data, code, message } = res.data.result;
@@ -115,6 +123,10 @@ export default {
         this.productList = data.items;
         this.totalCount = data.totalCount;
       } else this.$message.error(message);
+      this.$root.eventHub.$on("resetProducts", () => {
+        this.currentPage = 1;
+        this.getSearchCompanyShareProductPage();
+      });
     },
     // 加购事件
     hanldlerShopping(item) {
@@ -148,7 +160,11 @@ export default {
     productLang() {
       return this.$t("lang.product");
     },
-    ...mapState(["shoppingList"])
+    ...mapState(["shoppingList"]),
+    ...mapState(["searchForm"])
+  },
+  beforeDestroy() {
+    this.$root.eventHub.$off("resetProducts");
   }
 };
 </script>

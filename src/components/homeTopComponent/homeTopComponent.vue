@@ -15,7 +15,8 @@
             prefix-icon="el-icon-search"
             :placeholder="homeLang.SearchPlaceholder"
             @keyup.enter.native="search"
-            v-model="searchValue"
+            @keyup.native="handlerSearchForms"
+            v-model="searchForm.keyword"
           >
             <i
               slot="suffix"
@@ -23,7 +24,9 @@
               class="el-input__icon el-icon-camera"
             ></i>
           </el-input>
-          <el-button @click="search" class="searchBtn">{{ homeLang.search }}</el-button>
+          <el-button @click="search" class="searchBtn">{{
+            homeLang.search
+          }}</el-button>
         </div>
         <div class="langBox">
           <el-dropdown @command="handleCommand" trigger="click">
@@ -57,9 +60,11 @@
             mode="horizontal"
           >
             <el-menu-item index="/index/home">{{ homeLang.home }}</el-menu-item>
-            <el-menu-item index="/index/product?productType=1">{{
-              homeLang.product
-            }}</el-menu-item>
+            <el-menu-item
+              index="/index/product"
+              :route="{ path: '/index/product', query: { productType: 1 } }"
+              >{{ homeLang.product }}</el-menu-item
+            >
           </el-menu>
         </div>
         <div class="right">
@@ -100,13 +105,15 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "home-top-component",
   props: {},
   computed: {
     homeLang() {
       return this.$t("lang.home");
-    }
+    },
+    ...mapState(["searchForm"])
   },
   data() {
     return {
@@ -130,9 +137,15 @@ export default {
     this.initLang();
   },
   methods: {
+    // 修改搜索内容
+    handlerSearchForms() {
+      this.$store.commit("handlerSearchForm", this.searchForm);
+    },
     // 搜索产品
     search() {
-      console.log(this.searchValue);
+      if (!this.$route.path.includes("/index/product"))
+        this.$router.push("/index/product?productType=1");
+      else this.$root.eventHub.$emit("resetProducts");
     },
     // 初始化语言
     initLang() {
