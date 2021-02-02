@@ -21,9 +21,9 @@
             <div class="keys">{{ myOrderLang.remark }}：</div>
           </div>
           <div class="right">
-            <div class="values">S168988444444</div>
-            <div class="values">Lok fun toy company</div>
-            <div class="values">Lok fun toy company</div>
+            <div class="values">{{ orderInfo.orderNumber }}</div>
+            <div class="values">{{ orderInfo.companyName }}</div>
+            <div class="values">{{ orderInfo.remark }}</div>
           </div>
         </div>
         <div class="two">
@@ -33,8 +33,8 @@
             <div class="keys"></div>
           </div>
           <div class="right">
-            <div class="values">2021-01-23</div>
-            <div class="values">Mr.胡</div>
+            <div class="values">{{ orderInfo.createdOn }}</div>
+            <div class="values">{{ orderInfo.contactName }}</div>
             <div class="values"></div>
           </div>
         </div>
@@ -46,7 +46,7 @@
           </div>
           <div class="right">
             <div class="values"></div>
-            <div class="values">onoh@163.com</div>
+            <div class="values">{{ orderInfo.email }}</div>
             <div class="values"></div>
           </div>
         </div>
@@ -66,15 +66,15 @@
           highlight-current-row
         >
           <el-table-column
-            prop="img"
+            prop="productImage"
             :label="myShoppingCartLang.commodity"
             align="center"
           >
             <template slot-scope="scope">
               <el-image
                 style="width: 100px; height: 70px"
-                :src="scope.row.img"
-                :preview-src-list="[scope.row.img]"
+                :src="scope.row.productImage"
+                fit="contain"
               >
                 <div slot="placeholder" class="image-slot">
                   <img
@@ -101,17 +101,17 @@
             align="center"
           ></el-table-column>
           <el-table-column
-            prop="the_nu"
+            prop="productPrice"
             :label="myShoppingCartLang.unitPrice"
             align="center"
           ></el-table-column>
           <el-table-column
-            prop="volume"
+            prop="totalCapacity"
             :label="myShoppingCartLang.totalCapacity"
             align="center"
           ></el-table-column>
           <el-table-column
-            prop="number"
+            prop="productCount"
             :label="myShoppingCartLang.number"
             align="center"
           >
@@ -142,7 +142,7 @@
           </div>
           <div class="item">
             {{ myOrderLang.totalPrice }}：USD
-            <span class="value price">588.00</span>
+            <span class="value price">{{ orderInfo.totalAmount }}</span>
           </div>
         </div>
       </div>
@@ -152,23 +152,51 @@
 
 <script>
 export default {
+  props: {
+    item: {
+      type: String
+    }
+  },
   data() {
     return {
-      tableList: [
-        {
-          id: 0,
-          number: 1,
-          total: 98.0,
-          img: require("@/assets/images/cheche.png")
-        },
-        { id: 1, number: 2, total: 198.0 },
-        { id: 2, number: 3, total: 78.0 }
-      ]
+      orderInfo: {},
+      keyword: "",
+      currentPage: 1,
+      pageSize: 10,
+      totalCount: 0,
+      tableList: []
     };
   },
-  methods: {},
-  created() {},
-  mounted() {},
+  methods: {
+    async getSearchShareOrderDetailsPage() {
+      const res = await this.$http.get(
+        "/api/WebsiteShare/SearchShareOrderDetailsPage",
+        {
+          params: {
+            shareOrderNumber: this.orderInfo.orderNumber,
+            pageIndex: this.currentPage,
+            pageSize: this.pageSize,
+            keyword: this.keyword
+          }
+        }
+      );
+      console.log(res);
+      const { code, data, message } = res.data.result;
+      if (code === 200) {
+        this.tableList = data.items;
+        this.totalCount = data.totalCount;
+      } else {
+        this.$message.error(message);
+      }
+    }
+  },
+  created() {
+    this.orderInfo = JSON.parse(this.item);
+    console.log(this.orderInfo);
+  },
+  mounted() {
+    this.getSearchShareOrderDetailsPage();
+  },
   computed: {
     myOrderLang() {
       return this.$t("lang.myOrder");

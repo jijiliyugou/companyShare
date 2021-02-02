@@ -2,15 +2,17 @@
   <div class="myOrderWrap">
     <div class="orderBox">
       <div class="title">
-        {{ myOrderLang.myOrder }} <span class="value">（onon@163.com）</span>
+        {{ myOrderLang.myOrder }}
+        <span class="value" v-if="userInfo.loginEmail"
+          >（{{ userInfo.loginEmail }}）</span
+        >
       </div>
       <ul class="orderListWrap">
-        <li class="itemBox" v-for="(item, i) in 10" :key="i">
+        <li class="itemBox" v-for="(item, i) in orderList" :key="i">
           <div class="orderTitle">
             <div class="left">
-              {{ myOrderLang.oddNumbers }}：<span class="value"
-                >S168988444446</span
-              >
+              {{ myOrderLang.oddNumbers }}：
+              <span class="value">{{ item.orderNumber }}</span>
             </div>
             <div class="right">
               <i class="iconfont icon-daochujinruchukou"></i>
@@ -24,8 +26,8 @@
                 <div class="keys">{{ myOrderLang.companyName }}：</div>
               </div>
               <div class="right">
-                <div class="values">2021-01-23</div>
-                <div class="values">Lok fun toy company</div>
+                <div class="values">{{ item.createdOn }}</div>
+                <div class="values">{{ item.companyName }}</div>
               </div>
             </div>
             <div class="two">
@@ -34,8 +36,8 @@
                 <div class="keys">{{ myOrderLang.email }}：</div>
               </div>
               <div class="right">
-                <div class="values">2</div>
-                <div class="values">onoh@163.com</div>
+                <div class="values">{{ item.totalCount }}</div>
+                <div class="values">{{ item.email }}</div>
               </div>
             </div>
             <div class="three">
@@ -44,12 +46,12 @@
                 <div class="keys">{{ myOrderLang.contact }}：</div>
               </div>
               <div class="right">
-                <div class="values">USD 196.00</div>
-                <div class="values">15986860326</div>
+                <div class="values">USD {{ item.totalAmount }}</div>
+                <div class="values">{{ item.contactName }}</div>
               </div>
             </div>
             <div class="four">
-              <el-button type="warning" @click="toOrderDetail" plain>{{
+              <el-button type="warning" @click="toOrderDetail(item)" plain>{{
                 myOrderLang.viewDetails
               }}</el-button>
             </div>
@@ -59,6 +61,7 @@
       <!-- 分页 -->
       <center class="paginationWrap">
         <el-pagination
+          background
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page.sync="currentPage"
@@ -74,32 +77,68 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
-    return {};
+    return {
+      currentPage: 1,
+      pageSize: 10,
+      totalCount: 0,
+      orderList: []
+    };
   },
   methods: {
+    // 获取订单列表
+    async getSearchShareOrdersPage() {
+      const res = await this.$http.get(
+        "/api/WebsiteShare/SearchShareOrdersPage",
+        {
+          params: {
+            keyword: "",
+            pageIndex: this.currentPage,
+            pageSize: this.pageSize,
+            companyNumber: this.userInfo.companyNumber,
+            loginEmail: this.userInfo.loginEmail
+          }
+        }
+      );
+      console.log(res);
+      const { code, data, message } = res.data.result;
+      if (code === 200) {
+        this.orderList = data.items;
+        this.totalCount = data.totalCount;
+      } else {
+        this.$message.error(message);
+      }
+    },
     // 去详情页
-    toOrderDetail() {
-      this.$router.push("/orderDetail");
+    toOrderDetail(item) {
+      this.$router.push({
+        path: "/orderDetail",
+        query: { item: JSON.stringify(item) }
+      });
     },
     // 切換頁容量
     handleSizeChange(pageSize) {
       this.pageSize = pageSize;
       if (this.currentPage * pageSize > this.totalCount) return false;
-      // this.getProductList()
+      this.getSearchShareOrdersPage();
     },
     // 修改当前页
     handleCurrentChange(page) {
       this.currentPage = page;
+      this.getSearchShareOrdersPage();
     }
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.getSearchShareOrdersPage();
+  },
   computed: {
     myOrderLang() {
       return this.$t("lang.myOrder");
-    }
+    },
+    ...mapState(["userInfo"])
   }
 };
 </script>
@@ -176,6 +215,11 @@ export default {
               flex-direction: column;
               justify-content: space-evenly;
               color: #333;
+              .values {
+                height: 20px;
+                display: flex;
+                align-items: center;
+              }
             }
             .left {
               color: #999;

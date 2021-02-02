@@ -77,7 +77,7 @@ export default {
       email: "邮箱",
       remark: "备注",
       submit: "提交",
-      totalCapacity: "总容量",
+      totalCapacity: "总体积",
       productName: "产品名称"
     },
     myOrder: {

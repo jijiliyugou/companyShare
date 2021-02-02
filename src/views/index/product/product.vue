@@ -227,13 +227,13 @@ export default {
           cursor: pointer;
           margin-left: 40px;
           &.active {
-            color: #165af7;
+            color: #ff760e;
           }
         }
         .dateBox {
           cursor: pointer;
           &.active {
-            color: #165af7;
+            color: #ff760e;
           }
         }
       }

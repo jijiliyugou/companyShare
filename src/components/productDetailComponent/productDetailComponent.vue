@@ -35,21 +35,21 @@
             {{ productLang.productSpecification }}：
             <span
               >{{ item.sampleLenth }} x {{ item.sampleWidth }} x
-              {{ item.sampleHight }} (CM)</span
+              {{ item.sampleHeight }} (CM)</span
             >
           </div>
           <div class="itemText">
             {{ productLang.outerBoxSize }}：
             <span
               >{{ item.outerBoxLenth }} x {{ item.outerBoxWidth }} x
-              {{ item.outerBoxHight }} (CM)</span
+              {{ item.outerBoxHeight }} (CM)</span
             >
           </div>
           <div class="itemText">
             {{ productLang.packageSpecification }}：
             <span
               >{{ item.innerLenth }} x {{ item.innerWidth }} x
-              {{ item.innerHigth }} (CM)</span
+              {{ item.innerheigth }} (CM)</span
             >
           </div>
           <div class="itemText">
@@ -60,7 +60,7 @@
             {{ productLang.volumeVolume }}：
             <span
               >{{ item.outerBoxStere }} (CBM) /
-              {{ item.outerBoxFee }} (cuft)</span
+              {{ item.outerBoxFeet }} (cuft)</span
             >
           </div>
           <div class="itemText">

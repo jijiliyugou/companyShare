@@ -3,6 +3,7 @@
     <div class="itemImg">
       <el-image
         style="width:281px;height:199px;"
+        fit="contain"
         :src="item.imageUrls && item.imageUrls[0]"
       ></el-image>
       <div class="newIconBox" v-if="item.isNew"></div>

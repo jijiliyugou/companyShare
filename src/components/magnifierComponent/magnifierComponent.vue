@@ -440,6 +440,7 @@ export default {
   border: 1px solid #b1b1b1;
   box-sizing: border-box;
   cursor: pointer;
+  object-fit: contain;
 }
 .right_contanier {
   overflow: hidden;

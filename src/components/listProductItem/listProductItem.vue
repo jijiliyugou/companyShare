@@ -2,8 +2,11 @@
   <div class="item" @click.stop="toDetails(item)">
     <div class="left">
       <div class="imgBox">
-        <el-image :src="item.imageUrls && item.imageUrls[0]"> </el-image>
-        <div class="newIcon"></div>
+        <el-image
+          :src="item.imageUrls && item.imageUrls[0]"
+          fit="contain"
+        ></el-image>
+        <div class="newIcon" v-if="item.isNew"></div>
       </div>
       <div class="priceBox">
         <div class="leftPrice">
@@ -37,19 +40,19 @@
       <div class="itemText">
         {{ productLang.productSpecification }}：<span
           >{{ item.sampleLenth }} x {{ item.sampleWidth }} x
-          {{ item.sampleHight }} (CM)</span
+          {{ item.sampleHeight }} (CM)</span
         >
       </div>
       <div class="itemText">
         {{ productLang.outerBoxSize }}：<span
           >{{ item.outerBoxLenth }} x {{ item.outerBoxWidth }} x
-          {{ item.outerBoxHight }} (CM)</span
+          {{ item.outerBoxHeight }} (CM)</span
         >
       </div>
       <div class="itemText">
         {{ productLang.packageSpecification }}：<span
           >{{ item.innerLenth }} x {{ item.innerWidth }} x
-          {{ item.innerHigth }} (CM)</span
+          {{ item.innerheigth }} (CM)</span
         >
       </div>
       <div class="itemText">
@@ -59,7 +62,7 @@
       </div>
       <div class="itemText">
         {{ productLang.volumeVolume }}：<span
-          >{{ item.outerBoxStere }} (CBM) / {{ item.outerBoxFee }} (cuft)</span
+          >{{ item.outerBoxStere }} (CBM) / {{ item.outerBoxFeet }} (cuft)</span
         >
       </div>
       <div class="itemText">

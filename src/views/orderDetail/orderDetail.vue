@@ -1,7 +1,7 @@
 <template>
   <div class="contentBox">
     <home-top-component />
-    <orderDetailComponent class="orderDetailBox" />
+    <orderDetailComponent :item="$route.query.item" class="orderDetailBox" />
     <myFoot class="myFoot" />
   </div>
 </template>
