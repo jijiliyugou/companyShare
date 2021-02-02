@@ -44,7 +44,11 @@
           </div>
           <div class="inputItem">
             <div class="searchBtn" v-show="isShowAdvancedSearch">
-              <el-button type="warning" @click="search" icon="el-icon-search"></el-button>
+              <el-button
+                type="warning"
+                @click="search"
+                icon="el-icon-search"
+              ></el-button>
             </div>
           </div>
         </div>
@@ -59,13 +63,13 @@
                   <div class="myInput">
                     <el-input
                       :placeholder="advancedSearchLang.miniPrice"
-                      v-model="searchForm.productName"
+                      v-model="searchForm.minPrice"
                     >
                     </el-input>
                     <span class="middleLine">-</span>
                     <el-input
                       :placeholder="advancedSearchLang.maxPrice"
-                      v-model="searchForm.productName"
+                      v-model="searchForm.maxPrice"
                     >
                     </el-input>
                   </div>
@@ -78,19 +82,19 @@
                   <div class="myInput">
                     <el-input
                       :placeholder="advancedSearchLang.long"
-                      v-model="searchForm.productName"
+                      v-model="searchForm.in_le"
                     >
                     </el-input>
                     <span class="middleLine">-</span>
                     <el-input
                       :placeholder="advancedSearchLang.width"
-                      v-model="searchForm.productName"
+                      v-model="searchForm.in_wi"
                     >
                     </el-input>
                     <span class="middleLine">-</span>
                     <el-input
                       :placeholder="advancedSearchLang.height"
-                      v-model="searchForm.productName"
+                      v-model="searchForm.in_hi"
                     >
                     </el-input>
                   </div>
@@ -107,19 +111,19 @@
                   <div class="myInput">
                     <el-input
                       :placeholder="advancedSearchLang.long"
-                      v-model="searchForm.productName"
+                      v-model="searchForm.pr_le"
                     >
                     </el-input>
                     <span class="middleLine">-</span>
                     <el-input
                       :placeholder="advancedSearchLang.width"
-                      v-model="searchForm.productName"
+                      v-model="searchForm.pr_wi"
                     >
                     </el-input>
                     <span class="middleLine">-</span>
                     <el-input
                       :placeholder="advancedSearchLang.height"
-                      v-model="searchForm.productName"
+                      v-model="searchForm.pr_hi"
                     >
                     </el-input>
                   </div>
@@ -132,18 +136,11 @@
                     {{ advancedSearchLang.exFactoryArticleNo + "：" }}
                   </div>
                   <div class="myInput">
-                    <el-select
-                      v-model="value"
-                      :placeholder="advancedSearchLang.pleaseSelect"
+                    <el-input
+                      :placeholder="advancedSearchLang.long"
+                      v-model="searchForm.fa_no"
                     >
-                      <el-option
-                        v-for="item in []"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"
-                      >
-                      </el-option>
-                    </el-select>
+                    </el-input>
                   </div>
                   <div class="unit"></div>
                 </div>
@@ -156,19 +153,19 @@
                   <div class="myInput">
                     <el-input
                       :placeholder="advancedSearchLang.long"
-                      v-model="searchForm.productName"
+                      v-model="searchForm.ou_le"
                     >
                     </el-input>
                     <span class="middleLine">-</span>
                     <el-input
                       :placeholder="advancedSearchLang.width"
-                      v-model="searchForm.productName"
+                      v-model="searchForm.ou_wi"
                     >
                     </el-input>
                     <span class="middleLine">-</span>
                     <el-input
                       :placeholder="advancedSearchLang.height"
-                      v-model="searchForm.productName"
+                      v-model="searchForm.ou_hi"
                     >
                     </el-input>
                   </div>
@@ -182,12 +179,14 @@
                   </div>
                   <div class="myInput">
                     <el-select
-                      v-model="value"
-                      :placeholder="advancedSearchLang.pleaseSelect"
+                      v-model="datetime"
+                      @change="getDateList"
+                      size="mini"
+                      placeholder="全部"
                     >
                       <el-option
-                        v-for="item in []"
-                        :key="item.value"
+                        v-for="(item, i) in dateList"
+                        :key="i"
                         :label="item.label"
                         :value="item.value"
                       >
@@ -202,10 +201,10 @@
               <div class="itemInput">
                 <div class="title">{{ advancedSearchLang.picture + "：" }}</div>
                 <div class="myInput">
-                  <el-radio v-model="radio" label="1">{{
+                  <el-radio v-model="searchForm.isUpInsetImg" :label="true">{{
                     advancedSearchLang.yes
                   }}</el-radio>
-                  <el-radio v-model="radio" label="2">{{
+                  <el-radio v-model="searchForm.isUpInsetImg" :label="false">{{
                     advancedSearchLang.no
                   }}</el-radio>
                 </div>
@@ -227,8 +226,15 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      radio: "",
-      value: "",
+      datetime: null,
+      dateList: [
+        { label: "全部", value: null },
+        { label: "当天", value: "today" },
+        { label: "一周", value: "lastOneWeek" },
+        { label: "一个月", value: "lastOneMonth" },
+        { label: "三个月", value: "lastThreeMonth" },
+        { label: "六个月", value: "lastHalfYear" }
+      ],
       isShowAdvancedSearch: true,
       activeNames: "activeNames"
     };
@@ -240,9 +246,68 @@ export default {
     ...mapState(["searchForm"])
   },
   methods: {
+    // 格式化时间
+    formatTime(param) {
+      const y = param.getFullYear();
+      let m = param.getMonth() + 1;
+      let d = param.getDate();
+      m = m < 10 ? "0" + m : m;
+      d = d < 10 ? "0" + d : d;
+      return y + "-" + m + "-" + d;
+    },
+    // 选择时间
+    getDateList(code) {
+      if (code) {
+        const date = new Date();
+        const endTime = this.formatTime(date);
+        const date1 = Date.parse(date);
+        let start = "";
+        const oneDay = 1000 * 3600 * 24;
+
+        switch (code) {
+          // 今天
+          case "today":
+            start = new Date();
+            break;
+          // 最近1周
+          case "lastOneWeek":
+            start = date1 - oneDay * 7;
+            break;
+          // 最近1月
+          case "lastOneMonth":
+            start = new Date();
+            start.setMonth(start.getMonth() - 1);
+            break;
+          // 最近3月
+          case "lastThreeMonth":
+            start = new Date();
+            start.setMonth(start.getMonth() - 3);
+            break;
+          // 最近半年
+          case "lastHalfYear":
+            start = date1 - oneDay * 183;
+            break;
+        }
+        const dateFd = {
+          startTime: this.formatTime(new Date(start)) + "T00:00:00",
+          endTime: endTime + "T23:59:59"
+        };
+        this.$store.commit("handlerSearchDate", dateFd);
+      } else {
+        const fd = {
+          startTime: null,
+          endTime: null
+        };
+        this.$store.commit("handlerSearchDate", fd);
+      }
+      console.log(this.searchForm);
+    },
     // 高级搜索
     search() {
       console.log(this.searchForm);
+      if (!this.$route.path.includes("/index/product"))
+        this.$router.push("/index/product?productType=1");
+      else this.$root.eventHub.$emit("resetProducts");
     },
     toLogin() {
       // this.$router.push({ path: '/login', query: { id: 'suo' }})
@@ -250,12 +315,58 @@ export default {
     // 打开高级搜索
     openAdvancedSearch() {
       this.isShowAdvancedSearch = !this.isShowAdvancedSearch;
+      if (this.isShowAdvancedSearch) {
+        this.$store.commit("handlerSearchForm", {
+          // 产品搜索表单
+          keyword: "", // 关键字
+          name: "", // 产品名称
+          ch_pa: "", // 包装方式
+          minPrice: "", // 最低价格
+          maxPrice: "", // 最高价格
+          pr_le: "", // 产品规格 长
+          pr_wi: "", // 产品规格 宽
+          pr_hi: "", // 产品规格 高
+          ou_le: "", // 外箱规格 长
+          ou_wi: "", // 外箱规格 宽
+          ou_hi: "", // 外箱规格 高
+          in_le: "", // 包装规格 长
+          in_wi: "", // 包装规格 长
+          in_hi: "", // 包装规格 长
+          fa_no: "", // 出厂货号
+          startTime: "", // 开始时间
+          endTime: "", // 结束时间
+          isUpInsetImg: true // 是否有图片
+        });
+      }
     },
     handleChange() {
       console.log(123);
     }
   },
-  mounted() {}
+  mounted() {},
+  beforeDestroy() {
+    this.$store.commit("handlerSearchForm", {
+      // 产品搜索表单
+      keyword: "", // 关键字
+      name: "", // 产品名称
+      ch_pa: "", // 包装方式
+      minPrice: "", // 最低价格
+      maxPrice: "", // 最高价格
+      pr_le: "", // 产品规格 长
+      pr_wi: "", // 产品规格 宽
+      pr_hi: "", // 产品规格 高
+      ou_le: "", // 外箱规格 长
+      ou_wi: "", // 外箱规格 宽
+      ou_hi: "", // 外箱规格 高
+      in_le: "", // 包装规格 长
+      in_wi: "", // 包装规格 长
+      in_hi: "", // 包装规格 长
+      fa_no: "", // 出厂货号
+      startTime: "", // 开始时间
+      endTime: "", // 结束时间
+      isUpInsetImg: true // 是否有图片
+    });
+  }
 };
 </script>
 

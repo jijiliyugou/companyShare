@@ -1,5 +1,5 @@
 <template>
-  <div class="item"  @click.stop="toDetails(item)">
+  <div class="item" @click.stop="toDetails(item)">
     <div class="left">
       <div class="imgBox">
         <el-image :src="item.imageUrls && item.imageUrls[0]"> </el-image>

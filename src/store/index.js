@@ -33,6 +33,10 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    handlerSearchDate(state, payLoad) {
+      state.searchForm.startTime = payLoad.startTime;
+      state.searchForm.endTime = payLoad.endTime;
+    },
     setLang(state, payLoad) {
       state.globalLang = payLoad;
     },

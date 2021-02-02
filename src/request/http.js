@@ -104,6 +104,7 @@ myAxios.install = function(Vue) {
     },
     error => {
       if (error.response) {
+        $Store.commit("handlerAppLoading", false);
         Message.closeAll();
         Message.error(
           `请求失败${error.response.statusText},${error.response.status}，请联系管理员`

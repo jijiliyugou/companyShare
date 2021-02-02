@@ -129,8 +129,7 @@ export default {
           name: "English",
           value: "en"
         }
-      ],
-      searchValue: ""
+      ]
     };
   },
   mounted() {
@@ -143,6 +142,7 @@ export default {
     },
     // 搜索产品
     search() {
+      console.log(this.$route.path.includes("/index/product"));
       if (!this.$route.path.includes("/index/product"))
         this.$router.push("/index/product?productType=1");
       else this.$root.eventHub.$emit("resetProducts");

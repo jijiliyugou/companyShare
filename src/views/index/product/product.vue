@@ -3,18 +3,26 @@
     <div class="productList">
       <div class="filterBar">
         <div class="left">
-          <div class="dateBox" @click="isShowDate = !isShowDate">
+          <div
+            :class="{ dateBox: true, active: sortOrder === 2 }"
+            @click="sortDate(2)"
+          >
             <span>{{ productLang.data }}</span>
             <span style="margin-left:10px;">
-              <i class="el-icon-arrow-down" v-show="isShowDate"></i>
-              <i class="el-icon-arrow-up" v-show="!isShowDate"></i>
+              <i v-show="isDate === 0" class="el-icon-d-caret"></i>
+              <i class="el-icon-caret-bottom" v-show="isDate === 1"></i>
+              <i v-show="isDate === 2" class="el-icon-caret-top"></i>
             </span>
           </div>
-          <div class="priceBox" @click="isShowPrice = !isShowPrice">
+          <div
+            :class="{ priceBox: true, active: sortOrder === 1 }"
+            @click="sortPrice(1)"
+          >
             <span>{{ productLang.price }}</span>
             <span style="margin-left:10px;">
-              <i class="el-icon-arrow-down" v-show="isShowPrice"></i>
-              <i class="el-icon-arrow-up" v-show="!isShowPrice"></i>
+              <i v-show="isPrice === 0" class="el-icon-d-caret"></i>
+              <i v-show="isPrice === 1" class="el-icon-caret-bottom"></i>
+              <i v-show="isPrice === 2" class="el-icon-caret-top"></i>
             </span>
           </div>
         </div>
@@ -82,8 +90,9 @@ export default {
   },
   data() {
     return {
-      isShowDate: false,
-      isShowPrice: false,
+      isDate: 0,
+      isPrice: 0,
+      sortOrder: 0,
       isThumbnail: "thumbnailProducts",
       pageSize: 8,
       currentPage: 1,
@@ -92,10 +101,30 @@ export default {
     };
   },
   methods: {
+    // 时间排序
+    sortDate(number) {
+      this.sortOrder = number;
+      this.sortType = this.isDate =
+        this.isDate === 0 ? 1 : this.isDate === 1 ? 2 : 0;
+      if (this.isDate === 0) this.sortOrder = 0;
+      this.isPrice = 0;
+      this.getSearchCompanyShareProductPage();
+    },
+    // 价格排序
+    sortPrice(number) {
+      this.sortOrder = number;
+      this.sortType = this.isPrice =
+        this.isPrice === 0 ? 1 : this.isPrice === 1 ? 2 : 0;
+      if (this.isPrice === 0) this.sortOrder = 0;
+      this.isDate = 0;
+      this.getSearchCompanyShareProductPage();
+    },
     // 获取产品列表
     async getSearchCompanyShareProductPage() {
       const fd = {
         ...this.searchForm,
+        sortOrder: this.sortOrder,
+        sortType: this.sortType,
         productType: this.$route.query.productType,
         pageIndex: this.currentPage,
         pageSize: this.pageSize
@@ -123,10 +152,6 @@ export default {
         this.productList = data.items;
         this.totalCount = data.totalCount;
       } else this.$message.error(message);
-      this.$root.eventHub.$on("resetProducts", () => {
-        this.currentPage = 1;
-        this.getSearchCompanyShareProductPage();
-      });
     },
     // 加购事件
     hanldlerShopping(item) {
@@ -155,7 +180,12 @@ export default {
   created() {
     this.getSearchCompanyShareProductPage();
   },
-  mounted() {},
+  mounted() {
+    this.$root.eventHub.$on("resetProducts", () => {
+      this.currentPage = 1;
+      this.getSearchCompanyShareProductPage();
+    });
+  },
   computed: {
     productLang() {
       return this.$t("lang.product");
@@ -194,9 +224,15 @@ export default {
         .priceBox {
           cursor: pointer;
           margin-left: 40px;
+          &.active {
+            color: #165af7;
+          }
         }
         .dateBox {
           cursor: pointer;
+          &.active {
+            color: #165af7;
+          }
         }
       }
       .right {
