@@ -300,12 +300,15 @@ export default {
     // 形成订单
     async submitOrder() {
       const selectProducts = this.$refs.multipleTable.selection;
+      console.log(selectProducts);
       this.formInfo.shareOrderDetails = selectProducts.map(val => {
         return {
           productNumber: val.productNumber,
           productName: val.name,
           productPrice: val.price,
           productCount: val.shoppingCount,
+          productFeet: val.outerBoxFeet,
+          productStere: val.outerBoxStere,
           productImage: val.imageUrls[0]
         };
       });
@@ -405,6 +408,7 @@ export default {
           align-items: center;
           justify-content: space-evenly;
           .totalVolume {
+            margin-left: 10px;
             display: flex;
             align-items: center;
             white-space: nowrap;
