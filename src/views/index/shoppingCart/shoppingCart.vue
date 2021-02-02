@@ -67,7 +67,7 @@
         >
           <template slot-scope="scope">
             {{ scope.row.outerBoxStere }}(cbm)
-            {{ scope.row.outerBoxFeet }} (cuft)
+            {{ scope.row.outerBoxFeet }}(cuft)
           </template>
         </el-table-column>
         <el-table-column
@@ -78,6 +78,7 @@
           <template slot-scope="scope">
             <!-- :controls="false" -->
             <el-input-number
+              @change="changeInputNumber"
               size="mini"
               v-model="scope.row.shoppingCount"
               :min="1"
@@ -94,7 +95,7 @@
             <div class="tablePrice">
               USD
               <span class="price">{{
-                scope.row.price * scope.row.shoppingCount
+                multiply(scope.row.price, scope.row.shoppingCount)
               }}</span>
             </div>
           </template>
@@ -169,8 +170,17 @@
             "
             class="submitBtn"
             @click="submitOrder"
-            >{{ myShoppingCartLang.submit }}</el-button
-          >
+            >{{ myShoppingCartLang.submit
+            }}<span
+              v-if="
+                $refs.multipleTable && $refs.multipleTable.selection.length > 0
+              "
+            >
+              ({{
+                $refs.multipleTable && $refs.multipleTable.selection.length
+              }})
+            </span>
+          </el-button>
         </div>
       </div>
     </div>
@@ -300,7 +310,6 @@ export default {
     // 形成订单
     async submitOrder() {
       const selectProducts = this.$refs.multipleTable.selection;
-      console.log(selectProducts);
       this.formInfo.shareOrderDetails = selectProducts.map(val => {
         return {
           productNumber: val.productNumber,
@@ -326,14 +335,16 @@ export default {
     },
     // 删除购物车中的某项
     handleDelete(row) {
-      // console.log(row);
       this.$store.commit("popShopping", row);
     },
     // 计算总价
     myTotalPrice(list) {
       let price = 0;
       for (let i = 0; i < list.length; i++) {
-        price += this.multiply(list[i].price, list[i].shoppingCount);
+        price = this.add(
+          price,
+          this.multiply(list[i].price, list[i].shoppingCount)
+        );
       }
       return price;
     },
@@ -342,16 +353,20 @@ export default {
       let outerBoxStere = 0,
         outerBoxFeet = 0;
       for (let i = 0; i < list.length; i++) {
-        outerBoxStere += this.multiply(
-          list[i].outerBoxStere,
-          list[i].shoppingCount
+        outerBoxStere = this.add(
+          outerBoxStere,
+          this.multiply(list[i].outerBoxStere, list[i].shoppingCount)
         );
-        outerBoxFeet += this.multiply(
-          list[i].outerBoxFeet,
-          list[i].shoppingCount
+        outerBoxFeet = this.add(
+          outerBoxFeet,
+          this.multiply(list[i].outerBoxFeet, list[i].shoppingCount)
         );
       }
       return outerBoxStere + "(cbm)" + outerBoxFeet + "(cuft)";
+    },
+    // 修改购物车数量
+    changeInputNumber() {
+      this.$store.commit("replaceShoppingCart", this.shoppingList);
     }
   },
   created() {},

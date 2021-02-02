@@ -215,7 +215,7 @@ export default {
       // 设置放大图片的宽高(图片的放大倍数)
       $(".right_contanier .big_img").css({
         width: imgWidth * this.zoom,
-        height: imgWidth * this.zoom
+        height: this.middleImgHeight * this.zoom
       });
     });
   },
@@ -368,7 +368,7 @@ export default {
   height: 100%;
 }
 .left_contaner .middle_img {
-  border: 1px solid #ccc;
+  border: 1px solid #d2d2d2;
   box-sizing: border-box;
   position: relative;
 }
@@ -447,6 +447,7 @@ export default {
   position: absolute;
   top: 0;
   border: 1px solid #eee;
+  /* border: 1px solid #d2d2d2; */
 }
 .right_contanier .big_img {
   position: absolute;

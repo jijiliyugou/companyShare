@@ -34,6 +34,7 @@
             </div>
             <div class="myInput">
               <el-input
+                @keyup.enter.native="search"
                 :placeholder="advancedSearchLang.pleaseInputTheContent"
                 v-model="searchForm.ch_pa"
                 clearable
@@ -63,12 +64,14 @@
                   <div class="myInput">
                     <el-input
                       :placeholder="advancedSearchLang.miniPrice"
+                      @keyup.enter.native="search"
                       v-model="searchForm.minPrice"
                     >
                     </el-input>
                     <span class="middleLine">-</span>
                     <el-input
                       :placeholder="advancedSearchLang.maxPrice"
+                      @keyup.enter.native="search"
                       v-model="searchForm.maxPrice"
                     >
                     </el-input>
@@ -82,18 +85,21 @@
                   <div class="myInput">
                     <el-input
                       :placeholder="advancedSearchLang.long"
+                      @keyup.enter.native="search"
                       v-model="searchForm.in_le"
                     >
                     </el-input>
                     <span class="middleLine">-</span>
                     <el-input
                       :placeholder="advancedSearchLang.width"
+                      @keyup.enter.native="search"
                       v-model="searchForm.in_wi"
                     >
                     </el-input>
                     <span class="middleLine">-</span>
                     <el-input
                       :placeholder="advancedSearchLang.height"
+                      @keyup.enter.native="search"
                       v-model="searchForm.in_hi"
                     >
                     </el-input>
@@ -111,18 +117,21 @@
                   <div class="myInput">
                     <el-input
                       :placeholder="advancedSearchLang.long"
+                      @keyup.enter.native="search"
                       v-model="searchForm.pr_le"
                     >
                     </el-input>
                     <span class="middleLine">-</span>
                     <el-input
                       :placeholder="advancedSearchLang.width"
+                      @keyup.enter.native="search"
                       v-model="searchForm.pr_wi"
                     >
                     </el-input>
                     <span class="middleLine">-</span>
                     <el-input
                       :placeholder="advancedSearchLang.height"
+                      @keyup.enter.native="search"
                       v-model="searchForm.pr_hi"
                     >
                     </el-input>
@@ -138,6 +147,7 @@
                   <div class="myInput">
                     <el-input
                       :placeholder="advancedSearchLang.long"
+                      @keyup.enter.native="search"
                       v-model="searchForm.fa_no"
                     >
                     </el-input>
@@ -153,18 +163,21 @@
                   <div class="myInput">
                     <el-input
                       :placeholder="advancedSearchLang.long"
+                      @keyup.enter.native="search"
                       v-model="searchForm.ou_le"
                     >
                     </el-input>
                     <span class="middleLine">-</span>
                     <el-input
                       :placeholder="advancedSearchLang.width"
+                      @keyup.enter.native="search"
                       v-model="searchForm.ou_wi"
                     >
                     </el-input>
                     <span class="middleLine">-</span>
                     <el-input
                       :placeholder="advancedSearchLang.height"
+                      @keyup.enter.native="search"
                       v-model="searchForm.ou_hi"
                     >
                     </el-input>
@@ -181,7 +194,6 @@
                     <el-select
                       v-model="datetime"
                       @change="getDateList"
-                      size="mini"
                       placeholder="全部"
                     >
                       <el-option
@@ -304,10 +316,9 @@ export default {
     },
     // 高级搜索
     search() {
-      console.log(this.searchForm);
-      if (!this.$route.path.includes("/index/product"))
-        this.$router.push("/index/product?productType=1");
-      else this.$root.eventHub.$emit("resetProducts");
+      if (this.$route.path.includes("/index/product"))
+        this.$root.eventHub.$emit("resetProducts");
+      else this.$router.push("/index/product?productType=1");
     },
     toLogin() {
       // this.$router.push({ path: '/login', query: { id: 'suo' }})

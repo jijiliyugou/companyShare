@@ -3,6 +3,7 @@
     <div class="topLauot">
       <div class="left">
         <el-image
+          @click.native="tohome"
           width="55px"
           height="60px"
           :src="require('@/assets/images/hallLogoImg.png')"
@@ -136,16 +137,20 @@ export default {
     this.initLang();
   },
   methods: {
+    // 去首页
+    tohome() {
+      if (this.$route.path.includes("/index/home")) return false;
+      else this.$router.push("/index/home");
+    },
     // 修改搜索内容
     handlerSearchForms() {
       this.$store.commit("handlerSearchForm", this.searchForm);
     },
     // 搜索产品
     search() {
-      console.log(this.$route.path.includes("/index/product"));
-      if (!this.$route.path.includes("/index/product"))
-        this.$router.push("/index/product?productType=1");
-      else this.$root.eventHub.$emit("resetProducts");
+      if (this.$route.path.includes("/index/product"))
+        this.$root.eventHub.$emit("resetProducts");
+      else this.$router.push("/index/product?productType=1");
     },
     // 初始化语言
     initLang() {
@@ -177,7 +182,14 @@ export default {
     },
     // 打开图搜
     openUpload() {
-      console.log(123);
+      this.$confirm("敬请期待！！！", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+        center: true
+      }).catch(err => {
+        console.log(err);
+      });
     }
   }
 };
@@ -199,6 +211,9 @@ export default {
       flex: 1;
       display: flex;
       align-items: center;
+      .el-image {
+        cursor: pointer;
+      }
       .leftTitleText {
         margin-left: 20px;
       }

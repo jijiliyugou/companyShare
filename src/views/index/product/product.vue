@@ -92,7 +92,7 @@ export default {
     return {
       isDate: 0,
       isPrice: 0,
-      sortOrder: 0,
+      sortOrder: "",
       isThumbnail: "thumbnailProducts",
       pageSize: 8,
       currentPage: 1,
@@ -106,7 +106,7 @@ export default {
       this.sortOrder = number;
       this.sortType = this.isDate =
         this.isDate === 0 ? 1 : this.isDate === 1 ? 2 : 0;
-      if (this.isDate === 0) this.sortOrder = 0;
+      if (this.isDate === 0) this.sortOrder = "";
       this.isPrice = 0;
       this.getSearchCompanyShareProductPage();
     },
@@ -115,7 +115,7 @@ export default {
       this.sortOrder = number;
       this.sortType = this.isPrice =
         this.isPrice === 0 ? 1 : this.isPrice === 1 ? 2 : 0;
-      if (this.isPrice === 0) this.sortOrder = 0;
+      if (this.isPrice === 0) this.sortOrder = "";
       this.isDate = 0;
       this.getSearchCompanyShareProductPage();
     },

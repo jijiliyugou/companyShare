@@ -2,26 +2,28 @@
   <div class="footBox">
     <div class="footWrap">
       <div class="item">
-        Shantou Qunsheng Toys Co., Ltd
+        {{ userInfo.companyName }}
       </div>
       <div class="item">
-        Tel: 85800403 Mobile: 13556449083 e-mail: icy@qstoys.com.cn
+        Tel: {{ userInfo.companyTel }} Mobile:
+        {{ userInfo.companyPhoneNumber }} e-mail: {{ userInfo.companyEmail }}
       </div>
-      <div class="item">
-        Address: 6th floor, Jiayuan supermarket, Dengfeng Road, Chenghai
-        District, Shantou City, Guangdong Province
-      </div>
+      <div class="item">Address: {{ userInfo.companyAddress }}</div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {};
   },
   methods: {},
-  mounted() {}
+  mounted() {},
+  computed: {
+    ...mapState(["userInfo"])
+  }
 };
 </script>
 

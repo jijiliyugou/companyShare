@@ -49,6 +49,9 @@ export default new Vuex.Store({
     handlerSearchForm(state, payLoad) {
       state.searchForm = payLoad;
     },
+    replaceShoppingCart(state, payLoad) {
+      state.shoppingList = payLoad;
+    },
     resetShoppingCart(state, payLoad) {
       for (let i = 0; i < state.shoppingList.length; i++) {
         for (let j = 0; j < payLoad.length; j++) {

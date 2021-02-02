@@ -14,7 +14,7 @@
               {{ myOrderLang.oddNumbers }}：
               <span class="value">{{ item.orderNumber }}</span>
             </div>
-            <div class="right">
+            <div class="right" @click="exportOrder">
               <i class="iconfont icon-daochujinruchukou"></i>
               {{ myOrderLang.exportOrder }}
             </div>
@@ -88,6 +88,17 @@ export default {
     };
   },
   methods: {
+    // 导出功能
+    exportOrder() {
+      this.$confirm("敬请期待！！！", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+        center: true
+      }).catch(err => {
+        console.log(err);
+      });
+    },
     // 获取订单列表
     async getSearchShareOrdersPage() {
       const res = await this.$http.get(
@@ -102,7 +113,6 @@ export default {
           }
         }
       );
-      console.log(res);
       const { code, data, message } = res.data.result;
       if (code === 200) {
         this.orderList = data.items;
