@@ -9,9 +9,9 @@
     <router-view />
     <!-- 漂浮物 -->
     <div class="cartBox" v-if="$route.path !== '/login'">
-      <div class="cart">
+      <div class="cart" @click="toMyShoppingCart">
         <div class="cartIconBox">
-          <el-badge :value="12" class="item">
+          <el-badge :value="shoppingList.length" class="item">
             <i class="cartIcon"></i>
           </el-badge>
         </div>
@@ -23,11 +23,20 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
   methods: {
+    // 回到顶部
     toTop() {
       $("#app").animate({ scrollTop: 0 }, 100);
+    },
+    // 去购物车
+    toMyShoppingCart() {
+      this.$router.push("/index/shoppingCart");
     }
+  },
+  computed: {
+    ...mapState(["shoppingList"])
   }
 };
 </script>

@@ -42,8 +42,13 @@ export default {
     // 加购事件
     hanldlerShopping(item) {
       item.isShopping = !item.isShopping;
-      if (item.isShopping) this.$store.commit("pushShopping", item);
-      else this.$store.commit("popShopping", item);
+      if (item.isShopping) {
+        item.shoppingCount = 1;
+        this.$store.commit("pushShopping", item);
+      } else {
+        item.shoppingCount = 0;
+        this.$store.commit("popShopping", item);
+      }
       this.$root.eventHub.$emit("resetCompanyShareIndex");
     },
     // 查看更多

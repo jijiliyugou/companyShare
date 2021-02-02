@@ -3,16 +3,17 @@
     <div class="myCartBoX">
       <div class="wrapTitle">
         {{ myShoppingCartLang.myShoppingCart }}
-        <span class="email">（onon@163.com）</span>
+        <span class="email" v-if="userInfo.email"
+          >（{{ userInfo.email }}）</span
+        >
       </div>
       <el-table
         :header-cell-style="{ backgroundColor: '#F5F5F5', color: '#666' }"
-        :data="tableList"
+        :data="shoppingList"
         id="myTable"
         ref="multipleTable"
         size="medium"
         tooltip-effect="dark"
-        @selection-change="handleSelectionChange"
         highlight-current-row
       >
         <el-table-column
@@ -21,15 +22,14 @@
           align="center"
         ></el-table-column>
         <el-table-column
-          prop="img"
+          prop="imageUrls"
           :label="myShoppingCartLang.commodity"
           align="center"
         >
           <template slot-scope="scope">
             <el-image
               style="width: 100px; height: 70px"
-              :src="scope.row.img"
-              :preview-src-list="[scope.row.img]"
+              :src="scope.row.imageUrls[0]"
             >
               <div slot="placeholder" class="image-slot">
                 <img
@@ -51,25 +51,34 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="the_nu"
+          prop="price"
           :label="myShoppingCartLang.unitPrice"
           align="center"
-        ></el-table-column>
+        >
+          <template slot-scope="scope">
+            USD <span style="margin-left:5px;">{{ scope.row.price }}</span>
+          </template>
+        </el-table-column>
         <el-table-column
           prop="volume"
           :label="myShoppingCartLang.volume"
           align="center"
-        ></el-table-column>
+        >
+          <template slot-scope="scope">
+            {{ scope.row.outerBoxStere }}(cbm)
+            {{ scope.row.outerBoxFee }} (cuft)
+          </template>
+        </el-table-column>
         <el-table-column
           prop="number"
           :label="myShoppingCartLang.number"
           align="center"
         >
           <template slot-scope="scope">
+            <!-- :controls="false" -->
             <el-input-number
-              :controls="false"
               size="mini"
-              v-model="scope.row.number"
+              v-model="scope.row.shoppingCount"
               :min="1"
               :max="99999"
             ></el-input-number>
@@ -83,33 +92,42 @@
           <template slot-scope="scope">
             <div class="tablePrice">
               USD
-              <span class="price">{{ scope.row.total }}</span>
+              <span class="price">{{
+                scope.row.price * scope.row.shoppingCount
+              }}</span>
             </div>
           </template>
         </el-table-column>
         <el-table-column :label="myShoppingCartLang.operation" align="center">
           <template slot-scope="scope">
-            <i
-              class="el-icon-close deleteIcon"
-              @click.stop="deleteRow(scope.row)"
-            ></i>
+            <el-popconfirm
+              class="deleteBtn"
+              title="确定要删除此产品吗？"
+              @confirm="handleDelete(scope.row)"
+            >
+              <i slot="reference" class="el-icon-close deleteIcon"></i>
+            </el-popconfirm>
           </template>
         </el-table-column>
       </el-table>
       <div class="statisticsBox">
         <div class="totalBox">
           <div class="left"></div>
-          <div class="middle">{{ myShoppingCartLang.totalQuantity }}：3</div>
+          <div class="middle">
+            {{ myShoppingCartLang.totalQuantity }}：{{ shoppingList.length }}
+          </div>
           <div class="right">
             <div class="totalVolume">
-              {{ myShoppingCartLang.totalVolume }}：<span class="changeColor"
-                >0.000cbm 0.000cuft</span
-              >
+              {{ myShoppingCartLang.totalVolume }}：
+              <span class="changeColor">
+                {{ shoppingList | myTotalVolume }}
+              </span>
             </div>
             <div class="totalPrice">
-              {{ myShoppingCartLang.totalPrice }}: USD<span class="price"
-                >294.000</span
-              >
+              {{ myShoppingCartLang.totalPrice }}: USD
+              <span class="price">
+                {{ shoppingList | myTotalPrice }}
+              </span>
             </div>
           </div>
         </div>
@@ -124,26 +142,34 @@
               <div class="wrapBox">
                 <div class="left">
                   <el-form-item :label="myShoppingCartLang.companyName">
-                    <el-input v-model="formInfo.name"></el-input>
+                    <el-input v-model="formInfo.companyName"></el-input>
                   </el-form-item>
                 </div>
                 <div class="right">
                   <el-form-item :label="myShoppingCartLang.contact">
-                    <el-input v-model="formInfo.region"></el-input>
+                    <el-input v-model="formInfo.contactName"></el-input>
                   </el-form-item>
                   <el-form-item :label="myShoppingCartLang.email">
-                    <el-input v-model="formInfo.type"></el-input>
+                    <el-input v-model="formInfo.email"></el-input>
                   </el-form-item>
                 </div>
               </div>
               <el-form-item :label="myShoppingCartLang.remark">
-                <el-input v-model="formInfo.name"></el-input>
+                <el-input v-model="formInfo.remark"></el-input>
               </el-form-item>
             </el-form>
           </div>
         </div>
         <div class="submitBox">
-          <el-button type="warning" class="submitBtn">Submit</el-button>
+          <el-button
+            type="warning"
+            :disabled="
+              $refs.multipleTable && $refs.multipleTable.selection.length < 1
+            "
+            class="submitBtn"
+            @click="submitOrder"
+            >{{ myShoppingCartLang.submit }}</el-button
+          >
         </div>
       </div>
     </div>
@@ -151,11 +177,20 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   components: {},
   data() {
     return {
-      formInfo: {},
+      formInfo: {
+        companyNumber: "",
+        loginEmail: "",
+        companyName: "",
+        contactName: "",
+        email: "",
+        remark: "",
+        shareOrderDetails: []
+      },
       tableList: [
         {
           id: 0,
@@ -169,15 +204,64 @@ export default {
     };
   },
   methods: {
-    handleSelectionChange(val) {
-      this.multipleSelection = val;
+    // 形成订单
+    async submitOrder() {
+      const selectProducts = this.$refs.multipleTable.selection;
+      this.formInfo.shareOrderDetails = selectProducts.map(val => {
+        return {
+          productNumber: val.productNumber,
+          productName: val.name,
+          productPrice: val.price,
+          productCount: val.shoppingCount,
+          productImage: val.imageUrls[0]
+        };
+      });
+      const res = await this.$http.post(
+        "/api/WebsiteShare/CreateShareOrder",
+        this.formInfo
+      );
+      const { code, message } = res.data.result;
+      if (code === 200) {
+        this.$store.commit("resetShoppingCart", selectProducts);
+        this.$message.success("提交订单成功");
+      } else {
+        this.$message.error(message);
+      }
+    },
+    // 删除购物车中的某项
+    handleDelete(row) {
+      // console.log(row);
+      this.$store.commit("popShopping", row);
     }
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.formInfo.companyNumber = this.userInfo.companyNumber;
+    this.formInfo.loginEmail = this.userInfo.email;
+  },
   computed: {
     myShoppingCartLang() {
       return this.$t("lang.myShoppingCart");
+    },
+    ...mapState(["userInfo"]),
+    ...mapState(["shoppingList"])
+  },
+  filters: {
+    myTotalPrice(list) {
+      let price = 0;
+      for (let i = 0; i < list.length; i++) {
+        price += list[i].price * list[i].shoppingCount;
+      }
+      return price;
+    },
+    myTotalVolume(list) {
+      let outerBoxStere = 0,
+        outerBoxFee = 0;
+      for (let i = 0; i < list.length; i++) {
+        outerBoxStere += list[i].outerBoxStere * list[i].shoppingCount;
+        outerBoxFee += list[i].outerBoxFee * list[i].shoppingCount;
+      }
+      return outerBoxStere + "(cbm)" + outerBoxFee + "(cuft)";
     }
   }
 };
@@ -221,12 +305,23 @@ export default {
           align-items: center;
           justify-content: space-evenly;
           .totalVolume {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
             .changeColor {
               color: #ff760e;
               font-size: 18px;
             }
           }
           .totalPrice {
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
             .price {
               color: #ff760e;
               font-size: 24px;

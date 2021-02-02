@@ -157,9 +157,11 @@ export default {
     hanldlerShopping(item) {
       item.isShopping = !item.isShopping;
       if (item.isShopping) {
+        item.shoppingCount = 1;
         this.$store.commit("pushShopping", item);
         this.$message.success("加购成功");
       } else {
+        item.shoppingCount = 0;
         this.$store.commit("popShopping", item);
         this.$message.success("取消成功");
       }

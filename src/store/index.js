@@ -49,6 +49,15 @@ export default new Vuex.Store({
     handlerSearchForm(state, payLoad) {
       state.searchForm = payLoad;
     },
+    resetShoppingCart(state, payLoad) {
+      for (let i = 0; i < state.shoppingList.length; i++) {
+        for (let j = 0; j < payLoad.length; j++) {
+          if (state.shoppingList[i].id === payLoad[j].id) {
+            state.shoppingList.splice(i, 1);
+          }
+        }
+      }
+    },
     popShopping(state, payLoad) {
       for (let i = 0; i < state.shoppingList.length; i++) {
         if (state.shoppingList[i].id === payLoad.id)
