@@ -26,7 +26,7 @@
                 <div class="keys">{{ myOrderLang.companyName }}：</div>
               </div>
               <div class="right">
-                <div class="values">{{ item.createdOn }}</div>
+                <div class="values">{{ item.createdOn.replace(/T/, " ") }}</div>
                 <div class="values">{{ item.companyName }}</div>
               </div>
             </div>

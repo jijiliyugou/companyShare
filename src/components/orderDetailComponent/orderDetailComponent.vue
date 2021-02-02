@@ -33,7 +33,9 @@
             <div class="keys"></div>
           </div>
           <div class="right">
-            <div class="values">{{ orderInfo.createdOn }}</div>
+            <div class="values">
+              {{ orderInfo.createdOn.replace(/T/, " ") }}
+            </div>
             <div class="values">{{ orderInfo.contactName }}</div>
             <div class="values"></div>
           </div>
@@ -130,7 +132,7 @@
             <template slot-scope="scope">
               <div class="tablePrice">
                 USD
-                <span class="price">{{ scope.row.total }}</span>
+                <span class="price">{{ scope.row.totalPrice }}</span>
               </div>
             </template>
           </el-table-column>

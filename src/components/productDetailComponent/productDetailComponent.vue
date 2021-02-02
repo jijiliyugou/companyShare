@@ -80,13 +80,13 @@
       </div>
     </div>
     <!-- 相关产品 -->
-    <!-- <relatedProducts /> -->
+    <relatedProducts />
   </div>
 </template>
 
 <script>
 import magnifierComponent from "@/components/magnifierComponent/magnifierComponent.vue";
-// import relatedProducts from "@/components/relatedProducts/relatedProducts.vue";
+import relatedProducts from "@/components/relatedProducts/relatedProducts.vue";
 export default {
   props: {
     item: {
@@ -94,8 +94,8 @@ export default {
     }
   },
   components: {
-    magnifierComponent
-    // relatedProducts
+    magnifierComponent,
+    relatedProducts
   },
   data() {
     return {};
