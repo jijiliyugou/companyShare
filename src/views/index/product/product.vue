@@ -129,7 +129,6 @@ export default {
         pageIndex: this.currentPage,
         pageSize: this.pageSize
       };
-      console.log(fd);
       for (const key in fd) {
         if (fd[key] === null || fd[key] === undefined || fd[key] === "") {
           delete fd[key];

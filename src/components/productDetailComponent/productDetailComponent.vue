@@ -104,7 +104,6 @@ export default {
     // 加购
     handlerShopping(item) {
       item.isShopping = !item.isShopping;
-      console.log(item);
       if (item.isShopping) {
         item.shoppingCount = 1;
         this.$store.commit("pushShopping", item);

@@ -343,7 +343,6 @@ export default {
   },
   created() {
     this.orderInfo = JSON.parse(this.item);
-    console.log(this.orderInfo);
   },
   mounted() {
     this.getSearchShareOrderDetailsPage();

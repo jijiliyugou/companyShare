@@ -312,7 +312,6 @@ export default {
         };
         this.$store.commit("handlerSearchDate", fd);
       }
-      console.log(this.searchForm);
     },
     // 高级搜索
     search() {
@@ -349,9 +348,6 @@ export default {
           isUpInsetImg: true // 是否有图片
         });
       }
-    },
-    handleChange() {
-      console.log(123);
     }
   },
   mounted() {},

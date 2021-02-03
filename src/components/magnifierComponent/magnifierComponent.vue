@@ -277,13 +277,11 @@ export default {
         left: -x * xRate,
         top: -y * yRate
       });
-      // console.log(e, x, y, xRate, yRate, 66677)
     },
     // 鼠标移入阴影,去除自定义事件
     shadeMouseOver(e) {
       e.preventDefault();
       e.stopPropagation();
-      // console.log(88888, e)
     },
     // 图片移出隐藏阴影和大图
     boxMouseLeave() {
