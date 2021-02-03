@@ -27,6 +27,7 @@
             <el-form-item prop="verifyCode" :label="loginLang.InvitationCode">
               <el-input
                 v-model="formLabelAlign.verifyCode"
+                @keyup.native.enter="toHome"
                 clearable
               ></el-input>
             </el-form-item>

@@ -6,9 +6,11 @@
           @click.native="tohome"
           width="55px"
           height="60px"
-          :src="require('@/assets/images/hallLogoImg.png')"
+          :src="userInfo && userInfo.companyLogo"
         ></el-image>
-        <text class="leftTitleText">{{ homeLang.PreferredToys }}</text>
+        <span class="leftTitleText">{{
+          userInfo && userInfo.companyName
+        }}</span>
       </div>
       <div class="right">
         <div class="myInput">
@@ -114,7 +116,8 @@ export default {
     homeLang() {
       return this.$t("lang.home");
     },
-    ...mapState(["searchForm"])
+    ...mapState(["searchForm"]),
+    ...mapState(["userInfo"])
   },
   data() {
     return {
@@ -123,7 +126,7 @@ export default {
       },
       langs: [
         {
-          name: "中文",
+          name: "简体中文",
           value: "zh-CN"
         },
         {
@@ -134,6 +137,11 @@ export default {
     };
   },
   mounted() {
+    // var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+    // link.type = 'image/x-icon';
+    // link.rel = 'shortcut icon';
+    // link.href = 'http://www.stackoverflow.com/favicon.ico';
+    // document.getElementsByTagName('head')[0].appendChild(link);
     this.initLang();
   },
   methods: {
@@ -157,7 +165,7 @@ export default {
       switch (this.$store.state.globalLang) {
         case "zh-CN":
           this.currentLang = {
-            name: "中文",
+            name: "简体中文",
             value: "zh-CN"
           };
           break;
@@ -213,9 +221,25 @@ export default {
       align-items: center;
       .el-image {
         cursor: pointer;
+        width: 55px;
+        height: 60px;
+        img {
+          width: 55px;
+          height: 60px;
+        }
       }
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       .leftTitleText {
+        max-width: 500px;
+        font-size: 36px;
+        font-weight: bold;
+        color: #333333;
         margin-left: 20px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .langBox {
         margin-left: 46px;

@@ -3,13 +3,18 @@
     <div class="content">
       <div class="title">
         <span class="titleText">{{ productLang.relatedProducts }}</span>
-        <span class="more"
+        <span class="more" @click="toProductList"
           >{{ productLang.more }}
           <i class="icon el-icon-d-arrow-right"></i>
         </span>
       </div>
       <div class="productsBox">
-        <gonggeProductItem v-for="item in 8" :key="item" :item="item" />
+        <gonggeProductItem
+          @hanldlerShopping="hanldlerShopping(item)"
+          v-for="(item, i) in productList"
+          :key="i"
+          :item="item"
+        />
         <div class="kong"></div>
         <div class="kong"></div>
         <div class="kong"></div>
@@ -20,18 +25,96 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import gonggeProductItem from "@/components/gonggeProductItem/gonggeProductItem.vue";
 export default {
   components: {
     gonggeProductItem
   },
+  props: {
+    keyword: {
+      type: String
+    }
+  },
   data() {
-    return {};
+    return {
+      productList: [],
+      totalCount: 0
+    };
+  },
+  methods: {
+    filterShopping(products) {
+      for (let i = 0; i < products.length; i++) {
+        for (let j = 0; j < this.shoppingList.length; j++) {
+          if (products[i].id === this.shoppingList[j].id)
+            products[i].isShopping = true;
+        }
+      }
+    },
+    // 加购事件
+    hanldlerShopping(item) {
+      item.isShopping = item.isShopping ? false : true;
+      if (item.isShopping) {
+        item.shoppingCount = 1;
+        this.$store.commit("pushShopping", item);
+      } else {
+        item.shoppingCount = 0;
+        this.$store.commit("popShopping", item);
+      }
+      this.filterShopping(this.productList);
+      // for (let i = 0; i < this.productList.length; i++) {
+      //   for (let j = 0; j < this.shoppingList.length; j++) {
+      //     if (this.productList[i].id === this.shoppingList[j].id)
+      //       this.productList[i].isShopping = true;
+      //   }
+      // }
+      // this.productList = [...this.productList];
+      this.getSearchCompanyShareProductPage();
+      // this.$root.eventHub.$emit("resetCompanyShareIndex");
+    },
+    // 查看更多相关产品
+    toProductList() {
+      this.$router.push("/index/product?productType=1");
+    },
+    // 获取相关产品
+    async getSearchCompanyShareProductPage() {
+      const fd = {
+        keyword:
+          this.keyword.length > 3 ? this.keyword.substring(0, 3) : this.keyword,
+        isUpInsetImg: true,
+        productType: 1,
+        pageIndex: 1,
+        pageSize: 8
+      };
+      const res = await this.$http.get(
+        "/api/WebsiteShare/SearchCompanyShareProductPage",
+        {
+          params: fd
+        }
+      );
+      const { data, code, message } = res.data.result;
+      if (code === 200) {
+        // for (let i = 0; i < data.items.length; i++) {
+        //   for (let j = 0; j < this.shoppingList.length; j++) {
+        //     if (data.items[i].id === this.shoppingList[j].id)
+        //       data.items[i].isShopping = true;
+        //   }
+        // }
+        this.filterShopping(data.items);
+        this.productList = data.items;
+        this.totalCount = data.totalCount;
+        // console.log(this.productList);
+      } else this.$message.error(message);
+    }
+  },
+  mounted() {
+    this.getSearchCompanyShareProductPage();
   },
   computed: {
     productLang() {
       return this.$t("lang.product");
-    }
+    },
+    ...mapState(["shoppingList"])
   }
 };
 </script>

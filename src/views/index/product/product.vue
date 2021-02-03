@@ -52,7 +52,7 @@
       <div class="productListWrap">
         <div class="number">
           {{ productLang.numberOfProducts }}
-          <span style="margin-left:10px;color:#FF760E;">912864</span>
+          <span style="margin-left:10px;color:#FF760E;">{{ totalCount }}</span>
         </div>
         <!-- 产品列表 -->
         <component

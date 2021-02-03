@@ -80,7 +80,7 @@
       </div>
     </div>
     <!-- 相关产品 -->
-    <relatedProducts />
+    <relatedProducts :keyword="item.name" />
   </div>
 </template>
 
