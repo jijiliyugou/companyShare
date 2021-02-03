@@ -94,11 +94,16 @@ myAxios.install = function(Vue) {
       //   $Store.commit("updateAppLoading", false);
       // }
       // 屏蔽不需要验证code的请求，如下载导出等
-      if (res.data.result.code === 401 || res.data.result.code === 403) {
-        Message.error("登录过期，请重新登录");
-        router.push({
-          path: "/"
-        });
+      // 屏蔽不需要验证code的请求，如下载导出等
+      if (res.config.url.includes("ExportOrderDetailToExcel")) {
+        return res;
+      } else {
+        if (res.data.result.code === 401 || res.data.result.code === 403) {
+          Message.error("登录过期，请重新登录");
+          router.push({
+            path: "/"
+          });
+        }
       }
       return res;
     },

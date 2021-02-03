@@ -14,7 +14,11 @@
               {{ myOrderLang.oddNumbers }}：
               <span class="value">{{ item.orderNumber }}</span>
             </div>
-            <div class="right" @click="exportOrder">
+            <div
+              class="right"
+              @click="exportOrder(item.orderNumber)"
+              v-if="userInfo.isExportExcel"
+            >
               <i class="iconfont icon-daochujinruchukou"></i>
               {{ myOrderLang.exportOrder }}
             </div>
@@ -89,15 +93,33 @@ export default {
   },
   methods: {
     // 导出功能
-    exportOrder() {
-      this.$confirm("敬请期待！！！", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-        center: true
-      }).catch(err => {
-        console.log(err);
-      });
+    exportOrder(orderNumber) {
+      this.$http
+        .post(
+          "/api/WebsiteShare/ExportOrderDetailToExcel",
+          {
+            shareOrderNumber: orderNumber
+          },
+          { responseType: "blob" }
+        )
+        .then(res => {
+          const fileName = "订单.xls";
+          const blob = res.data;
+          if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+            // 兼容IE
+            window.navigator.msSaveOrOpenBlob(blob, fileName);
+          } else {
+            // 兼容Google及fireFox
+            const link = document.createElement("a");
+            link.style.display = "none";
+            link.download = fileName;
+            link.href = URL.createObjectURL(blob);
+            document.body.appendChild(link);
+            link.click();
+            URL.revokeObjectURL(link.href); // 释放URL 对象
+            document.body.removeChild(link);
+          }
+        });
     },
     // 获取订单列表
     async getSearchShareOrdersPage() {

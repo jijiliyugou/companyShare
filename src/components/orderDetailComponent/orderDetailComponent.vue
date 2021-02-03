@@ -7,7 +7,11 @@
       <div class="titleBox">
         <div class="titleText">{{ myOrderLang.orderInformation }}</div>
         <div class="exportBtn">
-          <el-button type="warning" @click="exportOrder" plain
+          <el-button
+            type="warning"
+            v-if="userInfo.isExportExcel"
+            @click="exportOrder"
+            plain
             ><i class="iconfont icon-daochujinruchukou"></i>
             {{ myOrderLang.exportOrder }}
           </el-button>
@@ -159,6 +163,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   props: {
     item: {
@@ -177,15 +182,34 @@ export default {
   },
   methods: {
     // 导出功能
+    // 导出功能
     exportOrder() {
-      this.$confirm("敬请期待！！！", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-        center: true
-      }).catch(err => {
-        console.log(err);
-      });
+      this.$http
+        .post(
+          "/api/WebsiteShare/ExportOrderDetailToExcel",
+          {
+            shareOrderNumber: this.orderInfo.orderNumber
+          },
+          { responseType: "blob" }
+        )
+        .then(res => {
+          const fileName = "订单.xls";
+          const blob = res.data;
+          if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+            // 兼容IE
+            window.navigator.msSaveOrOpenBlob(blob, fileName);
+          } else {
+            // 兼容Google及fireFox
+            const link = document.createElement("a");
+            link.style.display = "none";
+            link.download = fileName;
+            link.href = URL.createObjectURL(blob);
+            document.body.appendChild(link);
+            link.click();
+            URL.revokeObjectURL(link.href); // 释放URL 对象
+            document.body.removeChild(link);
+          }
+        });
     },
     // 获取订单详情
     async getSearchShareOrderDetailsPage() {
@@ -330,7 +354,8 @@ export default {
     },
     myShoppingCartLang() {
       return this.$t("lang.myShoppingCart");
-    }
+    },
+    ...mapState(["userInfo"])
   }
 };
 </script>

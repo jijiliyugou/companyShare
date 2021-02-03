@@ -11,7 +11,11 @@
     <div class="cartBox" v-if="$route.path !== '/login'">
       <div class="cart" @click="toMyShoppingCart">
         <div class="cartIconBox">
-          <el-badge :value="shoppingList.length" class="item">
+          <el-badge
+            :hidden="shoppingList.length < 1"
+            :value="shoppingList.length"
+            class="item"
+          >
             <i class="cartIcon"></i>
           </el-badge>
         </div>
