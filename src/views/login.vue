@@ -119,7 +119,16 @@ export default {
     }
   },
   created() {
-    this.userLogo = this.getCompanyLogo(location.href);
+    document.title = "登录";
+    // this.userLogo = this.getCompanyLogo(location.href);
+    // this.userLogo.logo = this.$route.query;
+    for (const key in this.userLogo) {
+      this.userLogo[key] =
+        this.$route.query[key] ||
+        (key === "logo"
+          ? require("@/assets/images/logo.png")
+          : this.loginLang.PreferredToys);
+    }
     console.log(this.userLogo);
   },
   mounted() {},

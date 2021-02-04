@@ -5,7 +5,7 @@ import $Store from "@/store";
 Vue.use(VueRouter);
 
 const router = new VueRouter({
-  mode: "hash",
+  mode: "history",
   base: process.env.BASE_URL,
   routes
 });
