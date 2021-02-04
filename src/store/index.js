@@ -1,9 +1,10 @@
 import Vue from "vue";
 import Vuex from "vuex";
+// import myAxios from "@/request/http";
 import createPersistedState from "vuex-persistedstate";
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {
     screenWidth: 0,
     globalLang: "en",
@@ -71,7 +72,21 @@ export default new Vuex.Store({
       state.AppLoading = payLoad;
     }
   },
-  actions: {},
+  getters: {},
+  // actions: {
+  //   addMyCart({ state }) {
+  //     myAxios
+  //       .post("/api/WebsiteShare/AddShoppingCart", {
+  //         loginEmail: state.userInfo.loginEmail,
+  //         shoppingCarts: state.shoppingList
+  //       })
+  //       .then(res => {
+  //         if (res.data.result.code !== 200) {
+  //           console.log(res);
+  //         }
+  //       });
+  //   }
+  // },
   modules: {},
   plugins: [
     createPersistedState({
@@ -79,3 +94,4 @@ export default new Vuex.Store({
     })
   ]
 });
+export default store;

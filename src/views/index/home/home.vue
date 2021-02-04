@@ -46,13 +46,27 @@ export default {
         }
         this.homeData = data;
       }
+    },
+    // 获取购物车数据
+    async getShoppingCarts() {
+      const res = await this.$http.get("/api/WebsiteShare/GetShoppingCarts", {
+        params: {
+          loginEmail: this.userInfo.loginEmail
+        }
+      });
+      const { code, data, message } = res.data.result;
+      if (code === 200)
+        this.$store.commit("replaceShoppingCart", data.shoppingCarts || []);
+      else this.$message.error(message);
     }
   },
   created() {
     document.title = "公司首页";
+    if (this.userInfo.loginEmail) this.getShoppingCarts();
     this.getCompanyShareIndex();
   },
   computed: {
+    ...mapState(["userInfo"]),
     ...mapState(["shoppingList"])
   },
   mounted() {}

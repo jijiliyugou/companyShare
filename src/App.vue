@@ -37,10 +37,25 @@ export default {
     // 去购物车
     toMyShoppingCart() {
       this.$router.push("/index/shoppingCart");
+    },
+    // 有邮箱登录的用户购物车存储
+    async addServiceMycart(shoppingList) {
+      const res = await this.$http.post("/api/WebsiteShare/AddShoppingCart", {
+        loginEmail: this.userInfo.loginEmail,
+        shoppingCarts: shoppingList
+      });
+      const { code, message } = res.data.result;
+      if (code !== 200) this.$message.error(message);
     }
   },
   computed: {
-    ...mapState(["shoppingList"])
+    ...mapState(["shoppingList"]),
+    ...mapState(["userInfo"])
+  },
+  watch: {
+    shoppingList(newVal) {
+      if (this.userInfo.loginEmail) this.addServiceMycart(newVal);
+    }
   }
 };
 </script>
