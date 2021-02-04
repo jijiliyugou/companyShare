@@ -130,4 +130,9 @@ export default {
     }
   }
 }
+@media screen and (max-width: 1700px) {
+  .cartBox {
+    right: 30px;
+  }
+}
 </style>

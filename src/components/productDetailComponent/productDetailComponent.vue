@@ -109,29 +109,24 @@ export default {
       if (item.isShopping) {
         item.shoppingCount = 1;
         this.$store.commit("pushShopping", item);
+        this.$message.closeAll();
         this.$message.success("加购成功");
       } else {
         item.shoppingCount = 0;
+        this.$message.closeAll();
         this.$store.commit("popShopping", item);
         this.$message.success("取消成功");
       }
     }
   },
   created() {},
-  mounted() {
-    this.$root.eventHub.$on("resetProductDetail", () => {
-      console.log(1234);
-      this.$forceUpdate();
-    });
-  },
+  mounted() {},
   computed: {
     productLang() {
       return this.$t("lang.product");
     },
-    ...mapState(["globalLang"])
-  },
-  beforeDestroy() {
-    this.$root.eventHub.$off("resetProductDetail");
+    ...mapState(["globalLang"]),
+    ...mapState(["shoppingList"])
   }
 };
 </script>
