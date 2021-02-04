@@ -162,7 +162,9 @@ export default {
       this.getSearchShareOrdersPage();
     }
   },
-  created() {},
+  created() {
+    document.title = "订单";
+  },
   mounted() {
     this.getSearchShareOrdersPage();
   },

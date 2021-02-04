@@ -179,6 +179,7 @@ export default {
     }
   },
   created() {
+    document.title = "产品列表";
     this.getSearchCompanyShareProductPage();
   },
   mounted() {

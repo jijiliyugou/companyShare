@@ -15,7 +15,8 @@
       <div class="right">
         <div class="context">
           <div class="productName">
-            {{ item.name }}
+            <span v-if="globalLang === 'en'">{{ item.ename }}</span>
+            <span v-else-if="globalLang === 'zh-CN'">{{ item.name }}</span>
           </div>
           <div class="itemText">
             {{ productLang.price }}：
@@ -85,6 +86,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import magnifierComponent from "@/components/magnifierComponent/magnifierComponent.vue";
 import relatedProducts from "@/components/relatedProducts/relatedProducts.vue";
 export default {
@@ -120,7 +122,8 @@ export default {
   computed: {
     productLang() {
       return this.$t("lang.product");
-    }
+    },
+    ...mapState(["globalLang"])
   }
 };
 </script>

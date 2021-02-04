@@ -48,6 +48,7 @@ export default {
     }
   },
   created() {
+    document.title = "公司首页";
     this.getCompanyShareIndex();
     this.$root.eventHub.$on("resetCompanyShareIndex", () => {
       this.getCompanyShareIndex();

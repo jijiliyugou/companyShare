@@ -369,7 +369,9 @@ export default {
       this.$store.commit("replaceShoppingCart", this.shoppingList);
     }
   },
-  created() {},
+  created() {
+    document.title = "购物车";
+  },
   mounted() {
     this.formInfo.companyNumber = this.userInfo.companyNumber;
     this.formInfo.loginEmail = this.userInfo.loginEmail;

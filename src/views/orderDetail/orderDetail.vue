@@ -20,7 +20,9 @@ export default {
     return {};
   },
   methods: {},
-  created() {},
+  created() {
+    document.title = "订单详情";
+  },
   mounted() {}
 };
 </script>
