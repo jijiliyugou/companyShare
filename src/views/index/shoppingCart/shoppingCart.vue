@@ -9,7 +9,7 @@
       </div>
       <el-table
         :header-cell-style="{ backgroundColor: '#F5F5F5', color: '#666' }"
-        :data="shoppingList"
+        :data="dataList"
         id="myTable"
         ref="multipleTable"
         size="medium"
@@ -76,10 +76,10 @@
           align="center"
         >
           <template slot-scope="scope">
-            <!-- @change="changeInputNumber" -->
             <el-input-number
-              size="mini"
+              @change="changeInputNumber"
               v-model="scope.row.shoppingCount"
+              size="mini"
               :min="1"
               :max="99999"
             ></el-input-number>
@@ -115,19 +115,19 @@
         <div class="totalBox">
           <div class="left"></div>
           <div class="middle">
-            {{ myShoppingCartLang.totalQuantity }}：{{ shoppingList.length }}
+            {{ myShoppingCartLang.totalQuantity }}：{{ dataList.length }}
           </div>
           <div class="right">
             <div class="totalVolume">
               {{ myShoppingCartLang.totalVolume }}：
               <span class="changeColor">
-                {{ myTotalVolume(shoppingList) }}
+                {{ myTotalVolume(dataList) }}
               </span>
             </div>
             <div class="totalPrice">
               {{ myShoppingCartLang.totalPrice }}: USD
               <span style="margin-left:5px;" class="price">
-                {{ myTotalPrice(shoppingList) }}
+                {{ myTotalPrice(dataList) }}
               </span>
             </div>
           </div>
@@ -192,8 +192,8 @@ export default {
   components: {},
   data() {
     return {
+      dataList: [],
       formInfo: {
-        companyNumber: "",
         loginEmail: "",
         companyName: "",
         contactName: "",
@@ -311,7 +311,6 @@ export default {
       const selectProducts = this.$refs.multipleTable.selection;
       this.formInfo.shareOrderDetails = selectProducts.map(val => {
         return {
-          id: this.userInfo.shareId,
           productNumber: val.productNumber,
           productName: val.name,
           productEName: val.ename,
@@ -337,6 +336,9 @@ export default {
     // 删除购物车中的某项
     handleDelete(row) {
       this.$store.commit("popShopping", row);
+      this.dataList.forEach((val, i) => {
+        if (val.id === row.id) this.dataList.splice(i, 1);
+      });
     },
     // 计算总价
     myTotalPrice(list) {
@@ -366,16 +368,15 @@ export default {
       return outerBoxStere + "(cbm)" + outerBoxFeet + "(cuft)";
     },
     // 修改购物车数量
-    // changeInputNumber() {
-    //   console.log(this.shoppingList);
-    //   // this.$store.commit("replaceShoppingCart", [...this.shoppingList]);
-    // }
+    changeInputNumber() {
+      this.$store.commit("replaceShoppingCart", this.dataList);
+    }
   },
   created() {
     document.title = "购物车";
   },
   mounted() {
-    this.formInfo.companyNumber = this.userInfo.companyNumber;
+    this.dataList = JSON.parse(JSON.stringify(this.shoppingList));
     this.formInfo.loginEmail = this.userInfo.loginEmail;
     // 默认全选
     this.$refs.multipleTable.toggleAllSelection();

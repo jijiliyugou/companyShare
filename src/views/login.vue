@@ -110,9 +110,8 @@ export default {
         "/api/WebsiteShare/GetCompanyInfoOnLogin?shareId=" +
           this.$route.query.id
       );
-      const { code, data, message } = res.data.result;
+      const { code, data } = res.data.result;
       if (code === 200) this.userLogo = data;
-      else this.$message.error(message);
     }
   },
   created() {
