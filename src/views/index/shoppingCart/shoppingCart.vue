@@ -76,9 +76,8 @@
           align="center"
         >
           <template slot-scope="scope">
-            <!-- :controls="false" -->
+            <!-- @change="changeInputNumber" -->
             <el-input-number
-              @change="changeInputNumber"
               size="mini"
               v-model="scope.row.shoppingCount"
               :min="1"
@@ -127,7 +126,7 @@
             </div>
             <div class="totalPrice">
               {{ myShoppingCartLang.totalPrice }}: USD
-              <span class="price">
+              <span style="margin-left:5px;" class="price">
                 {{ myTotalPrice(shoppingList) }}
               </span>
             </div>
@@ -315,6 +314,7 @@ export default {
           id: this.userInfo.shareId,
           productNumber: val.productNumber,
           productName: val.name,
+          productEName: val.ename,
           productPrice: val.price,
           productCount: val.shoppingCount,
           productFeet: val.outerBoxFeet,
@@ -366,9 +366,10 @@ export default {
       return outerBoxStere + "(cbm)" + outerBoxFeet + "(cuft)";
     },
     // 修改购物车数量
-    changeInputNumber() {
-      this.$store.commit("replaceShoppingCart", [...this.shoppingList]);
-    }
+    // changeInputNumber() {
+    //   console.log(this.shoppingList);
+    //   // this.$store.commit("replaceShoppingCart", [...this.shoppingList]);
+    // }
   },
   created() {
     document.title = "购物车";

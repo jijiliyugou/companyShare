@@ -15,8 +15,7 @@
       <div class="right">
         <div class="context">
           <div class="productName">
-            <span v-if="globalLang === 'en'">{{ item.ename }}</span>
-            <span v-else-if="globalLang === 'zh-CN'">{{ item.name }}</span>
+            <span>{{ globalLang === "zh-CN" ? item.name : item.ename }}</span>
           </div>
           <div class="itemText">
             {{ productLang.price }}：

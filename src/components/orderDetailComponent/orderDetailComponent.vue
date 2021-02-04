@@ -102,7 +102,7 @@
             </template>
           </el-table-column>
           <el-table-column
-            prop="productName"
+            :prop="globalLang === 'zh-CN' ? 'productName' : 'productEName'"
             :label="myShoppingCartLang.productName"
             align="center"
           ></el-table-column>
@@ -146,7 +146,7 @@
         <div class="totalWrap">
           <div class="item">
             {{ myOrderLang.totalQuantity }}：
-            <span>6</span>
+            <span>{{ orderInfo.totalCount }}</span>
           </div>
           <div class="item">
             {{ myOrderLang.totalVolume }}：
@@ -354,6 +354,7 @@ export default {
     myShoppingCartLang() {
       return this.$t("lang.myShoppingCart");
     },
+    ...mapState(["globalLang"]),
     ...mapState(["userInfo"])
   }
 };
