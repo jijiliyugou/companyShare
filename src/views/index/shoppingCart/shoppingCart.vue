@@ -376,6 +376,8 @@ export default {
   mounted() {
     this.formInfo.companyNumber = this.userInfo.companyNumber;
     this.formInfo.loginEmail = this.userInfo.loginEmail;
+    // 默认全选
+    this.$refs.multipleTable.toggleAllSelection();
   },
   computed: {
     myShoppingCartLang() {

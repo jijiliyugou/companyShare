@@ -101,6 +101,7 @@ export default {
     },
     // 获取公司logo和名字
     async getCompanyLogo() {
+      // 设置默认图片和文字
       this.userLogo = {
         companyLogo: require("@/assets/images/logo.png"),
         companyName: this.loginLang.PreferredToys
