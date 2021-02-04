@@ -59,7 +59,7 @@ export default {
         item.shoppingCount = 0;
         this.$message.closeAll();
         this.$store.commit("popShopping", item);
-        this.$message.success("取消成功");
+        this.$message.warning("取消成功");
       }
       this.$forceUpdate();
     },

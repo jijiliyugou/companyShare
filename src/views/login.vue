@@ -4,7 +4,7 @@
       <div class="bgImg"></div>
       <div class="loginBox">
         <div class="title">
-          <el-image :src="userLogo.logo"></el-image>
+          <el-image :src="userLogo.companyLogo"></el-image>
           <span class="titleText">{{ userLogo.companyName }}</span>
         </div>
         <div class="minTitle">
@@ -57,7 +57,7 @@ export default {
   data() {
     return {
       userLogo: {
-        logo: "",
+        companyLogo: "",
         companyName: ""
       },
       formLabelAlign: {
@@ -83,6 +83,7 @@ export default {
     };
   },
   methods: {
+    // 登录提交
     toHome() {
       this.$refs.myFormRef.validate(async valid => {
         if (valid) {
@@ -98,35 +99,24 @@ export default {
         }
       });
     },
-    // 转url取公司图片名称
-    getCompanyLogo(url) {
-      const reg = /&logo=([^#]*)/;
-      const list = url.match(reg)
-        ? url.match(reg)[1].split("&companyName=")
-        : [];
-      const logo =
-          list[0] === undefined
-            ? require("@/assets/images/hallLogoImg.png")
-            : list[0],
-        companyName =
-          list[1] === undefined
-            ? this.loginLang.PreferredToys
-            : decodeURI(list[1]);
-      return {
-        logo,
-        companyName
+    // 获取公司logo和名字
+    async getCompanyLogo() {
+      this.userLogo = {
+        companyLogo: require("@/assets/images/logo.png"),
+        companyName: this.loginLang.PreferredToys
       };
+      const res = await this.$http.get(
+        "/api/WebsiteShare/GetCompanyInfoOnLogin?shareId=" +
+          this.$route.query.id
+      );
+      const { code, data, message } = res.data.result;
+      if (code === 200) this.userLogo = data;
+      else this.$message.error(message);
     }
   },
   created() {
     document.title = "登录";
-    for (const key in this.userLogo) {
-      this.userLogo[key] =
-        this.$route.query[key] ||
-        (key === "logo"
-          ? require("@/assets/images/logo.png")
-          : this.loginLang.PreferredToys);
-    }
+    this.getCompanyLogo();
   },
   mounted() {},
   watch: {
