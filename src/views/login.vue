@@ -4,10 +4,8 @@
       <div class="bgImg"></div>
       <div class="loginBox">
         <div class="title">
-          <el-image
-            :src="require('@/assets/images/hallLogoImg.png')"
-          ></el-image>
-          <span class="titleText">{{ loginLang.PreferredToys }}</span>
+          <el-image :src="userLogo.logo"></el-image>
+          <span class="titleText">{{ userLogo.companyName }}</span>
         </div>
         <div class="minTitle">
           <el-image
@@ -58,6 +56,10 @@
 export default {
   data() {
     return {
+      userLogo: {
+        logo: "",
+        companyName: ""
+      },
       formLabelAlign: {
         verifyCode: "",
         email: "",
@@ -95,9 +97,31 @@ export default {
           } else this.$message.error(message);
         }
       });
+    },
+    // 转url取公司图片名称
+    getCompanyLogo(url) {
+      const reg = /&logo=([^#]*)/;
+      const list = url.match(reg)
+        ? url.match(reg)[1].split("&companyName=")
+        : [];
+      const logo =
+          list[0] === undefined
+            ? require("@/assets/images/hallLogoImg.png")
+            : list[0],
+        companyName =
+          list[1] === undefined
+            ? this.loginLang.PreferredToys
+            : decodeURI(list[1]);
+      return {
+        logo,
+        companyName
+      };
     }
   },
-  created() {},
+  created() {
+    this.userLogo = this.getCompanyLogo(location.href);
+    console.log(this.userLogo);
+  },
   mounted() {},
   watch: {
     "$store.state.screenWidth"(val) {
@@ -147,7 +171,7 @@ export default {
       box-sizing: border-box;
       // padding: 20px;
       .title {
-        height: 105px;
+        min-height: 105px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -156,6 +180,8 @@ export default {
         .el-image {
           width: 51px;
           height: 55px;
+          min-width: 51px;
+          min-height: 55px;
           img {
             width: 51px;
             height: 55px;

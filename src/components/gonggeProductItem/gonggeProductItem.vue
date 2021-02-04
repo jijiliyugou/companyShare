@@ -10,7 +10,8 @@
     </div>
     <div class="context">
       <div class="productName">
-        {{ item.name }}
+        <span v-if="globalLang === 'zh-CN'">{{ item.name }}</span>
+        <span v-else-if="globalLang === 'en'">{{ item.ename }}</span>
       </div>
       <div class="priceBox">
         <div class="left">
@@ -35,6 +36,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   props: {
     item: {
@@ -58,7 +60,10 @@ export default {
     }
   },
   created() {},
-  mounted() {}
+  mounted() {},
+  computed: {
+    ...mapState(["globalLang"])
+  }
 };
 </script>
 <style scoped lang="less">
