@@ -312,6 +312,7 @@ export default {
       const selectProducts = this.$refs.multipleTable.selection;
       this.formInfo.shareOrderDetails = selectProducts.map(val => {
         return {
+          id: this.userInfo.shareId,
           productNumber: val.productNumber,
           productName: val.name,
           productPrice: val.price,

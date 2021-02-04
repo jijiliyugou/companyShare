@@ -91,7 +91,19 @@ export default {
   methods: {
     // 加购
     handlerShopping(item) {
-      this.$emit("hanldlerShopping", item);
+      item.isShopping = !item.isShopping;
+      if (item.isShopping) {
+        item.shoppingCount = 1;
+        this.$store.commit("pushShopping", item);
+        this.$message.closeAll();
+        this.$message.success("加购成功");
+      } else {
+        item.shoppingCount = 0;
+        this.$message.closeAll();
+        this.$store.commit("popShopping", item);
+        this.$message.success("取消成功");
+      }
+      this.$forceUpdate();
     },
     // 查看详情
     toDetails(item) {

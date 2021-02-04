@@ -118,12 +118,20 @@ export default {
     }
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.$root.eventHub.$on("resetProductDetail", () => {
+      console.log(1234);
+      this.$forceUpdate();
+    });
+  },
   computed: {
     productLang() {
       return this.$t("lang.product");
     },
     ...mapState(["globalLang"])
+  },
+  beforeDestroy() {
+    this.$root.eventHub.$off("resetProductDetail");
   }
 };
 </script>

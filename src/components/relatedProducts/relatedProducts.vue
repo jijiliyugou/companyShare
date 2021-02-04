@@ -10,7 +10,6 @@
       </div>
       <div class="productsBox">
         <gonggeProductItem
-          @hanldlerShopping="hanldlerShopping(item)"
           v-for="(item, i) in productList"
           :key="i"
           :item="item"
@@ -50,27 +49,6 @@ export default {
             products[i].isShopping = true;
         }
       }
-    },
-    // 加购事件
-    hanldlerShopping(item) {
-      item.isShopping = item.isShopping ? false : true;
-      if (item.isShopping) {
-        item.shoppingCount = 1;
-        this.$store.commit("pushShopping", item);
-      } else {
-        item.shoppingCount = 0;
-        this.$store.commit("popShopping", item);
-      }
-      this.filterShopping(this.productList);
-      // for (let i = 0; i < this.productList.length; i++) {
-      //   for (let j = 0; j < this.shoppingList.length; j++) {
-      //     if (this.productList[i].id === this.shoppingList[j].id)
-      //       this.productList[i].isShopping = true;
-      //   }
-      // }
-      // this.productList = [...this.productList];
-      this.getSearchCompanyShareProductPage();
-      // this.$root.eventHub.$emit("resetCompanyShareIndex");
     },
     // 查看更多相关产品
     toProductList() {

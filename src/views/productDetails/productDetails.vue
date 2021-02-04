@@ -1,9 +1,9 @@
 <template>
   <div class="contentBox">
     <home-top-component />
-    <keep-alive>
-      <productDetailComponent :item="product" class="productDetailBox" />
-    </keep-alive>
+    <!-- <keep-alive> -->
+    <productDetailComponent :item="product" class="productDetailBox" />
+    <!-- </keep-alive> -->
     <myFoot class="myFoot" />
   </div>
 </template>

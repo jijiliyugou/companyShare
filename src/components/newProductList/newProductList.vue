@@ -13,7 +13,6 @@
           v-for="(item, i) in products"
           :key="i"
           :item="item"
-          @hanldlerShopping="hanldlerShopping(item)"
         />
         <div class="kong"></div>
         <div class="kong"></div>
@@ -39,18 +38,6 @@ export default {
     return {};
   },
   methods: {
-    // 加购事件
-    hanldlerShopping(item) {
-      item.isShopping = !item.isShopping;
-      if (item.isShopping) {
-        item.shoppingCount = 1;
-        this.$store.commit("pushShopping", item);
-      } else {
-        item.shoppingCount = 0;
-        this.$store.commit("popShopping", item);
-      }
-      this.$root.eventHub.$emit("resetCompanyShareIndex");
-    },
     // 查看更多
     toProducts() {
       this.$router.push({ path: "/index/product", query: { productType: 2 } });

@@ -41,26 +41,16 @@ export default {
 
         this.homeData = data;
       }
-    },
-    // 取消监听根组件方法
-    offRootMethod() {
-      this.$root.eventHub.$off("resetCompanyShareIndex");
     }
   },
   created() {
     document.title = "公司首页";
     this.getCompanyShareIndex();
-    this.$root.eventHub.$on("resetCompanyShareIndex", () => {
-      this.getCompanyShareIndex();
-    });
   },
   computed: {
     ...mapState(["shoppingList"])
   },
-  mounted() {},
-  beforeDestroy() {
-    this.offRootMethod();
-  }
+  mounted() {}
 };
 </script>
 <style scoped lang="less">

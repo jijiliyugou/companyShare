@@ -44,7 +44,6 @@ export default new Vuex.Store({
       state.userInfo = payLoad;
     },
     pushShopping(state, payLoad) {
-      console.log(111);
       state.shoppingList.push(payLoad);
     },
     handlerSearchForm(state, payLoad) {
@@ -54,7 +53,6 @@ export default new Vuex.Store({
       state.shoppingList = payLoad;
     },
     resetShoppingCart(state, payLoad) {
-      console.log(111);
       for (let i = 0; i < state.shoppingList.length; i++) {
         for (let j = 0; j < payLoad.length; j++) {
           if (state.shoppingList[i].id === payLoad[j].id) {

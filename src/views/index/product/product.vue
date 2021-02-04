@@ -55,11 +55,7 @@
           <span style="margin-left:10px;color:#FF760E;">{{ totalCount }}</span>
         </div>
         <!-- 产品列表 -->
-        <component
-          :is="isThumbnail"
-          @hanldlerShopping="hanldlerShopping"
-          :productList="productList"
-        ></component>
+        <component :is="isThumbnail" :productList="productList"></component>
       </div>
     </div>
     <!-- 分页 -->
@@ -152,20 +148,6 @@ export default {
         this.totalCount = data.totalCount;
       } else this.$message.error(message);
     },
-    // 加购事件
-    hanldlerShopping(item) {
-      item.isShopping = !item.isShopping;
-      if (item.isShopping) {
-        item.shoppingCount = 1;
-        this.$store.commit("pushShopping", item);
-        this.$message.success("加购成功");
-      } else {
-        item.shoppingCount = 0;
-        this.$store.commit("popShopping", item);
-        this.$message.success("取消成功");
-      }
-      this.getSearchCompanyShareProductPage();
-    },
     // 切換頁容量
     handleSizeChange(pageSize) {
       this.pageSize = pageSize;
@@ -182,21 +164,13 @@ export default {
     document.title = "产品列表";
     this.getSearchCompanyShareProductPage();
   },
-  mounted() {
-    this.$root.eventHub.$on("resetProducts", () => {
-      this.currentPage = 1;
-      this.getSearchCompanyShareProductPage();
-    });
-  },
+  mounted() {},
   computed: {
     productLang() {
       return this.$t("lang.product");
     },
     ...mapState(["shoppingList"]),
     ...mapState(["searchForm"])
-  },
-  beforeDestroy() {
-    this.$root.eventHub.$off("resetProducts");
   }
 };
 </script>

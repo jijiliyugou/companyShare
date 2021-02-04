@@ -1,11 +1,6 @@
 <template>
   <div class="listProducts">
-    <listProductItem
-      v-for="(item, i) in productList"
-      :key="i"
-      @hanldlerShopping="hanldlerShopping"
-      :item="item"
-    />
+    <listProductItem v-for="(item, i) in productList" :key="i" :item="item" />
     <div class="kong"></div>
   </div>
 </template>
@@ -24,11 +19,7 @@ export default {
   data() {
     return {};
   },
-  methods: {
-    hanldlerShopping(item) {
-      this.$emit("hanldlerShopping", item);
-    }
-  },
+  methods: {},
   created() {},
   mounted() {}
 };

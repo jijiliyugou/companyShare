@@ -2,6 +2,11 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import routes from "./routers.js";
 import $Store from "@/store";
+//路由导航冗余报错（路由重复）
+const originalPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err);
+};
 Vue.use(VueRouter);
 
 const router = new VueRouter({
