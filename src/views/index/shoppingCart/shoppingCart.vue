@@ -367,7 +367,7 @@ export default {
     },
     // 修改购物车数量
     changeInputNumber() {
-      this.$store.commit("replaceShoppingCart", this.shoppingList);
+      this.$store.commit("replaceShoppingCart", [...this.shoppingList]);
     }
   },
   created() {

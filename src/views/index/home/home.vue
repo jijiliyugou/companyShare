@@ -1,7 +1,13 @@
 <template>
   <div class="homeWrap">
-    <new-productList :products="homeData.newProducts" />
-    <homeProduct :products="homeData.products" />
+    <new-productList
+      v-if="homeData.newProducts.length"
+      :products="homeData.newProducts"
+    />
+    <homeProduct
+      v-if="homeData.products.length"
+      :products="homeData.products"
+    />
   </div>
 </template>
 
