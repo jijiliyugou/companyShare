@@ -375,7 +375,8 @@ export default {
     },
     // 修改购物车数量
     changeInputNumber() {
-      this.$store.commit("replaceShoppingCart", this.dataList);
+      this.$store.commit("replaceShoppingCartValueCount", this.dataList);
+      this.$store.dispatch("addServiceShoppingCart", this.shoppingList);
     }
   },
   created() {

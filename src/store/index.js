@@ -64,8 +64,11 @@ const store = new Vuex.Store({
     replaceShoppingCart(state, payLoad) {
       const key =
         state.userInfo.shareId + "_" + (state.userInfo.loginEmail || "");
-      state[key] = JSON.parse(JSON.stringify(payLoad));
-      // state[key] = [...payLoad];
+      // state[key] = payLoad;
+      Vue.prototype.$set(state, key, payLoad);
+      // Vue.prototype.$set(state, key, payLoad);
+      // state[key] = JSON.parse(JSON.stringify(payLoad));
+      // if (payLoad) state[key] = [...payLoad];
       // 解决购物车数量增加减少getters监听不到的问题
     },
     // 删除购物车某一个或多个商品
@@ -80,6 +83,17 @@ const store = new Vuex.Store({
         state.userInfo.shareId + "_" + (state.userInfo.loginEmail || "");
       for (let i = 0; i < state[key].length; i++) {
         if (state[key][i].id === payLoad.id) state[key].splice(i, 1);
+      }
+    },
+    // 修改数量方法
+    replaceShoppingCartValueCount(state, payLoad) {
+      const key =
+        state.userInfo.shareId + "_" + (state.userInfo.loginEmail || "");
+      for (let i = 0; i < state[key].length; i++) {
+        console.log(state[key][i]);
+        for (const keys in state[key][i]) {
+          Vue.prototype.$set(state[key][i], keys, payLoad[i][keys]);
+        }
       }
     },
     handlerAppLoading(state, payLoad) {
