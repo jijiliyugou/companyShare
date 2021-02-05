@@ -3,76 +3,78 @@
     <div class="detailBox">
       <div class="left">
         <magnifierComponent
+          ref="magnifierRef"
+          v-if="productDetails.imageUrls"
           :middleImgWidth="541"
           :middleImgHeight="395"
           :thumbnailHeight="55"
           :thumbnailWidth="78"
           :thumbnailCount="5"
-          :imageUrls="item.imageUrls"
-          :videoAddress="item.videoAddress"
+          :imageUrls="productDetails.imageUrls"
+          :videoAddress="productDetails.videoAddress"
         />
       </div>
       <div class="right">
         <div class="context">
           <div class="productName">
-            <span>{{ globalLang === "zh-CN" ? item.name : item.ename }}</span>
+            <span>{{ globalLang === "zh-CN" ? productDetails.name : productDetails.ename }}</span>
           </div>
           <div class="itemText">
             {{ productLang.price }}：
             <span class="priceBox"
-              >USD<span class="price">{{ item.price }}</span></span
+              >USD<span class="price">{{ productDetails.price }}</span></span
             >
           </div>
           <div class="itemText">
             {{ productLang.exFactoryArticleNo }}：<span>{{
-              item.outFactoryNumber
+              productDetails.outFactoryNumber
             }}</span>
           </div>
           <div class="itemText">
-            {{ productLang.package }}：<span>{{ item.packMethod }}</span>
+            {{ productLang.package }}：<span>{{ productDetails.packMethod }}</span>
           </div>
           <div class="itemText">
             {{ productLang.productSpecification }}：
             <span
-              >{{ item.sampleLenth }} x {{ item.sampleWidth }} x
-              {{ item.sampleHeight }} (CM)</span
+              >{{ productDetails.sampleLenth }} x {{ productDetails.sampleWidth }} x
+              {{ productDetails.sampleHeight }} (CM)</span
             >
           </div>
           <div class="itemText">
             {{ productLang.outerBoxSize }}：
             <span
-              >{{ item.outerBoxLenth }} x {{ item.outerBoxWidth }} x
-              {{ item.outerBoxHeight }} (CM)</span
+              >{{ productDetails.outerBoxLenth }} x {{ productDetails.outerBoxWidth }} x
+              {{ productDetails.outerBoxHeight }} (CM)</span
             >
           </div>
           <div class="itemText">
             {{ productLang.packageSpecification }}：
             <span
-              >{{ item.innerLenth }} x {{ item.innerWidth }} x
-              {{ item.innerheigth }} (CM)</span
+              >{{ productDetails.innerLenth }} x {{ productDetails.innerWidth }} x
+              {{ productDetails.innerheigth }} (CM)</span
             >
           </div>
           <div class="itemText">
             {{ productLang.packingQuantity }}：
-            <span>{{ item.innerEn }} / {{ item.outerBoxLo }} (PCS)</span>
+            <span>{{ productDetails.innerEn }} / {{ productDetails.outerBoxLo }} (PCS)</span>
           </div>
           <div class="itemText">
             {{ productLang.volumeVolume }}：
             <span
-              >{{ item.outerBoxStere }} (CBM) /
-              {{ item.outerBoxFeet }} (cuft)</span
+              >{{ productDetails.outerBoxStere }} (CBM) /
+              {{ productDetails.outerBoxFeet }} (cuft)</span
             >
           </div>
           <div class="itemText">
             {{ productLang.grossNetWeight }}：
             <span
-              >{{ item.outerBoxWeight }} /
-              {{ item.outerBoxNetWeight }} (kg)</span
+              >{{ productDetails.outerBoxWeight }} /
+              {{ productDetails.outerBoxNetWeight }} (kg)</span
             >
           </div>
         </div>
         <div class="myCartBox">
-          <div class="myCart" @click="handlerShopping(item)">
+          <div class="myCart" @click="handlerShopping(productDetails)">
             <i class="myCartIcon"></i>
             {{ productLang.addToCart }}
           </div>
@@ -80,7 +82,7 @@
       </div>
     </div>
     <!-- 相关产品 -->
-    <relatedProducts :keyword="item.name" />
+    <relatedProducts :keyword="productDetails.name" />
   </div>
 </template>
 
@@ -99,7 +101,9 @@ export default {
     relatedProducts
   },
   data() {
-    return {};
+    return {
+      productDetails: null
+    };
   },
   methods: {
     // 加购
@@ -118,8 +122,19 @@ export default {
       }
     }
   },
-  created() {},
-  mounted() {},
+  created() {
+    this.productDetails = this.item;
+  },
+  mounted() {
+    this.$root.eventHub.$on("resetProductDetail", item => {
+      const obj = JSON.parse(item);
+      this.productDetails.imageUrls = null;
+      this.$nextTick(() => {
+        this.productDetails = obj;
+        this.productDetails.imageUrls = obj.imageUrls || [];
+      });
+    });
+  },
   computed: {
     productLang() {
       return this.$t("lang.product");
@@ -128,6 +143,9 @@ export default {
     ...mapGetters({
       shoppingList: "myShoppingList"
     })
+  },
+  beforeDestroy() {
+    this.$root.eventHub.$off("resetProductDetail");
   }
 };
 </script>

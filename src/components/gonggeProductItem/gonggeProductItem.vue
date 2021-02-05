@@ -64,11 +64,14 @@ export default {
     },
     // 查看详情
     toDetails(item) {
-      this.$router.push({
-        path: "/productDetails",
-        query: { item: JSON.stringify(item) }
-      });
-      this.$root.eventHub.$emit("resetProductDetail");
+      if (!this.$route.path.includes("/productDetails")) {
+        this.$router.push({
+          path: "/productDetails",
+          query: { item: JSON.stringify(item) }
+        });
+      } else {
+        this.$root.eventHub.$emit("resetProductDetail", JSON.stringify(item));
+      }
     }
   },
   created() {},
