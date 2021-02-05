@@ -70,13 +70,13 @@ const store = new Vuex.Store({
     // 更新购物车
     replaceShoppingCart(state, payLoad) {
       if (state.userInfo.loginEmail) {
-        // 解决购物车数量增加减少getters监听不到的问题
-        state[state.userInfo.loginEmail] = [];
         state[state.userInfo.loginEmail] = payLoad;
-        // store.dispatch(
-        //   "addServiceShoppingCart",
-        //   state[state.userInfo.loginEmail] || []
-        // );
+        // 解决购物车数量增加减少getters监听不到的问题
+        // Vue.set(state, state.userInfo.loginEmail, payLoad);
+        store.dispatch(
+          "addServiceShoppingCart",
+          state[state.userInfo.loginEmail] || []
+        );
       } else {
         state.shoppingList = payLoad;
       }

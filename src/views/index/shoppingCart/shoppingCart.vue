@@ -328,12 +328,13 @@ export default {
       const { code, message } = res.data.result;
       if (code === 200) {
         this.$message.success("提交订单成功");
+        for (let i = 0; i < this.dataList.length; i++) {
+          for (let j = 0; j < selectProducts.length; j++) {
+            if (this.dataList[i].id === selectProducts[j].id)
+              this.dataList.splice(i, 1);
+          }
+        }
         this.$store.commit("resetShoppingCart", selectProducts);
-        this.dataList.forEach((val, i) => {
-          selectProducts.forEach(item => {
-            if (item.id === val.id) this.dataList.splice(i, 1);
-          });
-        });
       } else {
         this.$message.error(message);
       }
