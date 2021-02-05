@@ -36,11 +36,13 @@ export default {
       );
       const { data, code } = res.data.result;
       if (code === 200) {
-        for (const key in data) {
-          for (let i = 0; i < data[key].length; i++) {
-            for (let j = 0; j < this.shoppingList.length; j++) {
-              if (data[key][i].id === this.shoppingList[j].id)
-                data[key][i].isShopping = true;
+        if (this.shoppingList) {
+          for (const key in data) {
+            for (let i = 0; i < data[key].length; i++) {
+              for (let j = 0; j < this.shoppingList.length; j++) {
+                if (data[key][i].id === this.shoppingList[j].id)
+                  data[key][i].isShopping = true;
+              }
             }
           }
         }
@@ -55,15 +57,15 @@ export default {
         }
       });
       const { code, data, message } = res.data.result;
-      if (code === 200)
-        this.$store.commit("replaceShoppingCart", data.shoppingCarts || []);
-      else this.$message.error(message);
+      if (code === 200) {
+        this.$store.commit("replaceShoppingCart", data.shoppingCarts);
+        this.$nextTick(() => this.getCompanyShareIndex());
+      } else this.$message.error(message);
     }
   },
   created() {
-    document.title = "公司首页";
     if (this.userInfo.loginEmail) this.getShoppingCarts();
-    this.getCompanyShareIndex();
+    document.title = "公司首页";
   },
   computed: {
     ...mapState(["userInfo"]),
@@ -71,7 +73,9 @@ export default {
       shoppingList: "myShoppingList"
     })
   },
-  mounted() {}
+  mounted() {
+    if (!this.userInfo.loginEmail) this.getCompanyShareIndex();
+  }
 };
 </script>
 <style scoped lang="less">

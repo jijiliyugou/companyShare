@@ -53,69 +53,33 @@ const store = new Vuex.Store({
     },
     // 加购
     pushShopping(state, payLoad) {
-      console.log(
-        state[state.userInfo.loginEmail + state.userInfo.shareId],
-        state,
-        payLoad
-      );
-      // if (state[state.userInfo.loginEmail+state.userInfo.shareId])
-      // if (state.userInfo.loginEmail) {
-      //   if (state[state.userInfo.loginEmail]) {
-      //     state[state.userInfo.loginEmail].push(payLoad);
-      //   } else {
-      //     state[state.userInfo.loginEmail] = [payLoad];
-      //   }
-      // } else {
-      //   state[state[state.userInfo.shareId]]
-      //   state.shoppingList.push(payLoad);
-      // }
+      const key =
+        state.userInfo.shareId + "_" + (state.userInfo.loginEmail || "");
+      state[key].push(payLoad);
     },
     handlerSearchForm(state, payLoad) {
       state.searchForm = payLoad;
     },
     // 更新购物车
     replaceShoppingCart(state, payLoad) {
-      if (state.userInfo.loginEmail) {
-        // 解决购物车数量增加减少getters监听不到的问题
-        state[state.userInfo.loginEmail] = [...payLoad];
-        // state[state.userInfo.loginEmail] = payLoad;
-        // Vue.set(state, state.userInfo.loginEmail, payLoad);
-        // store.dispatch(
-        //   "addServiceShoppingCart",
-        //   state[state.userInfo.loginEmail] || []
-        // );
-      } else {
-        state.shoppingList = payLoad;
-      }
+      const key =
+        state.userInfo.shareId + "_" + (state.userInfo.loginEmail || "");
+      state[key] = JSON.parse(JSON.stringify(payLoad));
+      // state[key] = [...payLoad];
+      // 解决购物车数量增加减少getters监听不到的问题
     },
     // 删除购物车某一个或多个商品
     resetShoppingCart(state, payLoad) {
-      if (state.userInfo.loginEmail) {
-        if (state[state.userInfo.loginEmail]) {
-          myForEach(state[state.userInfo.loginEmail], payLoad);
-        } else {
-          state[state.userInfo.loginEmail] = [];
-        }
-      } else {
-        myForEach(state.shoppingList, payLoad);
-      }
+      const key =
+        state.userInfo.shareId + "_" + (state.userInfo.loginEmail || "");
+      myForEach(state[key], payLoad);
     },
     // 删除购物车某指定一个商品
     popShopping(state, payLoad) {
-      if (state.userInfo.loginEmail) {
-        if (state[state.userInfo.loginEmail]) {
-          for (let i = 0; i < state[state.userInfo.loginEmail].length; i++) {
-            if (state[state.userInfo.loginEmail][i].id === payLoad.id)
-              state[state.userInfo.loginEmail].splice(i, 1);
-          }
-        } else {
-          state[state.userInfo.loginEmail] = [];
-        }
-      } else {
-        for (let i = 0; i < state.shoppingList.length; i++) {
-          if (state.shoppingList[i].id === payLoad.id)
-            state.shoppingList.splice(i, 1);
-        }
+      const key =
+        state.userInfo.shareId + "_" + (state.userInfo.loginEmail || "");
+      for (let i = 0; i < state[key].length; i++) {
+        if (state[key][i].id === payLoad.id) state[key].splice(i, 1);
       }
     },
     handlerAppLoading(state, payLoad) {
@@ -124,17 +88,24 @@ const store = new Vuex.Store({
   },
   getters: {
     myShoppingList(state) {
-      console.log(state);
-      return [];
-      // if (state.userInfo && state.userInfo.loginEmail) {
-      //   store.dispatch(
-      //     "addServiceShoppingCart",
-      //     state[state.userInfo.loginEmail] || []
-      //   );
-      //   return state[state.userInfo.loginEmail] || [];
-      // } else {
-      //   return state[state[state.userInfo.shareId]] || [];
-      // }
+      if (state.userInfo && state.userInfo.shareId) {
+        if (state.userInfo.loginEmail) {
+          const key =
+            state.userInfo.shareId + "_" + (state.userInfo.loginEmail || "");
+          if (state[key]) {
+            store.dispatch("addServiceShoppingCart", state[key] || []);
+            return state[key];
+          }
+        } else {
+          const key = state.userInfo.shareId + "_";
+          if (state[key]) {
+            return state[key];
+          }
+          return (state[key] = []);
+        }
+      } else {
+        return [];
+      }
     }
   },
   actions: {

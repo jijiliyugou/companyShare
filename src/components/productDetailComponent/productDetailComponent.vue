@@ -36,7 +36,9 @@
           </div>
           <div class="itemText">
             {{ productLang.package }}：<span>{{
-              productDetails.packMethod
+              globalLang === "zh-CN"
+                ? productDetails.packMethod
+                : productDetails.packEnName
             }}</span>
           </div>
           <div class="itemText">

@@ -108,7 +108,7 @@ export default {
         companyName: this.loginLang.PreferredToys
       };
       const res = await this.$http.get(
-        "/api/WebsiteShare/GetCompanyInfoOnLogin?url="
+        "/api/WebsiteShare/GetCompanyInfoOnLogin?url=" + location.href
       );
       const { code, data } = res.data.result;
       if (code === 200) this.userLogo = data;

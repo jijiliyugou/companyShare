@@ -12,8 +12,8 @@
       <div class="cart" @click="toMyShoppingCart">
         <div class="cartIconBox">
           <el-badge
-            :hidden="shoppingList.length < 1"
-            :value="shoppingList.length"
+            :hidden="!shoppingList || shoppingList.length < 1"
+            :value="shoppingList && shoppingList.length"
             class="item"
           >
             <i class="cartIcon"></i>
