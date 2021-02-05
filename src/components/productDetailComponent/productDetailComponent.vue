@@ -17,7 +17,11 @@
       <div class="right">
         <div class="context">
           <div class="productName">
-            <span>{{ globalLang === "zh-CN" ? productDetails.name : productDetails.ename }}</span>
+            <span>{{
+              globalLang === "zh-CN"
+                ? productDetails.name
+                : productDetails.ename
+            }}</span>
           </div>
           <div class="itemText">
             {{ productLang.price }}：
@@ -31,32 +35,40 @@
             }}</span>
           </div>
           <div class="itemText">
-            {{ productLang.package }}：<span>{{ productDetails.packMethod }}</span>
+            {{ productLang.package }}：<span>{{
+              productDetails.packMethod
+            }}</span>
           </div>
           <div class="itemText">
             {{ productLang.productSpecification }}：
             <span
-              >{{ productDetails.sampleLenth }} x {{ productDetails.sampleWidth }} x
+              >{{ productDetails.sampleLenth }} x
+              {{ productDetails.sampleWidth }} x
               {{ productDetails.sampleHeight }} (CM)</span
             >
           </div>
           <div class="itemText">
             {{ productLang.outerBoxSize }}：
             <span
-              >{{ productDetails.outerBoxLenth }} x {{ productDetails.outerBoxWidth }} x
+              >{{ productDetails.outerBoxLenth }} x
+              {{ productDetails.outerBoxWidth }} x
               {{ productDetails.outerBoxHeight }} (CM)</span
             >
           </div>
           <div class="itemText">
             {{ productLang.packageSpecification }}：
             <span
-              >{{ productDetails.innerLenth }} x {{ productDetails.innerWidth }} x
+              >{{ productDetails.innerLenth }} x
+              {{ productDetails.innerWidth }} x
               {{ productDetails.innerheigth }} (CM)</span
             >
           </div>
           <div class="itemText">
             {{ productLang.packingQuantity }}：
-            <span>{{ productDetails.innerEn }} / {{ productDetails.outerBoxLo }} (PCS)</span>
+            <span
+              >{{ productDetails.innerEn }} /
+              {{ productDetails.outerBoxLo }} (PCS)</span
+            >
           </div>
           <div class="itemText">
             {{ productLang.volumeVolume }}：

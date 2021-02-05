@@ -318,6 +318,10 @@ export default {
     },
     // 高级搜索
     search() {
+      // console.log(123);
+      // this.$router.push("/index/product?productType=1");
+      // this.$root.eventHub.$emit("resetProducts");
+      // console.log();
       if (this.$route.path.includes("/index/product"))
         this.$root.eventHub.$emit("resetProducts");
       else this.$router.push("/index/product?productType=1");

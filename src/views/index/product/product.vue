@@ -164,7 +164,12 @@ export default {
     document.title = "产品列表";
     this.getSearchCompanyShareProductPage();
   },
-  mounted() {},
+  mounted() {
+    this.$root.eventHub.$on("resetProducts", () => {
+      this.currentPage = 1;
+      this.getSearchCompanyShareProductPage();
+    });
+  },
   computed: {
     productLang() {
       return this.$t("lang.product");
@@ -173,6 +178,9 @@ export default {
       shoppingList: "myShoppingList"
     }),
     ...mapState(["searchForm"])
+  },
+  beforeDestroy() {
+    this.$root.eventHub.$off("resetProducts");
   }
 };
 </script>

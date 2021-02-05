@@ -18,7 +18,6 @@ const store = new Vuex.Store({
     globalLang: "en",
     userInfo: null,
     AppLoading: false,
-    shoppingList: [],
     searchForm: {
       // 产品搜索表单
       keyword: "", // 关键字
@@ -54,15 +53,22 @@ const store = new Vuex.Store({
     },
     // 加购
     pushShopping(state, payLoad) {
-      if (state.userInfo.loginEmail) {
-        if (state[state.userInfo.loginEmail]) {
-          state[state.userInfo.loginEmail].push(payLoad);
-        } else {
-          state[state.userInfo.loginEmail] = [payLoad];
-        }
-      } else {
-        state.shoppingList.push(payLoad);
-      }
+      console.log(
+        state[state.userInfo.loginEmail + state.userInfo.shareId],
+        state,
+        payLoad
+      );
+      // if (state[state.userInfo.loginEmail+state.userInfo.shareId])
+      // if (state.userInfo.loginEmail) {
+      //   if (state[state.userInfo.loginEmail]) {
+      //     state[state.userInfo.loginEmail].push(payLoad);
+      //   } else {
+      //     state[state.userInfo.loginEmail] = [payLoad];
+      //   }
+      // } else {
+      //   state[state[state.userInfo.shareId]]
+      //   state.shoppingList.push(payLoad);
+      // }
     },
     handlerSearchForm(state, payLoad) {
       state.searchForm = payLoad;
@@ -125,7 +131,7 @@ const store = new Vuex.Store({
         );
         return state[state.userInfo.loginEmail] || [];
       } else {
-        return state.shoppingList;
+        return state[state[state.userInfo.shareId]] || [];
       }
     }
   },

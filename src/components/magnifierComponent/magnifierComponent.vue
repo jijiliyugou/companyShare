@@ -8,7 +8,19 @@
         @mouseleave="boxMouseLeave"
       >
         <!-- 产品图片 -->
-        <img v-if="middleImg.type === 'img'" :src="middleImg.url" alt="" />
+        <!-- :style="{
+            width: middleImgWidth - 2 + 'px',
+            height: middleImgHeight + 'px'
+          }" -->
+        <img
+          :style="{
+            width: middleImgWidth - 2 + 'px',
+            height: middleImgHeight + 'px'
+          }"
+          v-if="middleImg.type === 'img'"
+          :src="middleImg.url"
+          alt=""
+        />
         <!-- 产品视频 -->
         <video
           v-else-if="middleImg.type === 'video'"
@@ -378,14 +390,15 @@ export default {
   cursor: move;
 }
 .left_contaner .middle_img img {
-  width: 100%;
-  height: 100%;
+  /* width: 100%;
+  height: 100%; */
   object-fit: contain;
 }
 .left_contaner .carousel {
   width: 100%;
   margin-top: 20px;
-  display: -webkit-flex;
+  /* display: -webkit-flex; */
+  display: flex;
 }
 .left_contaner .carousel .show_box {
   flex: 1;
