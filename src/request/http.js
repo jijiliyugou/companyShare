@@ -32,8 +32,11 @@ myAxios.install = function(Vue) {
   // 使用axios请求拦截器统一设置请求头
   axios.interceptors.request.use(
     config => {
-      Message.closeAll();
-      $Store.commit("handlerAppLoading", true);
+      // if(config. )
+      if (config.url !== "/api/WebsiteShare/AddShoppingCart") {
+        Message.closeAll();
+        $Store.commit("handlerAppLoading", true);
+      }
       config.headers.Authorization = $Store.state.userInfo
         ? "bearer " + $Store.state.userInfo.token
         : "";
@@ -75,8 +78,10 @@ myAxios.install = function(Vue) {
   // 响应拦截
   axios.interceptors.response.use(
     res => {
-      Message.closeAll();
-      $Store.commit("handlerAppLoading", false);
+      if (res.config.url !== "/api/WebsiteShare/AddShoppingCart") {
+        Message.closeAll();
+        $Store.commit("handlerAppLoading", false);
+      }
       /** 全局设置请求时长和请求内容 */
       // const myUrl = res.config.url;
       // let httpDate;

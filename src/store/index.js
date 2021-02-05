@@ -1,11 +1,17 @@
 import Vue from "vue";
 import Vuex from "vuex";
-// import myAxios from "@/request/http";
+import { Message } from "element-ui";
 import createPersistedState from "vuex-persistedstate";
 Vue.use(Vuex);
-// function myForEach(oList, yList) {
-//   return [];
-// }
+function myForEach(oList, yList) {
+  for (let i = 0; i < oList.length; i++) {
+    for (let j = 0; j < yList.length; j++) {
+      if (oList[i].id === yList[j].id) {
+        oList.splice(i, 1);
+      }
+    }
+  }
+}
 const store = new Vuex.Store({
   state: {
     screenWidth: 0,
@@ -64,7 +70,13 @@ const store = new Vuex.Store({
     // 更新购物车
     replaceShoppingCart(state, payLoad) {
       if (state.userInfo.loginEmail) {
+        // 解决购物车数量增加减少getters监听不到的问题
+        state[state.userInfo.loginEmail] = [];
         state[state.userInfo.loginEmail] = payLoad;
+        // store.dispatch(
+        //   "addServiceShoppingCart",
+        //   state[state.userInfo.loginEmail] || []
+        // );
       } else {
         state.shoppingList = payLoad;
       }
@@ -73,24 +85,12 @@ const store = new Vuex.Store({
     resetShoppingCart(state, payLoad) {
       if (state.userInfo.loginEmail) {
         if (state[state.userInfo.loginEmail]) {
-          for (let i = 0; i < state[state.userInfo.loginEmail].length; i++) {
-            for (let j = 0; j < payLoad.length; j++) {
-              if (state[state.userInfo.loginEmail][i].id === payLoad[j].id) {
-                state[state.userInfo.loginEmail].splice(i, 1);
-              }
-            }
-          }
+          myForEach(state[state.userInfo.loginEmail], payLoad);
         } else {
           state[state.userInfo.loginEmail] = [];
         }
       } else {
-        for (let i = 0; i < state.shoppingList.length; i++) {
-          for (let j = 0; j < payLoad.length; j++) {
-            if (state.shoppingList[i].id === payLoad[j].id) {
-              state.shoppingList.splice(i, 1);
-            }
-          }
-        }
+        myForEach(state.shoppingList, payLoad);
       }
     },
     // 删除购物车某指定一个商品
@@ -118,10 +118,29 @@ const store = new Vuex.Store({
   getters: {
     myShoppingList(state) {
       if (state.userInfo && state.userInfo.loginEmail) {
+        store.dispatch(
+          "addServiceShoppingCart",
+          state[state.userInfo.loginEmail] || []
+        );
         return state[state.userInfo.loginEmail] || [];
       } else {
         return state.shoppingList;
       }
+    }
+  },
+  actions: {
+    addServiceShoppingCart({ state }, products) {
+      Vue.prototype.$http
+        .post("/api/WebsiteShare/AddShoppingCart", {
+          loginEmail: state.userInfo.loginEmail,
+          shoppingCarts: products
+        })
+        .then(res => {
+          if (res.data.result.code !== 200) {
+            Message.closeAll();
+            Message.error(res.data.result.message);
+          }
+        });
     }
   },
   modules: {},

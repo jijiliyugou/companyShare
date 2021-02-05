@@ -327,8 +327,13 @@ export default {
       );
       const { code, message } = res.data.result;
       if (code === 200) {
-        this.$store.commit("resetShoppingCart", selectProducts);
         this.$message.success("提交订单成功");
+        this.$store.commit("resetShoppingCart", selectProducts);
+        this.dataList.forEach((val, i) => {
+          selectProducts.forEach(item => {
+            if (item.id === val.id) this.dataList.splice(i, 1);
+          });
+        });
       } else {
         this.$message.error(message);
       }
