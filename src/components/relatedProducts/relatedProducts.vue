@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 import gonggeProductItem from "@/components/gonggeProductItem/gonggeProductItem.vue";
 export default {
   components: {
@@ -92,7 +92,9 @@ export default {
     productLang() {
       return this.$t("lang.product");
     },
-    ...mapState(["shoppingList"])
+    ...mapGetters({
+      shoppingList: "myShoppingList"
+    })
   }
 };
 </script>

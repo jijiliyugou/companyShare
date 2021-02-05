@@ -44,49 +44,84 @@ const store = new Vuex.Store({
     handlerUserInfo(state, payLoad) {
       state.userInfo = payLoad;
     },
+    // 加购
     pushShopping(state, payLoad) {
-      state.shoppingList.push(payLoad);
+      if (state.userInfo.loginEmail) {
+        if (state[state.userInfo.loginEmail]) {
+          state[state.userInfo.loginEmail].push(payLoad);
+        } else {
+          state[state.userInfo.loginEmail] = [payLoad];
+        }
+      } else {
+        state.shoppingList.push(payLoad);
+      }
     },
     handlerSearchForm(state, payLoad) {
       state.searchForm = payLoad;
     },
+    // 更新购物车
     replaceShoppingCart(state, payLoad) {
-      state.shoppingList = payLoad;
+      if (state.userInfo.loginEmail) {
+        state[state.userInfo.loginEmail] = payLoad;
+      } else {
+        state.shoppingList = payLoad;
+      }
     },
+    // 删除购物车某一个或多个商品
     resetShoppingCart(state, payLoad) {
-      for (let i = 0; i < state.shoppingList.length; i++) {
-        for (let j = 0; j < payLoad.length; j++) {
-          if (state.shoppingList[i].id === payLoad[j].id) {
-            state.shoppingList.splice(i, 1);
+      if (state.userInfo.loginEmail) {
+        if (state[state.userInfo.loginEmail]) {
+          for (let i = 0; i < state[state.userInfo.loginEmail].length; i++) {
+            for (let j = 0; j < payLoad.length; j++) {
+              if (state[state.userInfo.loginEmail][i].id === payLoad[j].id) {
+                state[state.userInfo.loginEmail].splice(i, 1);
+              }
+            }
+          }
+        } else {
+          state[state.userInfo.loginEmail] = [];
+        }
+      } else {
+        for (let i = 0; i < state.shoppingList.length; i++) {
+          for (let j = 0; j < payLoad.length; j++) {
+            if (state.shoppingList[i].id === payLoad[j].id) {
+              state.shoppingList.splice(i, 1);
+            }
           }
         }
       }
     },
+    // 删除购物车某指定一个商品
     popShopping(state, payLoad) {
-      for (let i = 0; i < state.shoppingList.length; i++) {
-        if (state.shoppingList[i].id === payLoad.id)
-          state.shoppingList.splice(i, 1);
+      if (state.userInfo.loginEmail) {
+        if (state[state.userInfo.loginEmail]) {
+          for (let i = 0; i < state[state.userInfo.loginEmail].length; i++) {
+            if (state[state.userInfo.loginEmail][i].id === payLoad.id)
+              state[state.userInfo.loginEmail].splice(i, 1);
+          }
+        } else {
+          state[state.userInfo.loginEmail] = [];
+        }
+      } else {
+        for (let i = 0; i < state.shoppingList.length; i++) {
+          if (state.shoppingList[i].id === payLoad.id)
+            state.shoppingList.splice(i, 1);
+        }
       }
     },
     handlerAppLoading(state, payLoad) {
       state.AppLoading = payLoad;
     }
   },
-  getters: {},
-  // actions: {
-  //   addMyCart({ state }) {
-  //     myAxios
-  //       .post("/api/WebsiteShare/AddShoppingCart", {
-  //         loginEmail: state.userInfo.loginEmail,
-  //         shoppingCarts: state.shoppingList
-  //       })
-  //       .then(res => {
-  //         if (res.data.result.code !== 200) {
-  //           console.log(res);
-  //         }
-  //       });
-  //   }
-  // },
+  getters: {
+    myShoppingList(state) {
+      if (state.userInfo.loginEmail) {
+        return state[state.userInfo.loginEmail] || [];
+      } else {
+        return state.shoppingList;
+      }
+    }
+  },
   modules: {},
   plugins: [
     createPersistedState({

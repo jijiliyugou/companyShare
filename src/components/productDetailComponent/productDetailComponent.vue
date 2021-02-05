@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import magnifierComponent from "@/components/magnifierComponent/magnifierComponent.vue";
 import relatedProducts from "@/components/relatedProducts/relatedProducts.vue";
 export default {
@@ -125,7 +125,9 @@ export default {
       return this.$t("lang.product");
     },
     ...mapState(["globalLang"]),
-    ...mapState(["shoppingList"])
+    ...mapGetters({
+      shoppingList: "myShoppingList"
+    })
   }
 };
 </script>

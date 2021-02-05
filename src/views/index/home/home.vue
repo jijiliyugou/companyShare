@@ -14,7 +14,7 @@
 <script>
 import newProductList from "@/components/newProductList/newProductList.vue";
 import homeProduct from "@/components/homeProduct/homeProduct.vue";
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 export default {
   components: {
     newProductList,
@@ -67,7 +67,9 @@ export default {
   },
   computed: {
     ...mapState(["userInfo"]),
-    ...mapState(["shoppingList"])
+    ...mapGetters({
+      shoppingList: "myShoppingList"
+    })
   },
   mounted() {}
 };

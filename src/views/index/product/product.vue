@@ -78,7 +78,7 @@
 <script>
 import thumbnailProducts from "@/components/thumbnailProducts/thumbnailProducts.vue";
 import listProducts from "@/components/listProducts/listProducts.vue";
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 export default {
   components: {
     thumbnailProducts,
@@ -169,7 +169,7 @@ export default {
     productLang() {
       return this.$t("lang.product");
     },
-    ...mapState(["shoppingList"]),
+    ...mapGetters(["shoppingList"]),
     ...mapState(["searchForm"])
   }
 };

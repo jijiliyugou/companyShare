@@ -27,7 +27,7 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 export default {
   methods: {
     // 回到顶部
@@ -49,7 +49,9 @@ export default {
     }
   },
   computed: {
-    ...mapState(["shoppingList"]),
+    ...mapGetters({
+      shoppingList: "myShoppingList"
+    }),
     ...mapState(["userInfo"])
   },
   watch: {

@@ -187,7 +187,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 export default {
   components: {},
   data() {
@@ -386,7 +386,7 @@ export default {
       return this.$t("lang.myShoppingCart");
     },
     ...mapState(["userInfo"]),
-    ...mapState(["shoppingList"])
+    ...mapGetters(["shoppingList"])
   },
   filters: {}
 };
