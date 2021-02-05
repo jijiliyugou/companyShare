@@ -3,6 +3,7 @@
     <div class="left">
       <div class="imgBox">
         <el-image
+          :lazy="true"
           :src="item.imageUrls && item.imageUrls[0]"
           fit="contain"
         ></el-image>

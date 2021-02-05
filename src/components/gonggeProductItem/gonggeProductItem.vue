@@ -5,7 +5,12 @@
         style="width:281px;height:199px;"
         fit="contain"
         :src="item.imageUrls && item.imageUrls[0]"
-      ></el-image>
+        :lazy="true"
+      >
+        <div slot="placeholder" class="image-slot">
+          加载中<span class="dot">...</span>
+        </div>
+      </el-image>
       <div class="newIconBox" v-if="item.isNew"></div>
     </div>
     <div class="context">

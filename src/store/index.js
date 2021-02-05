@@ -124,15 +124,17 @@ const store = new Vuex.Store({
   },
   getters: {
     myShoppingList(state) {
-      if (state.userInfo && state.userInfo.loginEmail) {
-        store.dispatch(
-          "addServiceShoppingCart",
-          state[state.userInfo.loginEmail] || []
-        );
-        return state[state.userInfo.loginEmail] || [];
-      } else {
-        return state[state[state.userInfo.shareId]] || [];
-      }
+      console.log(state);
+      return [];
+      // if (state.userInfo && state.userInfo.loginEmail) {
+      //   store.dispatch(
+      //     "addServiceShoppingCart",
+      //     state[state.userInfo.loginEmail] || []
+      //   );
+      //   return state[state.userInfo.loginEmail] || [];
+      // } else {
+      //   return state[state[state.userInfo.shareId]] || [];
+      // }
     }
   },
   actions: {

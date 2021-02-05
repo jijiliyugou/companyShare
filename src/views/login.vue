@@ -101,14 +101,14 @@ export default {
     },
     // 获取公司logo和名字
     async getCompanyLogo() {
+      //  + location.href
       // 设置默认图片和文字
       this.userLogo = {
         companyLogo: require("@/assets/images/logo.png"),
         companyName: this.loginLang.PreferredToys
       };
       const res = await this.$http.get(
-        "/api/WebsiteShare/GetCompanyInfoOnLogin?shareId=" +
-          this.$route.query.id
+        "/api/WebsiteShare/GetCompanyInfoOnLogin?url="
       );
       const { code, data } = res.data.result;
       if (code === 200) this.userLogo = data;
