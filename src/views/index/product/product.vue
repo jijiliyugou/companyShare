@@ -169,7 +169,9 @@ export default {
     productLang() {
       return this.$t("lang.product");
     },
-    ...mapGetters(["shoppingList"]),
+    ...mapGetters({
+      shoppingList: "myShoppingList"
+    }),
     ...mapState(["searchForm"])
   }
 };

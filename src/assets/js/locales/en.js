@@ -35,6 +35,7 @@ export default {
       exFactoryArticleNo: "Ex factory Article No",
       pleaseSelect: "Please select",
       dateOfIssue: "Date of issue",
+      all: "All",
       picture: "Picture",
       yes: "Yes",
       no: "No",

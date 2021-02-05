@@ -3,7 +3,9 @@ import Vuex from "vuex";
 // import myAxios from "@/request/http";
 import createPersistedState from "vuex-persistedstate";
 Vue.use(Vuex);
-
+// function myForEach(oList, yList) {
+//   return [];
+// }
 const store = new Vuex.Store({
   state: {
     screenWidth: 0,
@@ -115,7 +117,7 @@ const store = new Vuex.Store({
   },
   getters: {
     myShoppingList(state) {
-      if (state.userInfo.loginEmail) {
+      if (state.userInfo && state.userInfo.loginEmail) {
         return state[state.userInfo.loginEmail] || [];
       } else {
         return state.shoppingList;

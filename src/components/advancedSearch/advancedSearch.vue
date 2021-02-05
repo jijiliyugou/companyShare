@@ -146,7 +146,7 @@
                   </div>
                   <div class="myInput">
                     <el-input
-                      :placeholder="advancedSearchLang.long"
+                      :placeholder="advancedSearchLang.pleaseSelect"
                       @keyup.enter.native="search"
                       v-model="searchForm.fa_no"
                     >
@@ -194,12 +194,14 @@
                     <el-select
                       v-model="datetime"
                       @change="getDateList"
-                      placeholder="全部"
+                      :placeholder="advancedSearchLang.all"
                     >
                       <el-option
                         v-for="(item, i) in dateList"
                         :key="i"
-                        :label="item.label"
+                        :label="
+                          globalLang === 'zh-CN' ? item.label : item.eLabel
+                        "
                         :value="item.value"
                       >
                       </el-option>
@@ -240,12 +242,12 @@ export default {
     return {
       datetime: null,
       dateList: [
-        { label: "全部", value: null },
-        { label: "当天", value: "today" },
-        { label: "一周", value: "lastOneWeek" },
-        { label: "一个月", value: "lastOneMonth" },
-        { label: "三个月", value: "lastThreeMonth" },
-        { label: "六个月", value: "lastHalfYear" }
+        { label: "全部", eLabel: "All", value: null },
+        { label: "当天", eLabel: "Today", value: "today" },
+        { label: "一周", eLabel: "A week", value: "lastOneWeek" },
+        { label: "一个月", eLabel: "One month", value: "lastOneMonth" },
+        { label: "三个月", eLabel: "Three month", value: "lastThreeMonth" },
+        { label: "六个月", eLabel: "six month", value: "lastHalfYear" }
       ],
       isShowAdvancedSearch: true,
       activeNames: "activeNames"
@@ -255,7 +257,8 @@ export default {
     advancedSearchLang() {
       return this.$t("lang.advancedSearch");
     },
-    ...mapState(["searchForm"])
+    ...mapState(["searchForm"]),
+    ...mapState(["globalLang"])
   },
   methods: {
     // 格式化时间

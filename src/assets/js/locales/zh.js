@@ -35,6 +35,7 @@ export default {
       exFactoryArticleNo: "出厂货号",
       pleaseSelect: "请选择",
       dateOfIssue: "出厂日期",
+      all: "全部",
       picture: "图片",
       yes: "是",
       no: "否",

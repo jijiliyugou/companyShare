@@ -386,7 +386,9 @@ export default {
       return this.$t("lang.myShoppingCart");
     },
     ...mapState(["userInfo"]),
-    ...mapGetters(["shoppingList"])
+    ...mapGetters({
+      shoppingList: "myShoppingList"
+    })
   },
   filters: {}
 };
