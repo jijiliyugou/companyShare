@@ -41,6 +41,9 @@ const store = new Vuex.Store({
     }
   },
   mutations: {
+    handlerAppLoading(state, payLoad) {
+      state.AppLoading = payLoad;
+    },
     handlerSearchDate(state, payLoad) {
       state.searchForm.startTime = payLoad.startTime;
       state.searchForm.endTime = payLoad.endTime;
@@ -51,31 +54,33 @@ const store = new Vuex.Store({
     handlerUserInfo(state, payLoad) {
       state.userInfo = payLoad;
     },
+    handlerSearchForm(state, payLoad) {
+      state.searchForm = payLoad;
+    },
     // 加购
     pushShopping(state, payLoad) {
       const key =
         state.userInfo.shareId + "_" + (state.userInfo.loginEmail || "");
-      state[key].push(payLoad);
-    },
-    handlerSearchForm(state, payLoad) {
-      state.searchForm = payLoad;
+      if (state[key]) {
+        state[key].push(payLoad);
+      } else {
+        Vue.prototype.$set(state, key, [payLoad]);
+      }
+      if (state.userInfo.loginEmail) store.dispatch("addServiceShoppingCart");
     },
     // 更新购物车
     replaceShoppingCart(state, payLoad) {
       const key =
         state.userInfo.shareId + "_" + (state.userInfo.loginEmail || "");
-      // state[key] = payLoad;
       Vue.prototype.$set(state, key, payLoad);
-      // Vue.prototype.$set(state, key, payLoad);
-      // state[key] = JSON.parse(JSON.stringify(payLoad));
-      // if (payLoad) state[key] = [...payLoad];
-      // 解决购物车数量增加减少getters监听不到的问题
+      if (state.userInfo.loginEmail) store.dispatch("addServiceShoppingCart");
     },
     // 删除购物车某一个或多个商品
     resetShoppingCart(state, payLoad) {
       const key =
         state.userInfo.shareId + "_" + (state.userInfo.loginEmail || "");
       myForEach(state[key], payLoad);
+      if (state.userInfo.loginEmail) store.dispatch("addServiceShoppingCart");
     },
     // 删除购物车某指定一个商品
     popShopping(state, payLoad) {
@@ -84,6 +89,7 @@ const store = new Vuex.Store({
       for (let i = 0; i < state[key].length; i++) {
         if (state[key][i].id === payLoad.id) state[key].splice(i, 1);
       }
+      if (state.userInfo.loginEmail) store.dispatch("addServiceShoppingCart");
     },
     // 修改数量方法
     replaceShoppingCartValueCount(state, payLoad) {
@@ -95,39 +101,45 @@ const store = new Vuex.Store({
           Vue.prototype.$set(state[key][i], keys, payLoad[i][keys]);
         }
       }
-    },
-    handlerAppLoading(state, payLoad) {
-      state.AppLoading = payLoad;
+      if (state.userInfo.loginEmail) store.dispatch("addServiceShoppingCart");
     }
   },
   getters: {
     myShoppingList(state) {
-      if (state.userInfo && state.userInfo.shareId) {
-        if (state.userInfo.loginEmail) {
-          const key =
-            state.userInfo.shareId + "_" + (state.userInfo.loginEmail || "");
-          if (state[key]) {
-            store.dispatch("addServiceShoppingCart", state[key] || []);
-            return state[key];
-          }
-        } else {
-          const key = state.userInfo.shareId + "_";
-          if (state[key]) {
-            return state[key];
-          }
-          return (state[key] = []);
-        }
-      } else {
+      console.log(1234);
+      // if (state.userInfo && state.userInfo.shareId) {
+      //   if (state.userInfo.loginEmail) {
+      //     const key =
+      //       state.userInfo.shareId + "_" + (state.userInfo.loginEmail || "");
+      //     if (state[key]) {
+      //       store.dispatch("addServiceShoppingCart", state[key] || []);
+      //       return state[key];
+      //     }
+      //   } else {
+      //     const key = state.userInfo.shareId + "_";
+      //     if (state[key]) {
+      //       return state[key];
+      //     }
+      //     return (state[key] = []);
+      //   }
+      // } else {
+      //   return [];
+      // }
+      if (!state.userInfo) {
         return [];
       }
+      return state[
+        state.userInfo.shareId + "_" + (state.userInfo.loginEmail || "")
+      ];
     }
   },
   actions: {
-    addServiceShoppingCart({ state }, products) {
+    addServiceShoppingCart({ state }) {
       Vue.prototype.$http
         .post("/api/WebsiteShare/AddShoppingCart", {
           loginEmail: state.userInfo.loginEmail,
-          shoppingCarts: products
+          shoppingCarts:
+            state[state.userInfo.shareId + "_" + state.userInfo.loginEmail]
         })
         .then(res => {
           if (res.data.result.code !== 200) {

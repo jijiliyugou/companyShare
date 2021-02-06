@@ -115,7 +115,7 @@
         <div class="totalBox">
           <div class="left"></div>
           <div class="middle">
-            {{ myShoppingCartLang.totalQuantity }}：{{ dataList.length }}
+            {{ myShoppingCartLang.totalQuantity }}：{{ myTotalQuantity() }}
           </div>
           <div class="right">
             <div class="totalVolume">
@@ -339,6 +339,15 @@ export default {
         this.$message.error(message);
       }
     },
+    // 计算总数量
+    myTotalQuantity() {
+      let number = 0;
+      for (let i = 0; i < this.dataList.length; i++) {
+        console.log(this.dataList[i].shoppingCount);
+        number = this.add(number, this.dataList[i].shoppingCount || 0);
+      }
+      return number;
+    },
     // 删除购物车中的某项
     handleDelete(row) {
       this.$store.commit("popShopping", row);
@@ -376,7 +385,6 @@ export default {
     // 修改购物车数量
     changeInputNumber() {
       this.$store.commit("replaceShoppingCartValueCount", this.dataList);
-      this.$store.dispatch("addServiceShoppingCart", this.shoppingList);
     }
   },
   created() {

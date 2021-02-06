@@ -138,12 +138,15 @@ export default {
       );
       const { data, code, message } = res.data.result;
       if (code === 200) {
-        for (let i = 0; i < data.items.length; i++) {
-          for (let j = 0; j < this.shoppingList.length; j++) {
-            if (data.items[i].id === this.shoppingList[j].id)
-              data.items[i].isShopping = true;
+        if (this.shoppingList) {
+          for (let i = 0; i < data.items.length; i++) {
+            for (let j = 0; j < this.shoppingList.length; j++) {
+              if (data.items[i].id === this.shoppingList[j].id)
+                data.items[i].isShopping = true;
+            }
           }
         }
+
         this.productList = data.items;
         this.totalCount = data.totalCount;
       } else this.$message.error(message);

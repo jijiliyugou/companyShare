@@ -59,13 +59,12 @@ export default {
       const { code, data, message } = res.data.result;
       if (code === 200) {
         this.$store.commit("replaceShoppingCart", data.shoppingCarts);
-        this.$nextTick(() => this.getCompanyShareIndex());
       } else this.$message.error(message);
     }
   },
   created() {
-    if (this.userInfo.loginEmail) this.getShoppingCarts();
     document.title = "公司首页";
+    if (this.userInfo.loginEmail) this.getShoppingCarts();
   },
   computed: {
     ...mapState(["userInfo"]),
@@ -74,7 +73,7 @@ export default {
     })
   },
   mounted() {
-    if (!this.userInfo.loginEmail) this.getCompanyShareIndex();
+    this.getCompanyShareIndex();
   }
 };
 </script>
