@@ -398,7 +398,9 @@ export default {
     document.title = "购物车";
   },
   mounted() {
-    this.dataList = JSON.parse(JSON.stringify(this.shoppingList));
+    this.dataList = this.shoppingList
+      ? JSON.parse(JSON.stringify(this.shoppingList))
+      : [];
     this.formInfo.loginEmail = this.userInfo.loginEmail;
     // 默认全选
     this.$refs.multipleTable.toggleAllSelection();

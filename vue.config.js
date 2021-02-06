@@ -17,7 +17,6 @@ switch (env) {
     target = devEnv.hosturl;
     break;
 }
-// console.log(target);
 module.exports = {
   publicPath: "/",
   lintOnSave: true, // 是否在开发环境下每次保存代码时都启用 eslint验证

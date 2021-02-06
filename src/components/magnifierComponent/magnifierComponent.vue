@@ -102,7 +102,29 @@
     </div>
     <!-- 移动端预览大图 -->
     <el-dialog :visible.sync="dialogVisibleImg" v-if="dialogVisibleImg">
-      <img width="100%" :src="middleImg.url" alt />
+      <el-carousel
+        height="700px"
+        :autoplay="false"
+        loop
+        ref="swiperRef"
+        width="100%"
+      >
+        <!-- indicator-position="none" -->
+        <el-carousel-item
+          v-for="(item, i) in [...imageUrls, ...imageUrls, ...imageUrls]"
+          :key="i"
+        >
+          <img
+            @touchstart="touchStart"
+            @touchmove="touchMove"
+            @touchend="touchEnd"
+            width="100%"
+            height="700px"
+            :src="item"
+            alt
+          />
+        </el-carousel-item>
+      </el-carousel>
     </el-dialog>
   </div>
 </template>
@@ -148,6 +170,11 @@ export default {
   },
   data() {
     return {
+      direction: null,
+      startX: 0, //开始触摸的位置
+      moveX: 0, //滑动时的位置
+      endX: 0, //结束触摸的位置
+      disX: 0, //移动距离
       dialogVisibleImg: false,
       pictureList: [], // 缩略图
       middleImg: "", // 中图图片地址
@@ -257,6 +284,54 @@ export default {
     });
   },
   methods: {
+    touchEnd(e) {
+      e = e || window.event;
+      e.preventDefault();
+      switch (this.direction) {
+        case "left":
+          this.$refs.swiperRef.next();
+          break;
+        case "right":
+          this.$refs.swiperRef.prev();
+          break;
+      }
+    },
+    touchStart(e) {
+      e = e || window.event;
+      e.preventDefault();
+      if (e.touches.length == 1) {
+        //tounches类数组，等于1时表示此时有只有一只手指在触摸屏幕
+        this.startX = e.touches[0].clientX; // 记录开始位置
+        this.direction = null;
+      }
+    },
+    touchMove(e) {
+      e = e || window.event;
+      e.preventDefault();
+      if (e.touches.length == 1) {
+        //滑动时距离浏览器左侧的距离
+        this.moveX = e.touches[0].clientX;
+        //实时的滑动的距离-起始位置=实时移动的位置
+        this.disX = this.moveX - this.startX;
+        if (this.disX < 0 || this.disX == 0) {
+          // 左滑动 上一张
+          this.direction = "left";
+        } else if (this.disX > 0) {
+          // 右滑动 下一张
+          this.direction = "right";
+        } else {
+          this.direction = null;
+        }
+      }
+    },
+    // 左滑动事件
+    leftChangeImg() {
+      console.log(123);
+    },
+    // 右滑动事件
+    rightChangeImg() {
+      console.log(456);
+    },
     // 关闭预览大图
     closeViewer() {
       this.dialogVisibleImg = false;
@@ -508,5 +583,9 @@ export default {
   .el-dialog {
     width: 100%;
   }
+}
+.el-carousel__arrow {
+  width: 100px;
+  height: 100px;
 }
 </style>

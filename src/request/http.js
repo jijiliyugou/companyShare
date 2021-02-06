@@ -3,27 +3,27 @@ import axios from "axios";
 import $Store from "@/store";
 import router from "@/router/index.js";
 import { Message } from "element-ui";
-// const proEnv = require("@/assets/js/config/pro.env"); // 生产环境
-// const testEnv = require("@/assets/js/config/test.env"); // 测试环境
-// const devEnv = require("@/assets/js/config/dev.env"); // 本地环境
-// const env = process.env.NODE_ENV;
-// let target = "";
-// // 默认是本地环境
-// switch (env) {
-//   case "production": // 生产环境
-//     target = proEnv.hosturl;
-//     break;
-//   case "test": // 测试环境
-//     target = testEnv.hosturl;
-//     break;
-//   default:
-//     // 本地环境
-//     target = devEnv.hosturl;
-//     break;
-// }
+const proEnv = require("@/assets/js/config/pro.env"); // 生产环境
+const testEnv = require("@/assets/js/config/test.env"); // 测试环境
+const devEnv = require("@/assets/js/config/dev.env"); // 本地环境
+const env = process.env.NODE_ENV;
+let target = "";
+// 默认是本地环境
+switch (env) {
+  case "production": // 生产环境
+    target = proEnv.hosturl;
+    break;
+  case "test": // 测试环境
+    target = testEnv.hosturl;
+    break;
+  default:
+    // 本地环境
+    target = devEnv.hosturl;
+    break;
+}
 const myAxios = {};
 myAxios.install = function(Vue) {
-  // axios.defaults.baseURL = target;
+  if (env === "production") axios.defaults.baseURL = target;
   axios.defaults.timeout = 20000; // 超时时间
   axios.defaults.retry = 1; // 请求次数
   axios.defaults.retryDelay = 1000; // 请求间隙

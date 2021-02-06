@@ -63,7 +63,7 @@ export default {
       formLabelAlign: {
         verifyCode: "",
         email: "",
-        url: location.href
+        url: location.href.replace(/%2F/, "/")
       },
       loginFormRules: {
         verifyCode: [
