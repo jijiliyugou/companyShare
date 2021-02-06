@@ -6,13 +6,14 @@
         class="middle_img"
         @mouseover="boxMouseOver"
         @mouseleave="boxMouseLeave"
+        @click="openBigImg(middleImg.url)"
       >
         <!-- 产品图片 -->
         <!-- :style="{
             width: middleImgWidth - 2 + 'px',
             height: middleImgHeight + 'px'
           }" -->
-        <img
+        <!-- <img
           :style="{
             width: middleImgWidth - 2 + 'px',
             height: middleImgHeight + 'px'
@@ -20,7 +21,12 @@
           v-if="middleImg.type === 'img'"
           :src="middleImg.url"
           alt=""
-        />
+        /> -->
+        <el-image
+          v-if="middleImg.type === 'img'"
+          fit="contain"
+          :src="middleImg.url"
+        ></el-image>
         <!-- 产品视频 -->
         <video
           v-else-if="middleImg.type === 'video'"
@@ -94,12 +100,18 @@
     <div class="right_contanier" v-show="isBig">
       <img :src="middleImg.url" ref="bigImg" class="big_img" alt="" />
     </div>
+    <!-- 移动端预览大图 -->
+    <el-dialog :visible.sync="dialogVisibleImg" v-if="dialogVisibleImg">
+      <img width="100%" :src="middleImg.url" alt />
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import $ from "jquery";
+import { mapState } from "vuex";
 export default {
+  components: {},
   props: {
     middleImgWidth: {
       // 产品图片宽
@@ -136,6 +148,7 @@ export default {
   },
   data() {
     return {
+      dialogVisibleImg: false,
       pictureList: [], // 缩略图
       middleImg: "", // 中图图片地址
       bigImg: "", // 大图图片地址
@@ -150,6 +163,9 @@ export default {
     };
   },
   created() {},
+  computed: {
+    ...mapState(["screenWidth"])
+  },
   mounted() {
     if (this.imageUrls && this.imageUrls.length) {
       this.pictureList = this.imageUrls;
@@ -181,6 +197,15 @@ export default {
         width: this.middleImgWidth,
         height: this.middleImgHeight
       });
+      // 设置产品图宽高
+      $(".middle_img .el-image").css({
+        width: this.middleImgWidth - 2,
+        height: this.middleImgHeight - 2
+      });
+      $(".middle_img .el-image img").css({
+        width: this.middleImgWidth - 2,
+        height: this.middleImgHeight - 2
+      });
       // 设置移动阴影图宽高
       $(".middle_img .shade").css({
         width: this.middleImgWidth / this.zoom,
@@ -209,7 +234,7 @@ export default {
         height: this.thumbnailHeight
       });
       // 设置每个缩略图宽度
-      $(".imgBox>video").css({
+      $(".imgBox video").css({
         height: this.thumbnailHeight - 2,
         width: this.thumbnailWidth
       });
@@ -232,8 +257,21 @@ export default {
     });
   },
   methods: {
+    // 关闭预览大图
+    closeViewer() {
+      this.dialogVisibleImg = false;
+    },
+    // 点击大图
+    openBigImg() {
+      if (this.screenWidth <= 1090 && this.middleImg.type === "img") {
+        this.dialogVisibleImg = true;
+      }
+    },
     // 产品图片鼠标移入事件,显示阴影,显示大图
     boxMouseOver(e) {
+      if (this.screenWidth <= 1090) {
+        return false;
+      }
       if (this.middleImg.type !== "img") {
         return false;
       }
@@ -369,7 +407,8 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="less">
+@deep: ~">>>";
 .magnify {
   position: relative;
 }
@@ -464,5 +503,10 @@ export default {
   position: absolute;
   top: 0px;
   left: 0px;
+}
+@{deep} .el-dialog__wrapper {
+  .el-dialog {
+    width: 100%;
+  }
 }
 </style>
