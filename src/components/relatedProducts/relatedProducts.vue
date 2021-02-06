@@ -43,10 +43,12 @@ export default {
   },
   methods: {
     filterShopping(products) {
-      for (let i = 0; i < products.length; i++) {
-        for (let j = 0; j < this.shoppingList.length; j++) {
-          if (products[i].id === this.shoppingList[j].id)
-            products[i].isShopping = true;
+      if (this.shoppingList) {
+        for (let i = 0; i < products.length; i++) {
+          for (let j = 0; j < this.shoppingList.length; j++) {
+            if (products[i].id === this.shoppingList[j].id)
+              products[i].isShopping = true;
+          }
         }
       }
     },

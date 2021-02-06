@@ -263,13 +263,13 @@ export default {
     },
     // 点击大图
     openBigImg() {
-      if (this.screenWidth <= 1090 && this.middleImg.type === "img") {
+      if (document.body.clientWidth <= 1024 && this.middleImg.type === "img") {
         this.dialogVisibleImg = true;
       }
     },
     // 产品图片鼠标移入事件,显示阴影,显示大图
     boxMouseOver(e) {
-      if (this.screenWidth <= 1090) {
+      if (document.body.clientWidth <= 1024) {
         return false;
       }
       if (this.middleImg.type !== "img") {
