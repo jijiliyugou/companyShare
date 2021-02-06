@@ -99,13 +99,22 @@ export default {
   .cart {
     background-color: #ff760e;
     .cartIconBox {
-      width: 20px;
-      height: 20px;
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
+      width: 50px;
+      height: 50px;
+      position: relative;
+      .el-badge {
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
       .cartIcon {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
         display: block;
         width: 20px;
         height: 20px;
