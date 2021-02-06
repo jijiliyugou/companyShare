@@ -190,7 +190,7 @@ export default {
   width: 100%;
   .orderBox {
     margin: 0 auto;
-    width: 1240px;
+    max-width: 1240px;
     box-sizing: border-box;
     padding: 0 23px;
     background-color: #fff;

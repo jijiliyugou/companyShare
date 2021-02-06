@@ -424,7 +424,7 @@ export default {
   width: 100%;
   margin-top: 20px;
   .myCartBoX {
-    width: 1240px;
+    max-width: 1240px;
     background-color: #fff;
     margin: 0 auto;
     .wrapTitle {

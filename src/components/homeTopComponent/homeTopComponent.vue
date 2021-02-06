@@ -281,7 +281,7 @@ export default {
   }
   .menuBox {
     width: 100%;
-    height: 50px;
+    height: 52px;
     background-color: #3368a9;
     color: #fff;
     font-size: 14px;
@@ -297,6 +297,7 @@ export default {
         align-items: center;
         .el-menu {
           height: 50px;
+          box-sizing: border-box;
           .el-menu-item {
             min-width: 180px;
             height: 50px;

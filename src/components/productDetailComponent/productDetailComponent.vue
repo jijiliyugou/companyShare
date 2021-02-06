@@ -167,14 +167,14 @@ export default {
 @deep: ~">>>";
 .productDetailWrap {
   .detailBox {
-    width: 1240px;
+    max-width: 1240px;
     height: 552px;
     margin: 0 auto;
     background-color: #fff;
     display: flex;
-    .left,
+    // .left,
     .right {
-      width: 50%;
+      max-width: 50%;
       box-sizing: border-box;
     }
     .right {

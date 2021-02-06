@@ -193,7 +193,7 @@ export default {
   min-height: calc(100% - 482px) !important;
   .productList {
     margin: 0 auto;
-    width: 1240px;
+    max-width: 1240px;
     margin-top: 20px;
     background-color: #fff;
     .filterBar {
