@@ -8,7 +8,10 @@
         :lazy="true"
       >
         <div slot="placeholder" class="image-slot">
-          加载中<span class="dot">...</span>
+          <img :src="require('@/assets/images/errorImg.png')" />
+        </div>
+        <div slot="error" class="image-slot">
+          <img :src="require('@/assets/images/errorImg.png')" />
         </div>
       </el-image>
       <div class="newIconBox" v-if="item.isNew"></div>
@@ -89,11 +92,14 @@ export default {
 <style scoped lang="less">
 .item {
   width: 283px;
-  height: 290px;
+  // height: 290px;
   background: #ffffff;
   border: 1px solid #d2d2d2;
   border-radius: 5px;
   margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   cursor: pointer;
   .itemImg {
     position: relative;
@@ -106,21 +112,32 @@ export default {
       background: url("~@/assets/images/newIcon.png") no-repeat center;
       background-size: 100% 100%;
     }
+    .el-image {
+      width: 281px;
+      height: 199px;
+      img {
+        width: 281px;
+        height: 199px;
+        object-fit: contain;
+      }
+    }
   }
   .context {
-    height: 90px;
+    // height: 90px;
     padding: 0 18px;
-    box-sizing: border-box;
+    padding-bottom: 10px;
+    // box-sizing: border-box;
     .productName {
       font-size: 16px;
       color: #000;
-      margin-top: 18px;
+      margin-top: 10px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
     .priceBox {
       margin-top: 5px;
+      padding-bottom: 10px;
       display: flex;
       justify-content: space-between;
       align-items: center;

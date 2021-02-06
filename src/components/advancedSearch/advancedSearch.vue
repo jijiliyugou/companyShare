@@ -45,11 +45,9 @@
           </div>
           <div class="inputItem">
             <div class="searchBtn" v-show="isShowAdvancedSearch">
-              <el-button
-                type="warning"
-                @click="search"
-                icon="el-icon-search"
-              ></el-button>
+              <el-button type="warning" @click="search" icon="el-icon-search">{{
+                homeLang.search
+              }}</el-button>
             </div>
           </div>
         </div>
@@ -226,7 +224,9 @@
             </div>
             <div class="btns">
               <el-button>{{ advancedSearchLang.reset }}</el-button>
-              <el-button icon="el-icon-search" @click="search"></el-button>
+              <el-button class="myBtn" icon="el-icon-search" @click="search">{{
+                homeLang.search
+              }}</el-button>
             </div>
           </div>
         </el-collapse-transition>
@@ -254,6 +254,9 @@ export default {
     };
   },
   computed: {
+    homeLang() {
+      return this.$t("lang.home");
+    },
     advancedSearchLang() {
       return this.$t("lang.advancedSearch");
     },
@@ -385,6 +388,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@deep: ~">>>";
 .wrapBox {
   width: 100%;
   .editionCenter {
@@ -401,6 +405,9 @@ export default {
       .topTitle {
         display: flex;
         justify-content: space-between;
+        .left {
+          font-weight: 600;
+        }
         .right {
           cursor: pointer;
         }
@@ -430,12 +437,19 @@ export default {
             text-align: center;
           }
           .searchBtn {
-            .el-button {
+            @{deep} .el-button {
               color: #fff;
-              width: 86px;
+              width: 100px;
               height: 40px;
               background: #ff760e;
               border-radius: 4px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 16px;
+              i {
+                font-size: 18px;
+              }
             }
           }
         }
@@ -527,8 +541,9 @@ export default {
           display: flex;
           justify-content: center;
           .el-button {
-            height: 36px;
-            width: 86px;
+            width: 100px;
+            height: 40px;
+            font-size: 16px;
             background-color: #ebebeb;
             border-color: #ebebeb;
             color: #666;
@@ -537,6 +552,14 @@ export default {
               background-color: #ff760e;
               color: #fff;
               border-color: #ff760e;
+            }
+            &.myBtn {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              i {
+                font-size: 18px;
+              }
             }
           }
         }

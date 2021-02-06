@@ -8,17 +8,23 @@
         >
       </div>
       <el-table
-        :header-cell-style="{ backgroundColor: '#F5F5F5', color: '#666' }"
+        :header-cell-style="{
+          backgroundColor: '#F5F5F5',
+          color: '#666',
+          'font-size': '14px',
+          'font-weight': 400
+        }"
         :data="dataList"
         id="myTable"
         ref="multipleTable"
         size="medium"
+        :empty-text="publicLang.noData"
         tooltip-effect="dark"
         highlight-current-row
       >
         <el-table-column
           type="selection"
-          width="50"
+          width="60"
           align="center"
         ></el-table-column>
         <el-table-column
@@ -335,6 +341,7 @@ export default {
           }
         }
         this.$store.commit("resetShoppingCart", selectProducts);
+        this.$router.push("/index/myOrder");
       } else {
         this.$message.error(message);
       }
@@ -400,6 +407,9 @@ export default {
     myShoppingCartLang() {
       return this.$t("lang.myShoppingCart");
     },
+    publicLang() {
+      return this.$t("lang.publicLang");
+    },
     ...mapState(["userInfo"]),
     ...mapGetters({
       shoppingList: "myShoppingList"
@@ -431,10 +441,16 @@ export default {
         font-weight: 400;
       }
     }
+    .el-table {
+      color: #000;
+      font-size: 16px;
+    }
     .statisticsBox {
       width: 100%;
       box-sizing: border-box;
       padding: 20px;
+      color: #666;
+      font-size: 14px;
       .totalBox {
         height: 50px;
         background: #f5f5f5;
@@ -487,7 +503,13 @@ export default {
           box-sizing: border-box;
           padding: 26px 0;
         }
-        .userInfoBox {
+        @{deep} .userInfoBox {
+          .el-form-item {
+            color: #606266;
+            .el-form-item__label {
+              color: #606266;
+            }
+          }
           .wrapBox {
             display: flex;
             .left,
@@ -528,6 +550,22 @@ export default {
 .tablePrice {
   .price {
     color: #ff760e;
+  }
+}
+@{deep} .el-checkbox__input {
+  padding: 6px;
+  .el-checkbox__inner {
+    width: 18px;
+    height: 18px;
+    &::after {
+      left: 6px;
+      top: 3px;
+    }
+  }
+}
+@{deep} .el-checkbox__input.is-indeterminate {
+  .el-checkbox__inner::before {
+    top: 7px;
   }
 }
 </style>

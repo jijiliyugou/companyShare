@@ -6,7 +6,14 @@
           :lazy="true"
           :src="item.imageUrls && item.imageUrls[0]"
           fit="contain"
-        ></el-image>
+        >
+          <div slot="placeholder" class="image-slot">
+            <img :src="require('@/assets/images/errorImg.png')" />
+          </div>
+          <div slot="error" class="image-slot">
+            <img :src="require('@/assets/images/errorImg.png')" />
+          </div>
+        </el-image>
         <div class="newIcon" v-if="item.isNew"></div>
       </div>
       <div class="priceBox">
@@ -36,7 +43,9 @@
         }}</span>
       </div>
       <div class="itemText">
-        {{ productLang.package }}：<span>{{ item.packMethod }}</span>
+        {{ productLang.package }}：<span>{{
+          globalLang === "zh-CN" ? item.packMethod : item.packEnName
+        }}</span>
       </div>
       <div class="itemText">
         {{ productLang.productSpecification }}：<span

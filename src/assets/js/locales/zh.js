@@ -97,6 +97,9 @@ export default {
       orderInformation: "订单信息",
       productInformation: "产品信息",
       totalVolume: "总体积"
+    },
+    publicLang: {
+      noData: "暂无数据"
     }
   }
 };

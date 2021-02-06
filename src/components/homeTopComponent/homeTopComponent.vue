@@ -4,8 +4,7 @@
       <div class="left">
         <el-image
           @click.native="tohome"
-          width="55px"
-          height="60px"
+          fit="contain"
           :src="userInfo && userInfo.companyLogo"
         ></el-image>
         <span class="leftTitleText">{{
@@ -221,11 +220,12 @@ export default {
       align-items: center;
       .el-image {
         cursor: pointer;
-        width: 55px;
+        width: 60px;
         height: 60px;
         img {
-          width: 55px;
+          width: 60px;
           height: 60px;
+          object-fit: contain;
         }
       }
       white-space: nowrap;
@@ -266,7 +266,7 @@ export default {
         }
         .el-input__icon {
           cursor: pointer;
-          font-size: 16px;
+          font-size: 20px;
           color: #3368a9;
         }
         .el-button {
@@ -298,9 +298,11 @@ export default {
         .el-menu {
           height: 50px;
           .el-menu-item {
+            min-width: 180px;
             height: 50px;
             text-align: center;
             line-height: 50px;
+            font-size: 18px;
           }
         }
       }
@@ -309,33 +311,54 @@ export default {
         .el-menu-item i {
           color: #fff;
           margin-right: 10px;
+          font-size: 20px;
         }
         .el-menu-item.is-active i {
-          color: #ffd04b;
+          color: #fff;
           margin-right: 10px;
         }
-        .itemBox {
-          width: 160px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          .icon {
-            width: 18px;
-            height: 18px;
-            margin-right: 10px;
-            &.cartIcon {
-              background: url("~@/assets/images/cartIcon.png") center no-repeat;
-              background-size: 100% 100%;
-            }
-            &.orderIcon {
-              width: 14px;
-              background: url("~@/assets/images/orderIcon.png") center no-repeat;
-              background-size: 100% 100%;
-            }
-          }
-        }
+        // .itemBox {
+        //   width: 160px;
+        //   display: flex;
+        //   align-items: center;
+        //   justify-content: center;
+        //   cursor: pointer;
+        //   .icon {
+        //     width: 18px;
+        //     height: 18px;
+        //     margin-right: 10px;
+        // &.cartIcon {
+        //   background: url("~@/assets/images/cartIcon.png") center no-repeat;
+        //   background-size: 100% 100%;
+        // }
+        // &.orderIcon {
+        //   width: 14px;
+        //   background: url("~@/assets/images/orderIcon.png") center no-repeat;
+        //   background-size: 100% 100%;
+        // }
+        //   }
+        // }
       }
+    }
+  }
+}
+@{deep} .el-menu-item {
+  &.is-active {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    color: #fff !important;
+    border-bottom-color: transparent !important;
+    position: relative;
+    &::after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-bottom: 7px solid #fff;
+      left: 50%;
+      bottom: -2px;
+      transform: translate(-50%, 0);
     }
   }
 }

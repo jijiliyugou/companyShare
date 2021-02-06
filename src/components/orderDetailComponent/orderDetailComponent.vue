@@ -63,7 +63,12 @@
       </div>
       <div class="myTable">
         <el-table
-          :header-cell-style="{ backgroundColor: '#F5F5F5', color: '#666' }"
+          :header-cell-style="{
+            backgroundColor: '#F5F5F5',
+            color: '#666',
+            'font-size': '14px',
+            'font-weight': 400
+          }"
           :data="tableList"
           id="myTable"
           ref="multipleTable"
@@ -102,6 +107,7 @@
             </template>
           </el-table-column>
           <el-table-column
+            width="400"
             :prop="globalLang === 'zh-CN' ? 'productName' : 'productEName'"
             :label="myShoppingCartLang.productName"
             align="center"
@@ -438,6 +444,10 @@ export default {
     }
     .myTable {
       border: 1px solid #e9e9e9;
+      .el-table {
+        font-size: 16px;
+        color: #000;
+      }
     }
     .totalBox {
       height: 120px;

@@ -97,6 +97,9 @@ export default {
       orderInformation: "Order information",
       productInformation: "Product information",
       totalVolume: "Total volume"
+    },
+    publicLang: {
+      noData: "No data"
     }
   }
 };

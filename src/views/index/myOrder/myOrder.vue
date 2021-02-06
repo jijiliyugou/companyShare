@@ -8,59 +8,64 @@
         >
       </div>
       <ul class="orderListWrap">
-        <li class="itemBox" v-for="(item, i) in orderList" :key="i">
-          <div class="orderTitle">
-            <div class="left">
-              {{ myOrderLang.oddNumbers }}：
-              <span class="value">{{ item.orderNumber }}</span>
-            </div>
-            <div
-              class="right"
-              @click="exportOrder(item.orderNumber)"
-              v-if="userInfo.isExportExcel"
-            >
-              <i class="iconfont icon-daochujinruchukou"></i>
-              {{ myOrderLang.exportOrder }}
-            </div>
-          </div>
-          <div class="orderContent">
-            <div class="one">
+        <template v-if="orderList.length > 1">
+          <li class="itemBox" v-for="(item, i) in orderList" :key="i">
+            <div class="orderTitle">
               <div class="left">
-                <div class="keys">{{ myOrderLang.orderTime }}：</div>
-                <div class="keys">{{ myOrderLang.companyName }}：</div>
+                {{ myOrderLang.oddNumbers }}：
+                <span class="value">{{ item.orderNumber }}</span>
               </div>
-              <div class="right">
-                <div class="values">{{ item.createdOn.replace(/T/, " ") }}</div>
-                <div class="values">{{ item.companyName }}</div>
-              </div>
-            </div>
-            <div class="two">
-              <div class="left">
-                <div class="keys">{{ myOrderLang.totalQuantity }}：</div>
-                <div class="keys">{{ myOrderLang.email }}：</div>
-              </div>
-              <div class="right">
-                <div class="values">{{ item.totalCount }}</div>
-                <div class="values">{{ item.email }}</div>
+              <div
+                class="right"
+                @click="exportOrder(item.orderNumber)"
+                v-if="userInfo.isExportExcel"
+              >
+                <i class="iconfont icon-daochujinruchukou"></i>
+                {{ myOrderLang.exportOrder }}
               </div>
             </div>
-            <div class="three">
-              <div class="left">
-                <div class="keys">{{ myOrderLang.totalPrice }}：</div>
-                <div class="keys">{{ myOrderLang.contact }}：</div>
+            <div class="orderContent">
+              <div class="one">
+                <div class="left">
+                  <div class="keys">{{ myOrderLang.orderTime }}：</div>
+                  <div class="keys">{{ myOrderLang.companyName }}：</div>
+                </div>
+                <div class="right">
+                  <div class="values">
+                    {{ item.createdOn.replace(/T/, " ") }}
+                  </div>
+                  <div class="values">{{ item.companyName }}</div>
+                </div>
               </div>
-              <div class="right">
-                <div class="values">USD {{ item.totalAmount }}</div>
-                <div class="values">{{ item.contactName }}</div>
+              <div class="two">
+                <div class="left">
+                  <div class="keys">{{ myOrderLang.totalQuantity }}：</div>
+                  <div class="keys">{{ myOrderLang.email }}：</div>
+                </div>
+                <div class="right">
+                  <div class="values">{{ item.totalCount }}</div>
+                  <div class="values">{{ item.email }}</div>
+                </div>
+              </div>
+              <div class="three">
+                <div class="left">
+                  <div class="keys">{{ myOrderLang.totalPrice }}：</div>
+                  <div class="keys">{{ myOrderLang.contact }}：</div>
+                </div>
+                <div class="right">
+                  <div class="values">USD {{ item.totalAmount }}</div>
+                  <div class="values">{{ item.contactName }}</div>
+                </div>
+              </div>
+              <div class="four">
+                <el-button type="warning" @click="toOrderDetail(item)" plain>{{
+                  myOrderLang.viewDetails
+                }}</el-button>
               </div>
             </div>
-            <div class="four">
-              <el-button type="warning" @click="toOrderDetail(item)" plain>{{
-                myOrderLang.viewDetails
-              }}</el-button>
-            </div>
-          </div>
-        </li>
+          </li>
+        </template>
+        <center v-else style="padding:20px;">{{ publicLang.noData }}</center>
       </ul>
       <!-- 分页 -->
       <center class="paginationWrap">
@@ -171,6 +176,9 @@ export default {
   computed: {
     myOrderLang() {
       return this.$t("lang.myOrder");
+    },
+    publicLang() {
+      return this.$t("lang.publicLang");
     },
     ...mapState(["userInfo"])
   }
