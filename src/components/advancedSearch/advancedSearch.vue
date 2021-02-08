@@ -439,7 +439,7 @@ export default {
           .searchBtn {
             @{deep} .el-button {
               color: #fff;
-              width: 100px;
+              width: 120px;
               height: 40px;
               background: #ff760e;
               border-radius: 4px;
@@ -541,7 +541,7 @@ export default {
           display: flex;
           justify-content: center;
           .el-button {
-            width: 100px;
+            width: 120px;
             height: 40px;
             font-size: 16px;
             background-color: #ebebeb;
