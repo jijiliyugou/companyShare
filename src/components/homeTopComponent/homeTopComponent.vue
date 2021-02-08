@@ -347,7 +347,7 @@ export default {
   &.is-active {
     background-color: rgba(255, 255, 255, 0.2) !important;
     color: #fff !important;
-    border-bottom-color: transparent !important;
+    border-bottom-color: #5c86ba !important;
     position: relative;
     &::after {
       content: "";
@@ -358,7 +358,7 @@ export default {
       border-right: 7px solid transparent;
       border-bottom: 7px solid #fff;
       left: 50%;
-      bottom: -2px;
+      bottom: -3px;
       transform: translate(-50%, 0);
     }
   }

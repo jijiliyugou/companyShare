@@ -109,11 +109,7 @@
         ref="swiperRef"
         width="100%"
       >
-        <!-- indicator-position="none" -->
-        <el-carousel-item
-          v-for="(item, i) in [...imageUrls, ...imageUrls, ...imageUrls]"
-          :key="i"
-        >
+        <el-carousel-item v-for="(item, i) in imageUrls" :key="i">
           <img
             @touchstart="touchStart"
             @touchmove="touchMove"
@@ -323,14 +319,6 @@ export default {
           this.direction = null;
         }
       }
-    },
-    // 左滑动事件
-    leftChangeImg() {
-      console.log(123);
-    },
-    // 右滑动事件
-    rightChangeImg() {
-      console.log(456);
     },
     // 关闭预览大图
     closeViewer() {
