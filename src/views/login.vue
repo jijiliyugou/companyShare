@@ -165,9 +165,9 @@ export default {
       border: 1px solid #e9e9e9;
       box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
       box-sizing: border-box;
-      // padding: 20px;
       .title {
         min-height: 105px;
+        height: 105px;
         display: flex;
         align-items: center;
         justify-content: center;
