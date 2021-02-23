@@ -72,14 +72,20 @@ export default {
     },
     // 查看详情
     toDetails(item) {
-      if (!this.$route.path.includes("/productDetails")) {
-        this.$router.push({
-          path: "/productDetails",
-          query: { item: JSON.stringify(item) }
-        });
-      } else {
-        this.$root.eventHub.$emit("resetProductDetail", JSON.stringify(item));
-      }
+      // if (!this.$route.path.includes("/productDetails")) {
+      //   let { href } = this.$router.resolve({
+      //     path: "/productDetails",
+      //     query: { item: JSON.stringify(item) }
+      //   });
+      //   window.open(href, "_blank");
+      // } else {
+      //   this.$root.eventHub.$emit("resetProductDetail", JSON.stringify(item));
+      // }
+      let { href } = this.$router.resolve({
+        path: "/productDetails",
+        query: { item: JSON.stringify(item) }
+      });
+      window.open(href, "_blank");
     }
   },
   created() {},

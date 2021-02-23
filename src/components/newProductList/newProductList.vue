@@ -3,8 +3,8 @@
     <div class="content">
       <div class="title">
         <span class="titleText">{{ productLang.newProductArea }}</span>
-        <span class="more" @click="toProducts"
-          >{{ productLang.more }}
+        <span class="more" @click="toProducts">
+          <span class="text">{{ productLang.more }}</span>
           <i class="icon el-icon-d-arrow-right"></i>
         </span>
       </div>
@@ -96,9 +96,16 @@ export default {
         display: flex;
         align-items: center;
         justify-content: center;
+        font-weight: bold;
         cursor: pointer;
+        .text {
+          margin-top: -5px;
+        }
         .icon {
           margin-left: 5px;
+          font-size: 12px;
+          vertical-align: bottom;
+          font-weight: bold;
         }
       }
     }

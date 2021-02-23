@@ -3,8 +3,8 @@
     <div class="content">
       <div class="title">
         <span class="titleText">{{ productLang.relatedProducts }}</span>
-        <span class="more" @click="toProductList"
-          >{{ productLang.more }}
+        <span class="more" @click="toProductList">
+          <span class="text">{{ productLang.more }}</span>
           <i class="icon el-icon-d-arrow-right"></i>
         </span>
       </div>
@@ -140,14 +140,20 @@ export default {
         border: 1px solid #d2d2d2;
         border-radius: 120px;
         font-size: 16px;
-        font-weight: 400;
+        font-weight: bold;
         color: #666666;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
+        .text {
+          margin-top: -5px;
+        }
         .icon {
           margin-left: 5px;
+          font-size: 12px;
+          vertical-align: bottom;
+          font-weight: bold;
         }
       }
     }

@@ -116,10 +116,15 @@ export default {
     },
     // 查看详情
     toDetails(item) {
-      this.$router.push({
+      // this.$router.push({
+      //   path: "/productDetails",
+      //   query: { item: JSON.stringify(item) }
+      // });
+      let { href } = this.$router.resolve({
         path: "/productDetails",
         query: { item: JSON.stringify(item) }
       });
+      window.open(href, "_blank");
     }
   },
   created() {},

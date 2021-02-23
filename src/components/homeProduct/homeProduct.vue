@@ -90,7 +90,7 @@ export default {
         border: 1px solid #d2d2d2;
         border-radius: 120px;
         font-size: 16px;
-        font-weight: 400;
+        font-weight: bold;
         color: #666666;
         display: flex;
         align-items: center;
@@ -103,6 +103,7 @@ export default {
           margin-left: 5px;
           font-size: 12px;
           vertical-align: bottom;
+          font-weight: bold;
         }
       }
     }
