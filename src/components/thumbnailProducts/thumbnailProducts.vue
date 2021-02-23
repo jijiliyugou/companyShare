@@ -1,7 +1,6 @@
 <template>
   <div class="thumbnailProducts">
     <gonggeProductItem
-      v-lazy="item.id"
       v-for="item in productList"
       :key="item.id"
       :item="item"

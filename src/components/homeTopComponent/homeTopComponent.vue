@@ -89,7 +89,14 @@
           >
             <el-menu-item index="/index/shoppingCart">
               <template slot="title">
-                <i class="iconfont icon-gouwuche"></i>
+                <el-badge
+                  type="warning"
+                  :hidden="!shoppingList || shoppingList.length < 1"
+                  :value="shoppingList && shoppingList.length"
+                  class="myBadge"
+                >
+                  <i class="iconfont icon-gouwuche"></i>
+                </el-badge>
                 <span>{{ homeLang.ShoppingCart }}</span>
               </template>
             </el-menu-item>
@@ -107,7 +114,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 export default {
   name: "home-top-component",
   props: {},
@@ -115,6 +122,9 @@ export default {
     homeLang() {
       return this.$t("lang.home");
     },
+    ...mapGetters({
+      shoppingList: "myShoppingList"
+    }),
     ...mapState(["searchForm"]),
     ...mapState(["userInfo"])
   },
@@ -274,6 +284,7 @@ export default {
           color: #fff;
           border-color: #3368a9;
           min-width: 90px;
+          font-size: 16px;
           border-radius: 0px;
         }
       }
@@ -309,10 +320,14 @@ export default {
       }
       .right {
         justify-content: flex-end;
+        .el-menu {
+          .el-menu-item {
+            font-size: 14px !important;
+          }
+        }
         .el-menu-item i {
           color: #fff;
           margin-right: 10px;
-          font-size: 20px;
         }
         .el-menu-item.is-active i {
           color: #fff;
@@ -361,6 +376,12 @@ export default {
       bottom: -3px;
       transform: translate(-50%, 0);
     }
+  }
+}
+@{deep} .myBadge {
+  .el-badge__content.is-fixed {
+    top: 15px;
+    right: 20px;
   }
 }
 </style>

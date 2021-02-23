@@ -1,11 +1,6 @@
 <template>
   <div class="listProducts">
-    <listProductItem
-      v-for="item in productList"
-      :key="item.id"
-      v-lazy="item.id"
-      :item="item"
-    />
+    <listProductItem v-for="item in productList" :key="item.id" :item="item" />
     <div class="kong"></div>
   </div>
 </template>

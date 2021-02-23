@@ -25,6 +25,43 @@
               <i v-show="isPrice === 2" class="el-icon-caret-top"></i>
             </span>
           </div>
+          <div class="updateTime">
+            <div class="title">{{ advancedSearchLang.updateTime }}</div>
+            <el-date-picker
+              size="mini"
+              value-format="yyyy-MM-ddTHH:mm:ss"
+              v-model="datetime"
+              type="daterange"
+              range-separator="-"
+              :start-placeholder="advancedSearchLang.startDate"
+              :end-placeholder="advancedSearchLang.endDate"
+            ></el-date-picker>
+          </div>
+          <div class="priceRange">
+            <div class="title">{{ advancedSearchLang.priceRange }}</div>
+            <div class="myInput">
+              <el-input
+                size="mini"
+                :placeholder="advancedSearchLang.miniPrice"
+                @keyup.enter.native="search"
+                v-model="searchForm.minPrice"
+              >
+              </el-input>
+              <span class="middleLine">-</span>
+              <el-input
+                size="mini"
+                :placeholder="advancedSearchLang.maxPrice"
+                @keyup.enter.native="search"
+                v-model="searchForm.maxPrice"
+              >
+              </el-input>
+            </div>
+          </div>
+          <div class="config">
+            <el-button type="warning" @click="confirmSearch" size="mini">{{
+              advancedSearchLang.confirm
+            }}</el-button>
+          </div>
         </div>
         <div class="right">
           <div class="checkView">
@@ -36,15 +73,24 @@
               @click="isThumbnail = 'thumbnailProducts'"
             >
               <i class="iconfont icon-split-screen-compare"></i>
-              <span class="text">{{ productLang.thumbnail }}</span>
+              <!-- <span class="text">{{ productLang.thumbnail }}</span> -->
             </div>
             <div
               :class="{ list: true, active: isThumbnail === 'listProducts' }"
               @click="isThumbnail = 'listProducts'"
             >
               <i class="iconfont icon-liebiao"></i>
-              <span class="text">{{ productLang.list }}</span>
+              <!-- <span class="text">{{ productLang.list }}</span> -->
             </div>
+          </div>
+          <div class="myPagination">
+            <div @click="firstEvent" class="first el-icon-arrow-left"></div>
+            <div class="count">
+              <span class="pageIndex">{{ currentPage }}</span>
+              <span>/</span>
+              <span>{{ Math.ceil(totalCount / pageSize) }}</span>
+            </div>
+            <div @click="nextEvent" class="next el-icon-arrow-right"></div>
           </div>
         </div>
       </div>
@@ -67,7 +113,7 @@
         :current-page.sync="currentPage"
         :page-sizes="[16, 32, 64]"
         :page-size="pageSize"
-        layout="sizes, prev, pager, next"
+        layout="sizes, prev, pager, next, jumper"
         :total="totalCount"
       >
       </el-pagination>
@@ -86,6 +132,8 @@ export default {
   },
   data() {
     return {
+      clientWidth: 0,
+      datetime: null,
       isDate: 0,
       isPrice: 0,
       sortOrder: "",
@@ -97,6 +145,41 @@ export default {
     };
   },
   methods: {
+    // 过滤搜索
+    confirmSearch() {
+      let dateFd;
+      if (this.datetime) {
+        dateFd = {
+          startTime: this.datetime[0],
+          endTime: this.datetime[1]
+        };
+      } else {
+        dateFd = {
+          startTime: "",
+          endTime: ""
+        };
+      }
+      this.$store.commit("handlerSearchDate", dateFd);
+      this.getSearchCompanyShareProductPage();
+    },
+    // 上一页
+    firstEvent() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+        this.getSearchCompanyShareProductPage();
+      } else {
+        this.$message.error("已经是第一页");
+      }
+    },
+    // 下一页
+    nextEvent() {
+      if (this.currentPage < Math.ceil(this.totalCount / this.pageSize)) {
+        this.currentPage++;
+        this.getSearchCompanyShareProductPage();
+      } else {
+        this.$message.error("已经是最后一页");
+      }
+    },
     // 时间排序
     sortDate(number) {
       this.sortOrder = number;
@@ -168,6 +251,7 @@ export default {
   created() {
     document.title = "产品列表";
     this.getSearchCompanyShareProductPage();
+    this.clientWidth = document.body.clientWidth;
   },
   mounted() {
     this.$root.eventHub.$on("resetProducts", () => {
@@ -178,6 +262,9 @@ export default {
   computed: {
     productLang() {
       return this.$t("lang.product");
+    },
+    advancedSearchLang() {
+      return this.$t("lang.advancedSearch");
     },
     ...mapGetters({
       shoppingList: "myShoppingList"
@@ -190,6 +277,7 @@ export default {
 };
 </script>
 <style scoped lang="less">
+@deep: ~">>>";
 .productWrap {
   width: 100%;
   min-height: calc(100% - 482px) !important;
@@ -210,14 +298,40 @@ export default {
       box-sizing: border-box;
       .left,
       .right {
-        flex: 1;
         display: flex;
+        align-items: center;
         .priceBox {
           cursor: pointer;
           margin-left: 40px;
           &.active {
             color: #ff760e;
           }
+        }
+        .updateTime,
+        .priceRange {
+          display: flex;
+          margin-left: 40px;
+          align-items: center;
+          .title {
+            margin-right: 10px;
+          }
+          @{deep} .myInput {
+            display: flex;
+            width: 145px;
+            align-items: center;
+            .middleLine {
+              margin: 0 5px;
+            }
+          }
+          .el-date-editor--daterange.el-input,
+          .el-date-editor--daterange.el-input__inner,
+          .el-date-editor--timerange.el-input,
+          .el-date-editor--timerange.el-input__inner {
+            width: 210px;
+          }
+        }
+        .config {
+          margin-left: 10px;
         }
         .dateBox {
           cursor: pointer;
@@ -226,8 +340,12 @@ export default {
           }
         }
       }
+      .left {
+        flex: 1;
+      }
       .right {
         justify-content: flex-end;
+        margin-left: 10px;
         .checkView {
           color: #666666;
           display: flex;
@@ -245,6 +363,22 @@ export default {
             margin-left: 30px;
           }
         }
+        .myPagination {
+          width: 110px;
+          display: flex;
+          align-items: center;
+          justify-content: space-evenly;
+          margin-left: 20px;
+          .first,
+          .next {
+            cursor: pointer;
+          }
+          .count {
+            .pageIndex {
+              color: #ff760e;
+            }
+          }
+        }
       }
     }
     .productListWrap {
@@ -257,6 +391,23 @@ export default {
   }
   .paginationWrap {
     padding: 30px 0;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .myInput {
+    width: 140px !important;
+  }
+  .el-date-editor--daterange.el-input,
+  .el-date-editor--daterange.el-input__inner,
+  .el-date-editor--timerange.el-input,
+  .el-date-editor--timerange.el-input__inner {
+    width: 140px !important;
+  }
+  .priceBox,
+  .updateTime,
+  .priceRange {
+    margin-left: 20px !important;
   }
 }
 </style>

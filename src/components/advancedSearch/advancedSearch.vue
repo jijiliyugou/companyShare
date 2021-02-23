@@ -58,8 +58,8 @@
             </div>
             <div class="unit"></div>
           </div>
-          <div class="inputItem">
-            <div class="searchBtn" v-show="isShowAdvancedSearch">
+          <div class="inputItem" v-show="isShowAdvancedSearch">
+            <div class="searchBtn">
               <el-button type="warning" @click="search" icon="el-icon-search">{{
                 homeLang.search
               }}</el-button>
@@ -235,9 +235,6 @@
                       :label="false"
                       >{{ advancedSearchLang.no }}</el-radio
                     >
-                    <div class="unit">
-                      CM
-                    </div>
                   </div>
                 </div>
               </div>
@@ -458,7 +455,7 @@ export default {
           }
           .title {
             display: flex;
-            width: 100px;
+            width: 111px;
             align-items: center;
           }
           .myInput {
@@ -502,7 +499,7 @@ export default {
               align-items: center;
               .title {
                 display: flex;
-                width: 133px;
+                width: 111px;
                 align-items: center;
               }
               .myInput {
@@ -527,7 +524,7 @@ export default {
               align-items: center;
               .title {
                 display: flex;
-                width: 133px;
+                width: 111px;
                 align-items: center;
               }
               .myInput {
@@ -555,7 +552,7 @@ export default {
             display: flex;
             .title {
               display: flex;
-              width: 133px;
+              width: 111px;
               align-items: center;
             }
             .myInput {
