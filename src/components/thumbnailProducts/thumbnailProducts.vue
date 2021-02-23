@@ -1,9 +1,9 @@
 <template>
   <div class="thumbnailProducts">
     <gonggeProductItem
-      :lazy="true"
-      v-for="(item, i) in productList"
-      :key="i"
+      v-lazy="item.id"
+      v-for="item in productList"
+      :key="item.id"
       :item="item"
     />
     <div class="kong"></div>

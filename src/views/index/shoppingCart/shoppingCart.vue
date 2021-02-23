@@ -327,6 +327,7 @@ export default {
           productImage: val.imageUrls[0]
         };
       });
+      console.log(this.formInfo);
       const res = await this.$http.post(
         "/api/WebsiteShare/CreateShareOrder",
         this.formInfo
@@ -458,6 +459,8 @@ export default {
         background: #f5f5f5;
         display: flex;
         align-items: center;
+        box-sizing: border-box;
+        padding: 0 25px;
         .left,
         .right {
           flex: 1;

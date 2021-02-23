@@ -2,6 +2,7 @@ import zh from "./zh.js";
 import en from "./en.js";
 import Vue from "vue";
 import store from "@/store/index.js";
+
 // 引入并使用vue-i18n
 import VueI18n from "vue-i18n";
 Vue.use(VueI18n);
@@ -17,4 +18,7 @@ const i18n = new VueI18n({
     en: en
   }
 });
+// Vue.use(Element, {
+//   i18n: (key, value) => i18n.t(key, value)
+// });
 export default i18n;

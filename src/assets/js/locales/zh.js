@@ -1,3 +1,5 @@
+// element-ui国际化
+import zhLocale from "element-ui/lib/locale/lang/zh-CN";
 export default {
   lang: {
     login: {
@@ -101,5 +103,6 @@ export default {
     publicLang: {
       noData: "暂无数据"
     }
-  }
+  },
+  ...zhLocale
 };

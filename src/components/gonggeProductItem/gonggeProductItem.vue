@@ -5,7 +5,7 @@
         style="width:281px;height:199px;"
         fit="contain"
         :src="item.imageUrls && item.imageUrls[0]"
-        :lazy="true"
+        lazy
       >
         <div slot="placeholder" class="image-slot">
           <img :src="require('@/assets/images/errorImg.png')" />

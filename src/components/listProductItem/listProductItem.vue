@@ -62,7 +62,7 @@
       <div class="itemText">
         {{ productLang.packageSpecification }}：<span
           >{{ item.innerLenth }} x {{ item.innerWidth }} x
-          {{ item.innerheigth }} (CM)</span
+          {{ item.innerHeight }} (CM)</span
         >
       </div>
       <div class="itemText">

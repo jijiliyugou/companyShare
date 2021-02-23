@@ -65,7 +65,7 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page.sync="currentPage"
-        :page-sizes="[8, 16, 24, 32]"
+        :page-sizes="[16, 32, 64]"
         :page-size="pageSize"
         layout="sizes, prev, pager, next"
         :total="totalCount"
@@ -90,7 +90,7 @@ export default {
       isPrice: 0,
       sortOrder: "",
       isThumbnail: "thumbnailProducts",
-      pageSize: 8,
+      pageSize: 32,
       currentPage: 1,
       totalCount: 0,
       productList: []
@@ -153,12 +153,14 @@ export default {
     },
     // 切換頁容量
     handleSizeChange(pageSize) {
+      $("#app").animate({ scrollTop: 0 }, 10);
       this.pageSize = pageSize;
       if (this.currentPage * pageSize > this.totalCount) return false;
       this.getSearchCompanyShareProductPage();
     },
     // 修改当前页
     handleCurrentChange(page) {
+      $("#app").animate({ scrollTop: 0 }, 10);
       this.currentPage = page;
       this.getSearchCompanyShareProductPage();
     }

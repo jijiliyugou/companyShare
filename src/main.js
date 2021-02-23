@@ -26,8 +26,11 @@ import ElementUI from "element-ui";
 })(document, window);
 // 引入语言包，注意路径
 import i18n from "@/assets/js/locales/index.js";
+// element-ui国际化
+Vue.use(ElementUI, {
+  i18n: (key, value) => i18n.t(key, value)
+});
 Vue.config.productionTip = false;
-Vue.use(ElementUI);
 Vue.use(myAxios);
 new Vue({
   i18n,

@@ -62,7 +62,7 @@
             <span
               >{{ productDetails.innerLenth }} x
               {{ productDetails.innerWidth }} x
-              {{ productDetails.innerheigth }} (CM)</span
+              {{ productDetails.innerHeight }} (CM)</span
             >
           </div>
           <div class="itemText">
@@ -148,6 +148,7 @@ export default {
         this.productDetails.imageUrls = obj.imageUrls || [];
       });
     });
+    console.log(this.productDetails);
   },
   computed: {
     productLang() {

@@ -21,9 +21,11 @@ switch (env) {
     target = devEnv.hosturl;
     break;
 }
+console.log(target);
 const myAxios = {};
 myAxios.install = function(Vue) {
-  if (env === "production") axios.defaults.baseURL = target;
+  // if (env === "production") axios.defaults.baseURL = target;
+  axios.defaults.baseURL = target;
   axios.defaults.timeout = 20000; // 超时时间
   axios.defaults.retry = 1; // 请求次数
   axios.defaults.retryDelay = 1000; // 请求间隙
@@ -32,7 +34,6 @@ myAxios.install = function(Vue) {
   // 使用axios请求拦截器统一设置请求头
   axios.interceptors.request.use(
     config => {
-      // if(config. )
       if (config.url !== "/api/WebsiteShare/AddShoppingCart") {
         Message.closeAll();
         $Store.commit("handlerAppLoading", true);
