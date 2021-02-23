@@ -48,13 +48,21 @@
               {{ advancedSearchLang.packingMethod + "：" }}
             </div>
             <div class="myInput">
-              <el-input
+              <!-- <el-input
                 @keyup.enter.native="search"
                 :placeholder="advancedSearchLang.pleaseInputTheContent"
                 v-model="searchForm.ch_pa"
                 clearable
               >
-              </el-input>
+              </el-input> -->
+              <el-select v-model="searchForm.pa_nu" :placeholder="advancedSearchLang.pleaseInputTheContent">
+                <el-option
+                  v-for="item in packingList"
+                  :key="item.value"
+                  :label="item.ch_pa"
+                  :value="item.pa_nu">
+                </el-option>
+            </el-select>
             </div>
             <div class="unit"></div>
           </div>
@@ -270,6 +278,7 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
+      packingList: [],
       datetime: null,
       dateList: [
         { label: "全部", eLabel: "All", value: null },
@@ -294,6 +303,17 @@ export default {
     ...mapState(["globalLang"])
   },
   methods: {
+    // 获取包装方式list
+    // async getProductChpaList () {
+    //   const fd = {}
+    //   if (this.productInfo.productOfferType !== 'company') fd.supplierNumber = this.productInfo.companyNumber
+    //   const res = await this.$http.post('/api/GetProductChpaList', fd)
+    //   if (res.data.result.code === 200) {
+    //     this.packingList = res.data.result.item
+    //   } else {
+    //     this.$message.error(res.data.result.msg)
+    //   }
+    // },
     // 格式化时间
     formatTime(param) {
       const y = param.getFullYear();
