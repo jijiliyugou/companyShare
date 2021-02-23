@@ -559,11 +559,13 @@ export default {
   overflow: hidden;
   position: absolute;
   top: 0;
+  background-color: #fff;
   border: 1px solid #eee;
   /* border: 1px solid #d2d2d2; */
 }
 .right_contanier .big_img {
   position: absolute;
+  object-fit: contain;
   top: 0px;
   left: 0px;
 }

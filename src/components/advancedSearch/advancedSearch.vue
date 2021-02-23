@@ -30,6 +30,21 @@
           </div>
           <div class="inputItem">
             <div class="title">
+              {{ advancedSearchLang.exFactoryArticleNo + "：" }}
+            </div>
+            <div class="myInput">
+              <el-input
+                @keyup.enter.native="search"
+                :placeholder="advancedSearchLang.pleaseInputTheContent"
+                v-model="searchForm.fa_no"
+                clearable
+              >
+              </el-input>
+            </div>
+            <div class="unit"></div>
+          </div>
+          <div class="inputItem">
+            <div class="title">
               {{ advancedSearchLang.packingMethod + "：" }}
             </div>
             <div class="myInput">
@@ -138,7 +153,7 @@
                     CM
                   </div>
                 </div>
-                <div class="itemInput">
+                <!-- <div class="itemInput">
                   <div class="title">
                     {{ advancedSearchLang.exFactoryArticleNo + "：" }}
                   </div>
@@ -149,6 +164,29 @@
                       v-model="searchForm.fa_no"
                     >
                     </el-input>
+                  </div>
+                  <div class="unit"></div>
+                </div> -->
+                <div class="itemInput">
+                  <div class="title">
+                    {{ advancedSearchLang.dateOfIssue + "：" }}
+                  </div>
+                  <div class="myInput">
+                    <el-select
+                      v-model="datetime"
+                      @change="getDateList"
+                      :placeholder="advancedSearchLang.all"
+                    >
+                      <el-option
+                        v-for="(item, i) in dateList"
+                        :key="i"
+                        :label="
+                          globalLang === 'zh-CN' ? item.label : item.eLabel
+                        "
+                        :value="item.value"
+                      >
+                      </el-option>
+                    </el-select>
                   </div>
                   <div class="unit"></div>
                 </div>
@@ -184,32 +222,27 @@
                     CM
                   </div>
                 </div>
-                <div class="itemInput">
+                <div class="itemInput" style="height:40px;alignItem: center;">
                   <div class="title">
-                    {{ advancedSearchLang.dateOfIssue + "：" }}
+                    {{ advancedSearchLang.picture + "：" }}
                   </div>
                   <div class="myInput">
-                    <el-select
-                      v-model="datetime"
-                      @change="getDateList"
-                      :placeholder="advancedSearchLang.all"
+                    <el-radio v-model="searchForm.isUpInsetImg" :label="true">{{
+                      advancedSearchLang.yes
+                    }}</el-radio>
+                    <el-radio
+                      v-model="searchForm.isUpInsetImg"
+                      :label="false"
+                      >{{ advancedSearchLang.no }}</el-radio
                     >
-                      <el-option
-                        v-for="(item, i) in dateList"
-                        :key="i"
-                        :label="
-                          globalLang === 'zh-CN' ? item.label : item.eLabel
-                        "
-                        :value="item.value"
-                      >
-                      </el-option>
-                    </el-select>
+                    <div class="unit">
+                      CM
+                    </div>
                   </div>
-                  <div class="unit"></div>
                 </div>
               </div>
             </div>
-            <div class="pictureBox">
+            <!-- <div class="pictureBox">
               <div class="itemInput">
                 <div class="title">{{ advancedSearchLang.picture + "：" }}</div>
                 <div class="myInput">
@@ -221,7 +254,7 @@
                   }}</el-radio>
                 </div>
               </div>
-            </div>
+            </div> -->
             <div class="btns">
               <el-button>{{ advancedSearchLang.reset }}</el-button>
               <el-button class="myBtn" icon="el-icon-search" @click="search">{{
@@ -419,13 +452,13 @@ export default {
         .inputItem {
           flex: 1;
           display: flex;
-          margin-left: 10px;
+          margin: 10px 0;
           &:first-of-type {
             margin-left: 0;
           }
           .title {
             display: flex;
-            width: 133px;
+            width: 100px;
             align-items: center;
           }
           .myInput {
@@ -488,7 +521,6 @@ export default {
           }
           .middle {
             flex: 1;
-            margin-left: 10px;
             .itemInput {
               margin-top: 20px;
               display: flex;
@@ -567,6 +599,9 @@ export default {
       @media screen and (max-width: 1024px) {
         .consistencyBox {
           flex-direction: column;
+        }
+        .bottomInput {
+          flex-wrap: wrap;
         }
       }
     }
