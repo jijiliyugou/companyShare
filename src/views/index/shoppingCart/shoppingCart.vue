@@ -63,7 +63,8 @@
           align="center"
         >
           <template slot-scope="scope">
-            USD <span style="margin-left:5px;">{{ scope.row.price }}</span>
+            <span>{{ userInfo.currencyType }}</span>
+            <span style="margin-left:5px;">{{ scope.row.price }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -98,7 +99,7 @@
         >
           <template slot-scope="scope">
             <div class="tablePrice">
-              USD
+              <span>{{ userInfo.currencyType }}</span>
               <span class="price">{{
                 multiply(scope.row.price, scope.row.shoppingCount)
               }}</span>
@@ -131,7 +132,8 @@
               </span>
             </div>
             <div class="totalPrice">
-              {{ myShoppingCartLang.totalPrice }}: USD
+              {{ myShoppingCartLang.totalPrice }}:
+              <span>{{ userInfo.currencyType }}</span>
               <span style="margin-left:5px;" class="price">
                 {{ myTotalPrice(dataList) }}
               </span>
@@ -312,7 +314,7 @@ export default {
     divide(a, b, digits) {
       return this.operation(a, b, digits, "divide");
     },
-    // 形成订单
+    // 提交订单
     async submitOrder() {
       const selectProducts = this.$refs.multipleTable.selection;
       this.formInfo.shareOrderDetails = selectProducts.map(val => {
@@ -555,6 +557,7 @@ export default {
 .tablePrice {
   .price {
     color: #ff760e;
+    margin-left: 5px;
   }
 }
 @{deep} .el-checkbox__input {

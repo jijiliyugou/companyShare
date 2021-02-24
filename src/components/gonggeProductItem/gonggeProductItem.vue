@@ -22,7 +22,7 @@
       </div>
       <div class="priceBox">
         <div class="left">
-          <span>USD</span>
+          <span>{{ userInfo.currencyType }}</span>
           <span class="price">{{ item.price }}</span>
         </div>
         <div class="right">
@@ -91,7 +91,8 @@ export default {
   created() {},
   mounted() {},
   computed: {
-    ...mapState(["globalLang"])
+    ...mapState(["globalLang"]),
+    ...mapState(["userInfo"])
   }
 };
 </script>

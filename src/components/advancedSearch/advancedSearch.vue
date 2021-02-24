@@ -55,14 +55,18 @@
                 clearable
               >
               </el-input> -->
-              <el-select v-model="searchForm.pa_nu" :placeholder="advancedSearchLang.pleaseInputTheContent">
+              <el-select
+                v-model="searchForm.pa_nu"
+                :placeholder="advancedSearchLang.pleaseInputTheContent"
+              >
                 <el-option
                   v-for="item in packingList"
                   :key="item.value"
                   :label="item.ch_pa"
-                  :value="item.pa_nu">
+                  :value="item.pa_nu"
+                >
                 </el-option>
-            </el-select>
+              </el-select>
             </div>
             <div class="unit"></div>
           </div>

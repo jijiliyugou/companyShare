@@ -38,9 +38,13 @@ myAxios.install = function(Vue) {
         Message.closeAll();
         $Store.commit("handlerAppLoading", true);
       }
-      config.headers.Authorization = $Store.state.userInfo
-        ? "bearer " + $Store.state.userInfo.token
-        : "";
+      if (
+        config.url !== "/api/Account/CompanyShareLogin" &&
+        !config.url.includes("/api/WebsiteShare/GetCompanyInfoOnLogin")
+      ) {
+        config.headers.Authorization = "bearer " + $Store.state.userInfo.token;
+      }
+      // config.headers.Authorization = "bearer " + $Store.state.userInfo.token;
       config.headers["content-type"] = "application/json";
       return config;
     },

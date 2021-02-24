@@ -8,7 +8,7 @@
         >
       </div>
       <ul class="orderListWrap">
-        <template v-if="orderList.length > 1">
+        <template v-if="orderList.length > 0">
           <li class="itemBox" v-for="(item, i) in orderList" :key="i">
             <div class="orderTitle">
               <div class="left">
@@ -135,7 +135,6 @@ export default {
             keyword: "",
             pageIndex: this.currentPage,
             pageSize: this.pageSize,
-            companyNumber: this.userInfo.companyNumber,
             loginEmail: this.userInfo.loginEmail
           }
         }
@@ -144,6 +143,7 @@ export default {
       if (code === 200) {
         this.orderList = data.items;
         this.totalCount = data.totalCount;
+        console.log(this.orderList, res);
       } else {
         this.$message.error(message);
       }

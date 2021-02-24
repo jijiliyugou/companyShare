@@ -26,7 +26,8 @@
           <div class="itemText">
             {{ productLang.price }}：
             <span class="priceBox"
-              >USD<span class="price">{{ productDetails.price }}</span></span
+              >{{ userInfo.currencyType
+              }}<span class="price">{{ productDetails.price }}</span></span
             >
           </div>
           <div class="itemText">
@@ -155,6 +156,7 @@ export default {
       return this.$t("lang.product");
     },
     ...mapState(["globalLang"]),
+    ...mapState(["userInfo"]),
     ...mapGetters({
       shoppingList: "myShoppingList"
     })

@@ -18,7 +18,7 @@
       </div>
       <div class="priceBox">
         <div class="leftPrice">
-          <span class="currency">USD</span>
+          <span class="currency">{{ userInfo.currencyType }}</span>
           <span class="price">{{ item.price }}</span>
         </div>
         <div
@@ -133,7 +133,8 @@ export default {
     productLang() {
       return this.$t("lang.product");
     },
-    ...mapState(["globalLang"])
+    ...mapState(["globalLang"]),
+    ...mapState(["userInfo"])
   }
 };
 </script>

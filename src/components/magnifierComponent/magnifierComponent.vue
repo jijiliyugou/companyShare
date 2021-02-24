@@ -26,7 +26,14 @@
           v-if="middleImg.type === 'img'"
           fit="contain"
           :src="middleImg.url"
-        ></el-image>
+        >
+          <div slot="placeholder" class="image-slot">
+            <img :src="require('@/assets/images/errorImg.png')" />
+          </div>
+          <div slot="error" class="image-slot">
+            <img :src="require('@/assets/images/errorImg.png')" />
+          </div>
+        </el-image>
         <!-- 产品视频 -->
         <video
           v-else-if="middleImg.type === 'video'"
@@ -98,7 +105,15 @@
     </div>
     <!-- 右边放大区域 -->
     <div class="right_contanier" v-show="isBig">
-      <img :src="middleImg.url" ref="bigImg" class="big_img" alt="" />
+      <!-- <img :src="middleImg.url" ref="bigImg" class="big_img" alt="" /> -->
+      <el-image fit="contain" :src="middleImg.url" ref="bigImg" class="big_img">
+        <div slot="placeholder" class="image-slot">
+          <img :src="require('@/assets/images/errorImg.png')" />
+        </div>
+        <div slot="error" class="image-slot">
+          <img :src="require('@/assets/images/errorImg.png')" />
+        </div>
+      </el-image>
     </div>
     <!-- 移动端预览大图 -->
     <el-dialog :visible.sync="dialogVisibleImg" v-if="dialogVisibleImg">
