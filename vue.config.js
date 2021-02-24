@@ -21,24 +21,24 @@ console.log(target);
 module.exports = {
   publicPath: "/",
   lintOnSave: true, // 是否在开发环境下每次保存代码时都启用 eslint验证
-  // devServer: {
-  //   open: true, // 开启自动打开浏览器
-  //   host: "localhost", // 地址
-  //   port: "8080", // 端口
-  //   disableHostCheck: true,
-  //   proxy: {
-  //     "/api": {
-  //       // 设置跨域变量代号
-  //       target: target, // 你想要代理的目标源链接
-  //       ws: true, // 开启websocket
-  //       changeOrigin: true, // 开启代理
-  //       pathRewrite: {
-  //         // 设置二级
-  //         "^/api": "/api"
-  //       }
-  //     }
-  //   }
-  // },
+  devServer: {
+    open: true, // 开启自动打开浏览器
+    host: "localhost", // 地址
+    port: "8080", // 端口
+    disableHostCheck: true,
+    proxy: {
+      "/api": {
+        // 设置跨域变量代号
+        target: target, // 你想要代理的目标源链接
+        ws: true, // 开启websocket
+        changeOrigin: true, // 开启代理
+        pathRewrite: {
+          // 设置二级
+          "^/api": "/api"
+        }
+      }
+    }
+  },
   configureWebpack: {
     // 警告 webpack 的性能提示
     performance: {

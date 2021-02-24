@@ -85,6 +85,10 @@ export default {
         path: "/productDetails",
         query: { item: JSON.stringify(item) }
       });
+      // this.$root.eventHub.$emit("resetDetail", JSON.stringify(item));
+      // let { href } = this.$router.resolve({
+      //   path: "/productDetails"
+      // });
       window.open(href, "_blank");
     }
   },

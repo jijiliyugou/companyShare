@@ -140,17 +140,7 @@ export default {
   created() {
     this.productDetails = this.item;
   },
-  mounted() {
-    this.$root.eventHub.$on("resetProductDetail", item => {
-      const obj = JSON.parse(item);
-      this.productDetails.imageUrls = null;
-      this.$nextTick(() => {
-        this.productDetails = obj;
-        this.productDetails.imageUrls = obj.imageUrls || [];
-      });
-    });
-    console.log(this.productDetails);
-  },
+  mounted() {},
   computed: {
     productLang() {
       return this.$t("lang.product");
