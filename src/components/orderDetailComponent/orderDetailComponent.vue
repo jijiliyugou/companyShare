@@ -141,7 +141,7 @@
           >
             <template slot-scope="scope">
               <div class="tablePrice">
-                USD
+                <span>{{ userInfo.currencyType }}</span>
                 <span class="price">{{ scope.row.totalPrice }}</span>
               </div>
             </template>
@@ -159,7 +159,8 @@
             <span class="value">{{ myTotalVolume(tableList) }}</span>
           </div>
           <div class="item">
-            {{ myOrderLang.totalPrice }}：USD
+            {{ myOrderLang.totalPrice }}：
+            <span>{{ userInfo.currencyType }}</span>
             <span class="value price">{{ orderInfo.totalAmount }}</span>
           </div>
         </div>
@@ -465,6 +466,7 @@ export default {
             &.price {
               font-size: 20px;
               font-weight: bold;
+              margin-left: 5px;
             }
           }
         }

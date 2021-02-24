@@ -326,10 +326,11 @@ export default {
           productCount: val.shoppingCount,
           productFeet: val.outerBoxFeet,
           productStere: val.outerBoxStere,
-          productImage: val.imageUrls[0]
+          productImage: val.imageUrls[0],
+          productInfo: val
         };
       });
-      console.log(this.formInfo);
+      console.log(JSON.stringify(this.formInfo));
       const res = await this.$http.post(
         "/api/WebsiteShare/CreateShareOrder",
         this.formInfo
