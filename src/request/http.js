@@ -24,7 +24,7 @@ switch (env) {
 console.log(target);
 const myAxios = {};
 myAxios.install = function(Vue) {
-  // if (env === "production") axios.defaults.baseURL = target;
+  if (env === "production") axios.defaults.baseURL = target;
   // axios.defaults.baseURL = target;
   axios.defaults.timeout = 20000; // 超时时间
   axios.defaults.retry = 1; // 请求次数
