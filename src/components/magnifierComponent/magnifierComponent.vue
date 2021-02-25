@@ -105,15 +105,15 @@
     </div>
     <!-- 右边放大区域 -->
     <div class="right_contanier" v-show="isBig">
-      <!-- <img :src="middleImg.url" ref="bigImg" class="big_img" alt="" /> -->
-      <el-image fit="contain" :src="middleImg.url" ref="bigImg" class="big_img">
+      <img :src="middleImg.url" ref="bigImg" class="big_img" alt="" />
+      <!-- <el-image fit="contain" :src="middleImg.url" ref="bigImg" class="big_img">
         <div slot="placeholder" class="image-slot">
           <img :src="require('@/assets/images/errorImg.png')" />
         </div>
         <div slot="error" class="image-slot">
           <img :src="require('@/assets/images/errorImg.png')" />
         </div>
-      </el-image>
+      </el-image> -->
     </div>
     <!-- 移动端预览大图 -->
     <el-dialog :visible.sync="dialogVisibleImg" v-if="dialogVisibleImg">

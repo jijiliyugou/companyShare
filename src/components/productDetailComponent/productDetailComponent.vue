@@ -138,7 +138,9 @@ export default {
     }
   },
   created() {
-    this.productDetails = this.item;
+    this.productDetails = JSON.parse(
+      window.sessionStorage.getItem("currentProductDetails")
+    );
   },
   mounted() {},
   computed: {
@@ -150,9 +152,6 @@ export default {
     ...mapGetters({
       shoppingList: "myShoppingList"
     })
-  },
-  beforeDestroy() {
-    this.$root.eventHub.$off("resetProductDetail");
   }
 };
 </script>

@@ -2,7 +2,7 @@
   <div class="contentBox">
     <home-top-component />
     <!-- <keep-alive> -->
-    <productDetailComponent :item="product" class="productDetailBox" />
+    <productDetailComponent class="productDetailBox" />
     <!-- </keep-alive> -->
     <myFoot class="myFoot" />
   </div>
@@ -26,7 +26,6 @@ export default {
   methods: {},
   created() {
     document.title = "产品详情";
-    this.product = JSON.parse(this.$route.query.item);
   },
   mounted() {}
 };
