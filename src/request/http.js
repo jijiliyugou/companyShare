@@ -34,7 +34,10 @@ myAxios.install = function(Vue) {
   // 使用axios请求拦截器统一设置请求头
   axios.interceptors.request.use(
     config => {
-      if (config.url !== "/api/WebsiteShare/AddShoppingCart") {
+      if (
+        !config.url.includes("/api/WebsiteShare/AddShoppingCart") &&
+        !config.url.includes("GetProductPackMethods")
+      ) {
         Message.closeAll();
         $Store.commit("handlerAppLoading", true);
       }
@@ -83,7 +86,10 @@ myAxios.install = function(Vue) {
   // 响应拦截
   axios.interceptors.response.use(
     res => {
-      if (res.config.url !== "/api/WebsiteShare/AddShoppingCart") {
+      if (
+        !res.config.url.includes("/api/WebsiteShare/AddShoppingCart") &&
+        !res.config.url.includes("GetProductPackMethods")
+      ) {
         Message.closeAll();
         $Store.commit("handlerAppLoading", false);
       }

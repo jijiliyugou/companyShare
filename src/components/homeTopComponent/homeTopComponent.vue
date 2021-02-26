@@ -212,6 +212,7 @@ export default {
         type: "warning",
         center: true
       }).catch(err => {
+        // eslint-disable-next-line
         console.log(err);
       });
     }
