@@ -57,6 +57,7 @@ export default {
       numberOfProducts: "Product QTY",
       exFactoryArticleNo: "Item No",
       package: "Packing",
+      packingMethod: "Package",
       productSpecification: "Product Size",
       outerBoxSize: "Carton Size",
       packageSpecification: "Package Size",

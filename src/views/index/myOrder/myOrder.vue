@@ -53,7 +53,10 @@
                   <div class="keys">{{ myOrderLang.contact }}：</div>
                 </div>
                 <div class="right">
-                  <div class="values">USD {{ item.totalAmount }}</div>
+                  <div class="values">
+                    {{ item.currencyType }}
+                    {{ item.totalAmount }}
+                  </div>
                   <div class="values">{{ item.contactName }}</div>
                 </div>
               </div>
@@ -143,7 +146,6 @@ export default {
       if (code === 200) {
         this.orderList = data.items;
         this.totalCount = data.totalCount;
-        console.log(this.orderList, res);
       } else {
         this.$message.error(message);
       }
@@ -227,7 +229,7 @@ export default {
             }
           }
           .right {
-            width: 112px;
+            width: 115px;
             color: #666;
             cursor: pointer;
             display: flex;

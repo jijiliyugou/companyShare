@@ -55,7 +55,9 @@ const store = new Vuex.Store({
       state.userInfo = payLoad;
     },
     handlerSearchForm(state, payLoad) {
-      state.searchForm = payLoad;
+      for (const key in payLoad) {
+        state.searchForm[key] = payLoad[key];
+      }
     },
     // 加购
     pushShopping(state, payLoad) {
@@ -96,7 +98,6 @@ const store = new Vuex.Store({
       const key =
         state.userInfo.shareId + "_" + (state.userInfo.loginEmail || "");
       for (let i = 0; i < state[key].length; i++) {
-        console.log(state[key][i]);
         for (const keys in state[key][i]) {
           Vue.prototype.$set(state[key][i], keys, payLoad[i][keys]);
         }
@@ -106,25 +107,6 @@ const store = new Vuex.Store({
   },
   getters: {
     myShoppingList(state) {
-      console.log(1234);
-      // if (state.userInfo && state.userInfo.shareId) {
-      //   if (state.userInfo.loginEmail) {
-      //     const key =
-      //       state.userInfo.shareId + "_" + (state.userInfo.loginEmail || "");
-      //     if (state[key]) {
-      //       store.dispatch("addServiceShoppingCart", state[key] || []);
-      //       return state[key];
-      //     }
-      //   } else {
-      //     const key = state.userInfo.shareId + "_";
-      //     if (state[key]) {
-      //       return state[key];
-      //     }
-      //     return (state[key] = []);
-      //   }
-      // } else {
-      //   return [];
-      // }
       if (!state.userInfo) {
         return [];
       }

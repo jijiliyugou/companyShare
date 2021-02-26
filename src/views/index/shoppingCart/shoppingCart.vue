@@ -317,6 +317,7 @@ export default {
     // 提交订单
     async submitOrder() {
       const selectProducts = this.$refs.multipleTable.selection;
+      this.formInfo.currencyType = this.userInfo.currencyType;
       this.formInfo.shareOrderDetails = selectProducts.map(val => {
         return {
           productNumber: val.productNumber,
@@ -327,10 +328,10 @@ export default {
           productFeet: val.outerBoxFeet,
           productStere: val.outerBoxStere,
           productImage: val.imageUrls[0],
+          currencyType: this.userInfo.currencyType,
           productInfo: val
         };
       });
-      console.log(JSON.stringify(this.formInfo));
       const res = await this.$http.post(
         "/api/WebsiteShare/CreateShareOrder",
         this.formInfo
@@ -354,7 +355,6 @@ export default {
     myTotalQuantity() {
       let number = 0;
       for (let i = 0; i < this.dataList.length; i++) {
-        console.log(this.dataList[i].shoppingCount);
         number = this.add(number, this.dataList[i].shoppingCount || 0);
       }
       return number;

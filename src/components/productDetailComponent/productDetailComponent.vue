@@ -36,10 +36,10 @@
             }}</span>
           </div>
           <div class="itemText">
-            {{ productLang.package }}：<span>{{
+            {{ productLang.packingMethod }}：<span>{{
               globalLang === "zh-CN"
                 ? productDetails.packMethod
-                : productDetails.packEnName
+                : productDetails.ePackMethod
             }}</span>
           </div>
           <div class="itemText">

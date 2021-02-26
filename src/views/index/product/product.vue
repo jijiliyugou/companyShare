@@ -208,6 +208,11 @@ export default {
         pageIndex: this.currentPage,
         pageSize: this.pageSize
       };
+      if (fd.pa_nu) {
+        const { packChMethods, packNumber } = JSON.parse(fd.pa_nu);
+        fd.ch_pa = packChMethods;
+        fd.pa_nu = packNumber;
+      }
       for (const key in fd) {
         if (fd[key] === null || fd[key] === undefined || fd[key] === "") {
           delete fd[key];

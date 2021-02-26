@@ -116,7 +116,16 @@
             prop="productPrice"
             :label="myShoppingCartLang.unitPrice"
             align="center"
-          ></el-table-column>
+          >
+            <template slot-scope="scope">
+              <div class="tablePrice">
+                <span style="margin-right:5px;">
+                  {{ scope.row.currencyType }}
+                </span>
+                <span class="price">{{ scope.row.productPrice }}</span>
+              </div>
+            </template>
+          </el-table-column>
           <el-table-column
             prop="productStere"
             :label="myShoppingCartLang.totalCapacity"
@@ -141,7 +150,9 @@
           >
             <template slot-scope="scope">
               <div class="tablePrice">
-                <span>{{ userInfo.currencyType }}</span>
+                <span style="margin-right:5px;">
+                  {{ scope.row.currencyType }}
+                </span>
                 <span class="price">{{ scope.row.totalPrice }}</span>
               </div>
             </template>
@@ -160,7 +171,7 @@
           </div>
           <div class="item">
             {{ myOrderLang.totalPrice }}：
-            <span>{{ userInfo.currencyType }}</span>
+            <span>{{ orderInfo.currencyType }}</span>
             <span class="value price">{{ orderInfo.totalAmount }}</span>
           </div>
         </div>

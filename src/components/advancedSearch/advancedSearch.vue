@@ -57,13 +57,21 @@
               </el-input> -->
               <el-select
                 v-model="searchForm.pa_nu"
-                :placeholder="advancedSearchLang.pleaseInputTheContent"
+                clearable
+                filterable
+                :placeholder="advancedSearchLang.pleaseSelect"
               >
                 <el-option
-                  v-for="item in packingList"
+                  v-for="item in globalLang === 'zh-CN'
+                    ? packingList
+                    : ePackingList"
                   :key="item.value"
-                  :label="item.ch_pa"
-                  :value="item.pa_nu"
+                  :label="
+                    globalLang === 'zh-CN'
+                      ? item.packChMethods
+                      : item.packEnMethods
+                  "
+                  :value="JSON.stringify(item)"
                 >
                 </el-option>
               </el-select>
@@ -187,7 +195,7 @@
                     <el-select
                       v-model="datetime"
                       @change="getDateList"
-                      :placeholder="advancedSearchLang.all"
+                      filterable
                     >
                       <el-option
                         v-for="(item, i) in dateList"
@@ -283,6 +291,7 @@ export default {
   data() {
     return {
       packingList: [],
+      ePackingList: [],
       datetime: null,
       dateList: [
         { label: "全部", eLabel: "All", value: null },
@@ -308,16 +317,23 @@ export default {
   },
   methods: {
     // 获取包装方式list
-    // async getProductChpaList () {
-    //   const fd = {}
-    //   if (this.productInfo.productOfferType !== 'company') fd.supplierNumber = this.productInfo.companyNumber
-    //   const res = await this.$http.post('/api/GetProductChpaList', fd)
-    //   if (res.data.result.code === 200) {
-    //     this.packingList = res.data.result.item
-    //   } else {
-    //     this.$message.error(res.data.result.msg)
-    //   }
-    // },
+    async getProductChpaList() {
+      const res = await this.$http.get(
+        "/api/WebsiteShare/GetProductPackMethods"
+      );
+      if (res.data.result.code === 200) {
+        // for (let i = 0; i < res.data.result.data.length; i++) {
+        //   if (!res.data.result.data[i].packEnMethods)
+        //     res.data.result.data[i].packEnMethods = " ";
+        // }
+        this.packingList = res.data.result.data;
+        this.ePackingList = res.data.result.data.filter(
+          val => val.packEnMethods
+        );
+      } else {
+        this.$message.error(res.data.result.message);
+      }
+    },
     // 格式化时间
     formatTime(param) {
       const y = param.getFullYear();
@@ -392,9 +408,6 @@ export default {
       if (this.isShowAdvancedSearch) {
         this.$store.commit("handlerSearchForm", {
           // 产品搜索表单
-          keyword: "", // 关键字
-          name: "", // 产品名称
-          ch_pa: "", // 包装方式
           minPrice: "", // 最低价格
           maxPrice: "", // 最高价格
           pr_le: "", // 产品规格 长
@@ -406,7 +419,6 @@ export default {
           in_le: "", // 包装规格 长
           in_wi: "", // 包装规格 长
           in_hi: "", // 包装规格 长
-          fa_no: "", // 出厂货号
           startTime: "", // 开始时间
           endTime: "", // 结束时间
           isUpInsetImg: true // 是否有图片
@@ -414,11 +426,12 @@ export default {
       }
     }
   },
-  mounted() {},
+  mounted() {
+    this.getProductChpaList();
+  },
   beforeDestroy() {
     this.$store.commit("handlerSearchForm", {
       // 产品搜索表单
-      keyword: "", // 关键字
       name: "", // 产品名称
       ch_pa: "", // 包装方式
       minPrice: "", // 最低价格

@@ -57,6 +57,7 @@ export default {
       numberOfProducts: "产品数量",
       exFactoryArticleNo: "出厂货号",
       package: "包装",
+      packingMethod: "包装方式",
       productSpecification: "产品规格",
       outerBoxSize: "外箱规格",
       packageSpecification: "包装规格",

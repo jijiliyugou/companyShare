@@ -6,7 +6,14 @@
           @click.native="tohome"
           fit="contain"
           :src="userInfo && userInfo.companyLogo"
-        ></el-image>
+        >
+          <div slot="placeholder" class="image-slot">
+            <img :src="require('@/assets/images/logo.png')" />
+          </div>
+          <div slot="error" class="image-slot">
+            <img :src="require('@/assets/images/logo.png')" />
+          </div>
+        </el-image>
         <span class="leftTitleText">{{
           userInfo && userInfo.companyName
         }}</span>
