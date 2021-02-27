@@ -2,11 +2,7 @@
   <div class="item" @click.stop="toDetails(item)">
     <div class="left">
       <div class="imgBox">
-        <el-image
-          :lazy="true"
-          :src="item.imageUrls && item.imageUrls[0]"
-          fit="contain"
-        >
+        <el-image lazy :src="item.imageUrls && item.imageUrls[0]" fit="contain">
           <div slot="placeholder" class="image-slot">
             <img :src="require('@/assets/images/errorImg.png')" />
           </div>
@@ -50,30 +46,31 @@
       <div class="itemText">
         {{ productLang.productSpecification }}：<span
           >{{ item.sampleLenth }} x {{ item.sampleWidth }} x
-          {{ item.sampleHeight }} (CM)</span
+          {{ item.sampleHeight }} (cm)</span
         >
       </div>
       <div class="itemText">
         {{ productLang.outerBoxSize }}：<span
           >{{ item.outerBoxLenth }} x {{ item.outerBoxWidth }} x
-          {{ item.outerBoxHeight }} (CM)</span
+          {{ item.outerBoxHeight }} (cm)</span
         >
       </div>
       <div class="itemText">
         {{ productLang.packageSpecification }}：<span
           >{{ item.innerLenth }} x {{ item.innerWidth }} x
-          {{ item.innerHeight }} (CM)</span
+          {{ item.innerHeight }} (cm)</span
         >
       </div>
       <div class="itemText">
         {{ productLang.packingQuantity }}：<span
-          >{{ item.innerEn }} / {{ item.outerBoxLo }} (PCS)</span
+          >{{ item.innerEn }} / {{ item.outerBoxLo }} (pcs)</span
         >
       </div>
       <div class="itemText">
-        {{ productLang.volumeVolume }}：<span
-          >{{ item.outerBoxStere }} (CBM) / {{ item.outerBoxFeet }} (cuft)</span
-        >
+        {{ productLang.volumeVolume }}：
+        <span>
+          {{ item.outerBoxStere }} (cbm) / {{ item.outerBoxFeet }} (cuft)
+        </span>
       </div>
       <div class="itemText">
         {{ productLang.grossNetWeight }}：<span
@@ -127,7 +124,6 @@ export default {
     }
   },
   created() {},
-  mounted() {},
   computed: {
     productLang() {
       return this.$t("lang.product");

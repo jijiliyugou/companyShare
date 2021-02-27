@@ -132,7 +132,7 @@
               </span>
             </div>
             <div class="totalPrice">
-              {{ myShoppingCartLang.totalPrice }}:
+              {{ myShoppingCartLang.totalPrice }}：
               <span>{{ userInfo.currencyType }}</span>
               <span style="margin-left:5px;" class="price">
                 {{ myTotalPrice(dataList) }}

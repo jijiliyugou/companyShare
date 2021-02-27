@@ -44,8 +44,7 @@ export default {
       shoppingList: "myShoppingList"
     }),
     ...mapState(["userInfo"])
-  },
-  watch: {}
+  }
 };
 </script>
 <style lang="less" scoped>

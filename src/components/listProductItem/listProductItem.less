@@ -1,6 +1,7 @@
 @deep: ~">>>";
 .item {
-  width: 587px;
+  // width: 587px;
+  width: 49%;
   height: 301px;
   background: #ffffff;
   border: 1px solid #d2d2d2;
@@ -9,21 +10,14 @@
   cursor: pointer;
   display: flex;
   .left {
-    width: 287px;
+    width: 40%;
     height: 100%;
     .imgBox {
-      width: 287px;
+      width: 100%;
       height: 218px;
       box-sizing: border-box;
       padding: 20px;
       position: relative;
-      @{deep} .el-image {
-        img {
-          width: 247px;
-          height: 178px;
-          object-fit: contain;
-        }
-      }
       .newIcon {
         width: 40px;
         height: 40px;
@@ -32,6 +26,15 @@
         top: 0;
         background: url("~@/assets/images/newIcon.png") center no-repeat;
         background-size: 100% 100%;
+      }
+      .el-image {
+        width: 100%;
+        height: 100%;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+        }
       }
     }
     .priceBox {
@@ -78,7 +81,7 @@
     padding: 20px 0;
     box-sizing: border-box;
     .productName {
-      width: 300px;
+      // width: 60%;
       font-size: 18px;
       font-weight: bold;
       color: #333333;
@@ -90,13 +93,16 @@
       overflow: hidden;
     }
     .itemText {
-      width: 300px;
+      // width: 300px;
+      width: 100%;
       font-size: 14px;
       line-height: 26px;
-      color: #333333;
-      white-space: nowrap;
-      overflow: hidden;
+      word-break: break-all;
       text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1; /* 这里是超出几行省略 */
+      overflow: hidden;
     }
   }
 }

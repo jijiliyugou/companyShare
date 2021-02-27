@@ -47,7 +47,7 @@
             <span
               >{{ productDetails.sampleLenth }} x
               {{ productDetails.sampleWidth }} x
-              {{ productDetails.sampleHeight }} (CM)</span
+              {{ productDetails.sampleHeight }} (cm)</span
             >
           </div>
           <div class="itemText">
@@ -55,7 +55,7 @@
             <span
               >{{ productDetails.outerBoxLenth }} x
               {{ productDetails.outerBoxWidth }} x
-              {{ productDetails.outerBoxHeight }} (CM)</span
+              {{ productDetails.outerBoxHeight }} (cm)</span
             >
           </div>
           <div class="itemText">
@@ -63,20 +63,20 @@
             <span
               >{{ productDetails.innerLenth }} x
               {{ productDetails.innerWidth }} x
-              {{ productDetails.innerHeight }} (CM)</span
+              {{ productDetails.innerHeight }} (cm)</span
             >
           </div>
           <div class="itemText">
             {{ productLang.packingQuantity }}：
             <span
               >{{ productDetails.innerEn }} /
-              {{ productDetails.outerBoxLo }} (PCS)</span
+              {{ productDetails.outerBoxLo }} (pcs)</span
             >
           </div>
           <div class="itemText">
             {{ productLang.volumeVolume }}：
             <span
-              >{{ productDetails.outerBoxStere }} (CBM) /
+              >{{ productDetails.outerBoxStere }} (cbm) /
               {{ productDetails.outerBoxFeet }} (cuft)</span
             >
           </div>
