@@ -42,7 +42,11 @@ export default [
       {
         path: "/index/product",
         name: "product",
-        component: Product
+        component: Product,
+        meta: {
+          title: "产品列表",
+          keepAlive: true
+        }
       },
       {
         path: "/index/shoppingCart",

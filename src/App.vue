@@ -6,7 +6,10 @@
     element-loading-spinner
     element-loading-background="rgba(200, 200, 200, 0.5)"
   >
-    <router-view />
+    <keep-alive>
+      <router-view v-if="$route.meta.keepAlive"></router-view>
+    </keep-alive>
+    <router-view v-if="!$route.meta.keepAlive"></router-view>
     <!-- 漂浮物 -->
     <div class="cartBox" v-if="$route.path !== '/login'">
       <div class="cart" @click="toMyShoppingCart">
