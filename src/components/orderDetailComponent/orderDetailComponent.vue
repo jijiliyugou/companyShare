@@ -281,8 +281,8 @@
                   <div class="content">
                     <span>{{ myShoppingCartLang.volumeVolume }}：</span>
                     <span
-                      >{{ scope.row.outerBoxStere }} (CBM) /
-                      {{ scope.row.outerBoxFeet }} (CUFT)</span
+                      >{{ scope.row.productStere }} (CBM) /
+                      {{ scope.row.productFeet }} (CUFT)</span
                     >
                   </div>
                   <div class="content">
@@ -296,18 +296,12 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column label="CTNS" align="center" width="100">
-            <!-- <template slot-scope="scope">
-              <el-input-number
-                style="width:80px;"
-                @change="changeInputNumber"
-                v-model="scope.row.shoppingCount"
-                :controls="false"
-                size="mini"
-                :min="1"
-                :max="99999"
-              ></el-input-number>
-            </template> -->
+          <el-table-column label="CTNS" align="center" prop="productCount" width="100">
+            <template slot-scope="scope">
+              <span style="color: #FF3E3E;">
+                {{ scope.row.productCount }}
+              </span>
+            </template>
           </el-table-column>
           <el-table-column
             width="120"
@@ -317,17 +311,12 @@
             <template slot-scope="scope">
               <div class="tableTotalVolume">
                 <p class="item">
-                  {{
-                    multiply(scope.row.shoppingCount, scope.row.outerBoxStere)
-                  }}cbm
+                  {{ scope.row.totalProductStere }}
+                  cbm
                 </p>
-                <p class="item">
-                  {{
-                    multiply(scope.row.shoppingCount, scope.row.outerBoxFeet)
-                  }}cuft
-                </p>
+                <p class="item">{{ scope.row.totalProductFeet }}cuft</p>
                 <p class="item price">
-                  <span>{{ userInfo.currencyType }}</span>
+                  <span>{{ scope.row.currencyType }}</span>
                   <span>
                     {{ scope.row.totalPrice }}
                   </span>
