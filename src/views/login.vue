@@ -115,7 +115,7 @@ export default {
     }
   },
   created() {
-    document.title = "登录";
+    document.title = this.loginLang.title;
     this.getCompanyLogo();
   },
   mounted() {},

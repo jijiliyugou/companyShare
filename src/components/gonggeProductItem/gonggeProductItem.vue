@@ -143,12 +143,11 @@ export default {
       justify-content: space-between;
       align-items: center;
       .left {
-        color: #666666;
+        color: #ff3e3e;
         font-size: 14px;
         .price {
           font-size: 20px;
           font-weight: bold;
-          color: #ff760e;
           margin-left: 10px;
         }
       }

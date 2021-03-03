@@ -63,14 +63,22 @@ export default {
     }
   },
   created() {
-    document.title = "公司首页";
+    document.title = this.homeLang.home;
     if (this.userInfo.loginEmail) this.getShoppingCarts();
   },
   computed: {
+    homeLang() {
+      return this.$t("lang.home");
+    },
     ...mapState(["userInfo"]),
     ...mapGetters({
       shoppingList: "myShoppingList"
     })
+  },
+  watch: {
+    "$store.state.globalLang"(val) {
+      if (val) document.title = this.homeLang.home;
+    }
   },
   mounted() {
     this.getCompanyShareIndex();

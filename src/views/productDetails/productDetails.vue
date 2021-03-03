@@ -25,9 +25,19 @@ export default {
   },
   methods: {},
   created() {
-    document.title = "产品详情";
+    document.title = this.productDetailLang.title;
   },
-  mounted() {}
+  mounted() {},
+  watch: {
+    "$store.state.globalLang"(val) {
+      if (val) document.title = this.productDetailLang.title;
+    }
+  },
+  computed: {
+    productDetailLang() {
+      return this.$t("lang.productDetail");
+    }
+  }
 };
 </script>
 <style scoped lang="less">

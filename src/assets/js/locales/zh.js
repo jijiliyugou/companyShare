@@ -8,7 +8,8 @@ export default {
       InvitationCode: "邀请码",
       email: "邮箱",
       emailExplain: "（电子邮件仅用于通知）",
-      loginBtn: "登录"
+      loginBtn: "登录",
+      title: "登录"
     },
     home: {
       home: "主页",
@@ -48,6 +49,7 @@ export default {
       reset: "重置"
     },
     product: {
+      title: "产品列表",
       newProductArea: "新品推荐",
       product: "产品",
       data: "时间",
@@ -61,7 +63,7 @@ export default {
       productSpecification: "产品规格",
       outerBoxSize: "外箱规格",
       packageSpecification: "包装规格",
-      packingQuantity: "装箱数量",
+      packingQuantity: "内盒/外箱装量",
       volumeVolume: "体积/材积",
       grossNetWeight: "毛重/净重",
       addToCart: "添加到购物车",
@@ -71,12 +73,19 @@ export default {
     myShoppingCart: {
       myShoppingCart: "我的购物车",
       commodity: "商品",
+      packingMethod: "包装方式",
+      productSpecification: "产品规格",
+      outerBoxSize: "外箱规格",
+      packageSpecification: "包装规格",
+      packingQuantity: "内盒/外箱装量",
+      volumeVolume: "体积/材积",
+      grossNetWeight: "毛重/净重",
       unitPrice: "单价",
       volume: "体积/材积",
       number: "数量",
       total: "总价",
       operation: "操作",
-      totalQuantity: "总量",
+      totalQuantity: "总箱量",
       totalVolume: "总体积",
       totalPrice: "总价",
       contactInformation: "联系方式",
@@ -86,7 +95,14 @@ export default {
       remark: "备注",
       submit: "提交",
       totalCapacity: "总体积",
-      productName: "产品名称"
+      productName: "产品名称",
+      cTn: "装箱量",
+      view: "产看",
+      delete: "删除",
+      id: "序号"
+    },
+    productDetail: {
+      title: "产品详情"
     },
     myOrder: {
       myOrder: "我的订单",
@@ -103,7 +119,8 @@ export default {
       orderDetails: "订单详情",
       orderInformation: "订单信息",
       productInformation: "产品信息",
-      totalVolume: "总体积"
+      totalVolume: "总体积",
+      id: "序号"
     },
     publicLang: {
       noData: "暂无数据"

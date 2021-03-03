@@ -196,7 +196,7 @@ export default {
           font-size: 16px;
           font-weight: 400;
           .priceBox {
-            color: #ff760e;
+            color: #ff3e3e;
             .price {
               margin-left: 5px;
               font-size: 36px;

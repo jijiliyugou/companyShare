@@ -62,7 +62,7 @@
         <div class="exportBtn"></div>
       </div>
       <div class="myTable">
-        <el-table
+        <!-- <el-table
           :header-cell-style="{
             backgroundColor: '#F5F5F5',
             color: '#666',
@@ -76,6 +76,13 @@
           tooltip-effect="dark"
           highlight-current-row
         >
+          <el-table-column
+            type="index"
+            width="50"
+            align="center"
+            :label="myOrderLang.id"
+          >
+          </el-table-column>
           <el-table-column
             prop="productImage"
             :label="myShoppingCartLang.commodity"
@@ -119,7 +126,7 @@
           >
             <template slot-scope="scope">
               <div class="tablePrice">
-                <span style="margin-right:5px;">
+                <span class="price" style="margin-right:5px;">
                   {{ scope.row.currencyType }}
                 </span>
                 <span class="price">{{ scope.row.productPrice }}</span>
@@ -132,9 +139,16 @@
             align="center"
           >
             <template slot-scope="scope">
-              {{ scope.row.productStere
-              }}<span style="margin-right:5px;">cbm</span>
-              {{ scope.row.productFeet }}<span>cuft</span>
+              {{ scope.row.productStere }}/{{ scope.row.productFeet }}
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="innerEn"
+            :label="myShoppingCartLang.cTn + '(pcs)'"
+            align="center"
+          >
+            <template slot-scope="scope">
+              {{ scope.row.innerEn + "/" + scope.row.outerBoxLo }}
             </template>
           </el-table-column>
           <el-table-column
@@ -150,10 +164,174 @@
           >
             <template slot-scope="scope">
               <div class="tablePrice">
-                <span style="margin-right:5px;">
+                <span class="price" style="margin-right:5px;">
                   {{ scope.row.currencyType }}
                 </span>
                 <span class="price">{{ scope.row.totalPrice }}</span>
+              </div>
+            </template>
+          </el-table-column>
+        </el-table> -->
+        <el-table
+          :header-cell-style="{
+            backgroundColor: '#F5F5F5',
+            color: '#666',
+            'font-size': '14px',
+            'font-weight': 700
+          }"
+          :data="tableList"
+          id="myTable"
+          ref="multipleTable"
+          size="medium"
+          tooltip-effect="dark"
+          highlight-current-row
+          :empty-text="publicLang.noData"
+        >
+          <el-table-column
+            width="50"
+            align="center"
+            type="index"
+            :label="myShoppingCartLang.id"
+          ></el-table-column>
+          <el-table-column label="Product information" align="center">
+            <template slot-scope="scope">
+              <div class="productInformation">
+                <div class="imgBox">
+                  <el-image
+                    style="width: 100px; height: 100px; cursor: pointer;"
+                    fit="contain"
+                    :src="scope.row.productImage"
+                    :preview-src-list="[scope.row.productImage]"
+                  >
+                    <div slot="placeholder" class="image-slot">
+                      <img
+                        class="errorImg"
+                        style="width: 100px; height: 100px"
+                        src="~@/assets/images/logo.png"
+                        alt
+                      />
+                    </div>
+                    <div slot="error" class="image-slot">
+                      <img
+                        class="errorImg"
+                        style="width: 100px; height: 100px"
+                        src="~@/assets/images/logo.png"
+                        alt
+                      />
+                    </div>
+                  </el-image>
+                </div>
+                <div class="productNameBox">
+                  <p class="name">
+                    {{
+                      globalLang === "zh-CN"
+                        ? scope.row.productName
+                        : scope.row.productEName
+                    }}
+                  </p>
+                  <p class="fa_no">{{ scope.row.outFactoryNumber }}</p>
+                  <p class="price">
+                    <span>{{ scope.row.currencyType }}</span>
+                    <span class="priceText">{{ scope.row.productPrice }}</span>
+                  </p>
+                </div>
+                <div class="item">
+                  <div class="content">
+                    <span>{{ myShoppingCartLang.packingMethod }}：</span>
+                    <span>
+                      {{
+                        globalLang === "zh-CN"
+                          ? scope.row.packMethod
+                          : scope.row.ePackMethod
+                      }}
+                    </span>
+                  </div>
+                  <div class="content">
+                    <span>{{ myShoppingCartLang.productSpecification }}：</span>
+                    <span
+                      >{{ scope.row.sampleLenth }} x
+                      {{ scope.row.sampleWidth }} x
+                      {{ scope.row.sampleHeight }} (CM)</span
+                    >
+                  </div>
+                  <div class="content">
+                    <span>{{ myShoppingCartLang.outerBoxSize }}：</span>
+                    <span
+                      >{{ scope.row.outerBoxLenth }} x
+                      {{ scope.row.outerBoxWidth }} x
+                      {{ scope.row.outerBoxHeight }} (CM)</span
+                    >
+                  </div>
+                  <div class="content">
+                    <span>{{ myShoppingCartLang.packageSpecification }}：</span>
+                    <span
+                      >{{ scope.row.innerLenth }} x {{ scope.row.innerWidth }} x
+                      {{ scope.row.innerHeight }} (CM)</span
+                    >
+                  </div>
+                </div>
+                <div class="item">
+                  <div class="content">
+                    <span>{{ myShoppingCartLang.packingQuantity }}：</span>
+                    <span
+                      >{{ scope.row.innerEn }} /
+                      {{ scope.row.outerBoxLo }} (PCS)</span
+                    >
+                  </div>
+                  <div class="content">
+                    <span>{{ myShoppingCartLang.volumeVolume }}：</span>
+                    <span
+                      >{{ scope.row.outerBoxStere }} (CBM) /
+                      {{ scope.row.outerBoxFeet }} (CUFT)</span
+                    >
+                  </div>
+                  <div class="content">
+                    <span>{{ myShoppingCartLang.grossNetWeight }}：</span>
+                    <span
+                      >{{ scope.row.outerBoxWeight }} /
+                      {{ scope.row.outerBoxNetWeight }} (KG)</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column label="CTNS" align="center" width="100">
+            <!-- <template slot-scope="scope">
+              <el-input-number
+                style="width:80px;"
+                @change="changeInputNumber"
+                v-model="scope.row.shoppingCount"
+                :controls="false"
+                size="mini"
+                :min="1"
+                :max="99999"
+              ></el-input-number>
+            </template> -->
+          </el-table-column>
+          <el-table-column
+            width="120"
+            align="center"
+            label="Total volume Total amount"
+          >
+            <template slot-scope="scope">
+              <div class="tableTotalVolume">
+                <p class="item">
+                  {{
+                    multiply(scope.row.shoppingCount, scope.row.outerBoxStere)
+                  }}cbm
+                </p>
+                <p class="item">
+                  {{
+                    multiply(scope.row.shoppingCount, scope.row.outerBoxFeet)
+                  }}cuft
+                </p>
+                <p class="item price">
+                  <span>{{ userInfo.currencyType }}</span>
+                  <span>
+                    {{ scope.row.totalPrice }}
+                  </span>
+                </p>
               </div>
             </template>
           </el-table-column>
@@ -171,7 +349,7 @@
           </div>
           <div class="item">
             {{ myOrderLang.totalPrice }}：
-            <span>{{ orderInfo.currencyType }}</span>
+            <span class="value price">{{ orderInfo.currencyType }}</span>
             <span class="value price">{{ orderInfo.totalAmount }}</span>
           </div>
         </div>
@@ -245,6 +423,7 @@ export default {
       const { code, data, message } = res.data.result;
       if (code === 200) {
         this.tableList = data.items;
+        console.log(this.tableList);
         this.totalCount = data.totalCount;
       } else {
         this.$message.error(message);
@@ -366,6 +545,12 @@ export default {
     this.getSearchShareOrderDetailsPage();
   },
   computed: {
+    advancedSearchLang() {
+      return this.$t("lang.advancedSearch");
+    },
+    publicLang() {
+      return this.$t("lang.publicLang");
+    },
     myOrderLang() {
       return this.$t("lang.myOrder");
     },
@@ -457,8 +642,70 @@ export default {
     .myTable {
       border: 1px solid #e9e9e9;
       .el-table {
-        font-size: 16px;
         color: #000;
+        font-size: 14px;
+        .productInformation {
+          width: 100%;
+          // height: 100px;
+          min-height: 100px;
+          display: flex;
+          justify-content: space-between;
+          .imgBox {
+            width: 100px;
+            height: 100%;
+          }
+          .productNameBox {
+            width: 170px;
+            min-height: 100px;
+            text-align: left;
+            box-sizing: border-box;
+            padding: 0 5px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            .name {
+              word-break: break-all;
+              text-overflow: ellipsis;
+              display: -webkit-box;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 2; /* 这里是超出几行省略 */
+              overflow: hidden;
+              color: #000;
+              font-weight: bold;
+            }
+            .fa_no,
+            .price {
+              color: #ff3e3e;
+            }
+            .price {
+              font-weight: 600;
+              .priceText {
+                margin-left: 3px;
+              }
+            }
+          }
+          .item {
+            flex: 1;
+            text-align: left;
+            box-sizing: border-box;
+            padding: 0 5px;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: #666666;
+          }
+        }
+        .tableTotalVolume {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          color: #ff3e3e;
+          height: 90px;
+          .price {
+            font-weight: bold;
+          }
+        }
       }
     }
     .totalBox {
@@ -473,11 +720,11 @@ export default {
         .item {
           margin-left: 60px;
           .value {
-            color: #ff760e;
+            color: #ff3e3e;
+            margin-left: 5px;
             &.price {
               font-size: 20px;
               font-weight: bold;
-              margin-left: 5px;
             }
           }
         }

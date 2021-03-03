@@ -8,7 +8,8 @@ export default {
       InvitationCode: "Invitation Code",
       email: "E-mail",
       emailExplain: "（Email For Notification Only）",
-      loginBtn: "Sign In"
+      loginBtn: "Sign In",
+      title: "login"
     },
     home: {
       home: "Home",
@@ -21,7 +22,7 @@ export default {
     },
     advancedSearch: {
       productName: "Product Name",
-      packingMethod: "Package",
+      packingMethod: "Packing",
       comprehensiveInquiry: "Comprehensive Inquiry",
       advancedQuery: "Advanced Search",
       pleaseInputTheContent: "Please Input The Content",
@@ -48,6 +49,7 @@ export default {
       reset: "Reset"
     },
     product: {
+      title: "Product List",
       newProductArea: "New Arrivals",
       product: "Product",
       data: "Time",
@@ -57,19 +59,29 @@ export default {
       numberOfProducts: "Product QTY",
       exFactoryArticleNo: "Item No",
       package: "Packing",
-      packingMethod: "Package",
+      packingMethod: "Packing",
       productSpecification: "Product Size",
       outerBoxSize: "Carton Size",
       packageSpecification: "Package Size",
-      packingQuantity: "Packing QTY",
+      packingQuantity: "Inner Box/Outer Packing",
       volumeVolume: "CBM/CUFT",
       grossNetWeight: "G.W/N.W",
       addToCart: "Add To Cart",
       relatedProducts: "Related Products",
       more: "more"
     },
+    productDetail: {
+      title: "Product Details"
+    },
     myShoppingCart: {
       myShoppingCart: "My Shopping Cart",
+      packingMethod: "Packing",
+      productSpecification: "Product Size",
+      outerBoxSize: "Carton Size",
+      packageSpecification: "Package Size",
+      packingQuantity: "Inner Box/Outer Packing",
+      volumeVolume: "CBM/CUFT",
+      grossNetWeight: "G.W/N.W",
       commodity: "Commodity",
       unitPrice: "Unit Price",
       volume: "CBM/CUFT",
@@ -86,7 +98,11 @@ export default {
       remark: "Remark",
       submit: "Submit",
       totalCapacity: "Total CBM",
-      productName: "Product Name"
+      productName: "Product Name",
+      cTn: "cTn",
+      view: "View",
+      delete: "Delete",
+      id: "ID"
     },
     myOrder: {
       myOrder: "My Order",
@@ -103,7 +119,8 @@ export default {
       orderDetails: "Order Details",
       orderInformation: "Order Information",
       productInformation: "Product Information",
-      totalVolume: "Total CBM"
+      totalVolume: "Total CBM",
+      id: "ID"
     },
     publicLang: {
       noData: "No data"

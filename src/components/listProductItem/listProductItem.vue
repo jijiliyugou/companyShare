@@ -2,7 +2,12 @@
   <div class="item" @click.stop="toDetails(item)">
     <div class="left">
       <div class="imgBox">
-        <el-image lazy :src="item.imageUrls && item.imageUrls[0]" fit="contain">
+        <el-image
+          style="width: 100%;height: 100%;"
+          lazy
+          :src="item.imageUrls && item.imageUrls[0]"
+          fit="contain"
+        >
           <div slot="placeholder" class="image-slot">
             <img :src="require('@/assets/images/errorImg.png')" />
           </div>

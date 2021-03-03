@@ -53,7 +53,7 @@
                   <div class="keys">{{ myOrderLang.contact }}：</div>
                 </div>
                 <div class="right">
-                  <div class="values">
+                  <div class="values totalPrice">
                     {{ item.currencyType }}
                     {{ item.totalAmount }}
                   </div>
@@ -170,10 +170,15 @@ export default {
     }
   },
   created() {
-    document.title = "订单";
+    document.title = this.myOrderLang.myOrder;
   },
   mounted() {
     this.getSearchShareOrdersPage();
+  },
+  watch: {
+    "$store.state.globalLang"(val) {
+      if (val) document.title = this.myOrderLang.myOrder;
+    }
   },
   computed: {
     myOrderLang() {
@@ -269,6 +274,13 @@ export default {
               color: #999;
               .keys {
                 text-align: right;
+              }
+            }
+          }
+          .three {
+            .right {
+              .totalPrice {
+                color: #ff3e3e;
               }
             }
           }

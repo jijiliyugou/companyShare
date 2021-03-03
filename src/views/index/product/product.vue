@@ -254,7 +254,7 @@ export default {
     }
   },
   created() {
-    document.title = "产品列表";
+    document.title = this.productLang.title;
     this.getSearchCompanyShareProductPage();
     this.clientWidth = document.body.clientWidth;
   },
@@ -263,6 +263,11 @@ export default {
       this.currentPage = 1;
       this.getSearchCompanyShareProductPage();
     });
+  },
+  watch: {
+    "$store.state.globalLang"(val) {
+      if (val) document.title = this.productLang.title;
+    }
   },
   computed: {
     productLang() {

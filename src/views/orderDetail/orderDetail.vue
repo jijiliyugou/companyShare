@@ -21,9 +21,19 @@ export default {
   },
   methods: {},
   created() {
-    document.title = "订单详情";
+    document.title = this.orderDetailLang.orderDetails;
   },
-  mounted() {}
+  mounted() {},
+  watch: {
+    "$store.state.globalLang"(val) {
+      if (val) document.title = this.orderDetailLang.orderDetails;
+    }
+  },
+  computed: {
+    orderDetailLang() {
+      return this.$t("lang.myOrder");
+    }
+  }
 };
 </script>
 <style scoped lang="less">

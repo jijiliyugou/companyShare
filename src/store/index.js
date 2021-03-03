@@ -64,8 +64,10 @@ const store = new Vuex.Store({
       const key =
         state.userInfo.shareId + "_" + (state.userInfo.loginEmail || "");
       if (state[key]) {
+        payLoad.index = state[key].length + 1;
         state[key].push(payLoad);
       } else {
+        payLoad.index = 1;
         Vue.prototype.$set(state, key, [payLoad]);
       }
       if (state.userInfo.loginEmail) store.dispatch("addServiceShoppingCart");
